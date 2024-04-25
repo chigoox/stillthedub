@@ -1,0 +1,16 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
+
+module.exports = nextConfig
+
+module.exports = {
+  images: {
+    domains: [
+      'images.unsplash.com',
+      'files.stripe.com',
+      'media.freestocktextures.com',
+      'firebasestorage.googleapis.com',
+
+    ],
+  },
+}
