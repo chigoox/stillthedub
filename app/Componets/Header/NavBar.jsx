@@ -140,7 +140,7 @@ function NavBar() {
                     <IoBagHandle size={30} color='gray' />
                 </button>
 
-                <video autoPlay playsInlines muted className='absolut be -z-10 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
+                <video autoPlay playsInlines muted className='absolute -z-10 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >
