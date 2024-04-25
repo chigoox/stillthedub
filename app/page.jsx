@@ -56,9 +56,10 @@ function Home() {
           </div>
 
         </div>
-        <div className="center-col text-white relative mt-10 font-bold text-3xl">
+
+        <div className="center-col  text-white relative mt-10 font-bold text-3xl">
           <h1 className="bordr-b m-4">Featurd</h1>
-          <div className=" center p-2  gap-2 w-full">
+          <div className="flex items-center hidescroll p-2  overflow-x-scroll  gap-2 w-full">
             {createArray(5).map(item => {
 
               return (
