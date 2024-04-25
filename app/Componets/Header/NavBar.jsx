@@ -119,9 +119,9 @@ function NavBar() {
                     <div className='flex justify-between  lg:w-[15rem]'>
                         <button onClick={toggleMobileMenu}>
 
-                            <ImMenu size={30} color='gray' className='lg:hidden' />
+                            <ImMenu size={30} color='white' className='lg:hidden' />
                         </button>
-                        <div className='lg:flex justify-between w-full hidden  text-black'>
+                        <div className='lg:flex justify-between w-full hidden  text-black lg:text-white'>
                             {menu.map((item) => {
                                 return (
                                     <MenuItem key={item} name={item} />
