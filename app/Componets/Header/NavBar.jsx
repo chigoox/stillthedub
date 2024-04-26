@@ -69,7 +69,7 @@ function NavBar() {
 
     const MenuItem = ({ name, showMobileMenu }) => {
         return (
-            < Link href={`/${name == 'Home' ? '/' : `${name}`}`} className={` items-center gap-1 justify-center ${showMobileMenu ? 'flex' : 'hidden'} lg:block`}>
+            < Link href={`/${name == 'Home' ? '/' : `${name}`}`} className={` items-center gap-1 hover:text-lime-400 justify-center ${showMobileMenu ? 'flex' : 'hidden'} lg:block`}>
                 {name == 'Home' && <ImHome size={24} className='block lg:hidden' />}
                 {name == 'Shop' && <IoBag size={24} className='block lg:hidden' />}
                 <h1 className='font-bold text-lg'>{name}</h1>
@@ -110,8 +110,8 @@ function NavBar() {
 
 
                 <div className='font1 font-light text-4xl text-center hidden lg:block'>
-                    <h1 className={alexFont.className}>{websiteName}</h1>
-
+                    <Link href={'/'} className={`${alexFont.className} relative top-2 text-white  hover:text-lime-400 trans`}>{websiteName}</Link>
+                    <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2' Suspense>760 Springfield Ave, Irvington, NJ 07111</h1>
                 </div>
 
 
@@ -132,15 +132,17 @@ function NavBar() {
                     </div>
 
                 </div>
-                <div className='font1  font-light text-3xl text-center lg:hidden block'>
-                    <h1 className={alexFont.className}>{websiteName}</h1>
+                <div className='font1  font-light text-3xl text-white text-center lg:hidden block'>
+                    <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 trans top-3`}>{websiteName}</Link>
+                    <h1 className='text-white text-xs font-bold bg-black p-1 rounded' Suspense>760 Springfield Ave, Irvington, NJ 07111</h1>
+
 
                 </div>
                 <button className='' onClick={() => { setShowCart(true) }}>
                     <IoBagHandle size={30} color='gray' />
                 </button>
 
-                <video autoPlay playsInlines muted className='absolute -z-10 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
+                <video autoPlay playsInline muted className='absolute -z-10 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >

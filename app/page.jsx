@@ -44,33 +44,33 @@ function Home() {
           </div>
 
           <div className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
-            <h1 className="font-bold center h-full w-full hover:text-4xl trans-slow bg-black bg-opacity-20 text-white absolute  text-3xl">Shop Convincence</h1>
+            <h1 className="font-bold center h-full w-full hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute  text-3xl">Shop Convincence</h1>
             <img className="w-full z-10 h-full object-cover" src="https://images.unsplash.com/photo-1614735241165-6756e1df61ab?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
 
           </div>
 
           <div className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
-            <h1 className="font-bold center h-full w-full hover:text-4xl trans-slow bg-black bg-opacity-20 text-white absolute  text-3xl">Shop Tabaco</h1>
+            <h1 className="font-bold center h-full w-full hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute  text-3xl">Shop Tabaco</h1>
             <img className="w-full z-10 h-full object-cover" src="https://www.smchealth.org/sites/main/files/imagecache/lightbox/main-images/flavored_tobacco_image.jpg" alt="" />
 
           </div>
 
         </div>
 
-        <div className="center-col  text-white relative mt-10 font-bold text-3xl">
+        <div className="center-col lg:w-3/4 m-auto text-white relative mt-10 font-bold text-3xl">
           <h1 className="bordr-b m-4">Featurd</h1>
-          <div className="flex items-center hidescroll p-2  overflow-x-scroll  gap-2 w-full">
+          <div className="grid grid-cols-3 lg:grid-cols-4 hidescroll p-2  overflow-x-scroll  gap-2 w-full">
             {createArray(5).map(item => {
 
               return (
                 <div className=" center-col group text-white">
-                  <div className="h-40 w-40 overflow-hidden relative rounded-full border-4 border-gray-100 ">
+                  <div className="h-40 w-40 overflow-hidden relative rounded-full border-4  border-lime-400 hover:border-lime-300">
                     <h1 className="absolute group-hover:scale-105 trans bg-black bg-opacity-40 h-full center w-full">name</h1>
                     <img src="https://images.unsplash.com/photo-1599629954294-14df9ec8bc05?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
                   </div>
                   <div className="font-extrabolds">
 
-                    <h1 className=" group-hover:text-rose-700 trans">$0.00</h1>
+                    <h1 className=" group-hover:text-lime-400 trans text-lg">$0.00</h1>
 
                   </div>
 
