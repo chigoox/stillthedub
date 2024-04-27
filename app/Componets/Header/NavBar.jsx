@@ -98,7 +98,7 @@ function NavBar() {
 
             <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-10 bg-black lg:h-16 w-full fixed z-50 top-0 flex items-center justify-evenly p-2 `}>
 
-                <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[1px]  opacity-25'}  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
+                <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[0px]  opacity-25'}  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
                     {menu.map((item) => {
                         return (
                             <MenuItem key={item} name={item} showMobileMenu={showMobileMenu} />
@@ -111,7 +111,7 @@ function NavBar() {
 
                 <div className='font1 font-light text-4xl text-center hidden lg:block'>
                     <Link href={'/'} className={`${alexFont.className} relative top-2 text-white  hover:text-lime-400 trans`}>{websiteName}</Link>
-                    <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2' Suspense>760 Springfield Ave, Irvington, NJ 07111</h1>
+                    <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2 z-20' >760 Springfield Ave, Irvington, NJ 07111</h1>
                 </div>
 
 
@@ -133,8 +133,8 @@ function NavBar() {
 
                 </div>
                 <div className='font1  font-light text-3xl text-white text-center lg:hidden block'>
-                    <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 trans top-3`}>{websiteName}</Link>
-                    <h1 className='text-white text-xs font-bold bg-black p-1 rounded' Suspense>760 Springfield Ave, Irvington, NJ 07111</h1>
+                    <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 z-30 trans top-3`}>{websiteName}</Link>
+                    <h1 className='text-white text-xs font-bold bg-black p-1 rounded z-20 relative'>760 Springfield Ave, Irvington, NJ 07111</h1>
 
 
                 </div>
