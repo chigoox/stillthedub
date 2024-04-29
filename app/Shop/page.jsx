@@ -9,7 +9,7 @@ import ShopItem from './Componets/ShopItem'
 
 function Shop() {
     return (
-        <div className='flex min-h-screen text-white flex-col bg-black'>
+        <div className='flex min-h-screen overflow-hidden text-white flex-col bg-black'>
 
             <div className='relative mt-24 center gap-4 lg:hover:scale-110 trans overflow-y-scroll'>
                 {category.map(i => {
@@ -26,6 +26,17 @@ function Shop() {
                         </div>
                     )
                 })}
+            </div>
+            <div>
+                <div className="SORT center flex-wrap gap-2 p-2">
+                    {['A-Z', 'Z-A', '$-$$$', '$$$-$', 'Newest', 'Most Popular'].map(i => {
+                        return (
+                            <Button className='w-24 bg-black-800 text-white border-black p-2'>{i}</Button>
+                        )
+                    }
+
+                    )}
+                </div>
             </div>
             <div className='p-2 center text-black'>
                 <Input startContent={<AiOutlineSearch />} type='text' className='h-24 lg:w-1/2 px-2' label='test' labelPlacement='inside' />

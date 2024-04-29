@@ -10,7 +10,6 @@ function ProductView({ showShopView, setShowShopView }) {
     const { name, images, metadata } = showShopView ? showShopView : {}
     const { price } = metadata || { price: 0 }
 
-    console.log(product)
     const slides = images?.map(item => (item))
     const desc = product?.caption
     const variants = filterNullFromArray(product?.variants || [])
