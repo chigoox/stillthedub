@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 export const revalidate = 60
 
 export async function POST(request) {
+  console.log('first')
   let data = await request.json();
-  const { category, limit, search } = data
+  const { limit } = data
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-  const prices = await stripe.products.search({
+  const prices = await stripe.products.list({
     limit: limit,
-    query: `active:\'true\' AND metadata[\'${search ? search : 'category'}\']:\'${category}\'`,
 
   });
   return NextResponse.json(prices.data.reverse())
