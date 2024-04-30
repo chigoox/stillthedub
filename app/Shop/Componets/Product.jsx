@@ -42,7 +42,6 @@ const Product = ({ product, forThis, category }) => {
     const { dispatch } = useCartContext()
 
 
-    console.log(itemData)
 
 
 
@@ -53,7 +52,7 @@ const Product = ({ product, forThis, category }) => {
 
 
     const canAddToCart = () => {
-        return (itemToCheckOut.StockQty >= 1) ? true : false
+        return (itemToCheckOut.inventory >= 1) ? true : true
         message.error('Out of stock', 5)
 
     }
@@ -70,7 +69,7 @@ const Product = ({ product, forThis, category }) => {
 
 
     const [prices, setPrices] = useState({})
-    const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: 0, Qty: 0, images: [] })
+    const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: thisProduct?.default_price, Qty: 0, images: [] })
     const addToCart = () => {
         console.log(itemToCheckOut.Qty)
         if (itemToCheckOut.priceID && itemToCheckOut.Qty > 0 && canAddToCart()) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
@@ -88,14 +87,14 @@ const Product = ({ product, forThis, category }) => {
     }, [])
 
     useEffect(() => {
-        setItemToCheckOut(prev => ({ ...prev, name: name, images: slides }))
+        setItemToCheckOut(prev => ({ ...prev, name: name, images: slides, priceID: thisProduct?.default_price, price: filteredPrice }))
     }, [thisProduct])
 
 
     const PayOptions = ({ price, service }) => {
         const services = ['After Pay', 'Klarna', 'Affirm']
         return (
-            <div className={'rounded-xl w-fit center-col m-auto mt-2 gap-2 relative p-2 overflow-hidden'} >
+            <div className={'rounded-xl  w-fit center-col m-auto mt-2 gap-2 relative p-2 overflow-hidden'} >
                 <div className='font-thin text-sm md:text-base'>or 4 interest-free payments of <span className=' font-normal'><Skeleton isLoaded={price} className='w-fit  relative top-[.40rem] inline-block'>${price / 4}</Skeleton ></span> with:</div>
 
                 <div className='center gap-2 mt-1 bg-white -200 p-2 rounded-full'>
@@ -121,14 +120,13 @@ const Product = ({ product, forThis, category }) => {
         )
     }
 
-    console.log(itemToCheckOut)
 
 
 
     return (
-        <main className="flex min-h-screen flex-col ">
+        <main className="flex overflow-hidden min-h-screen bg-black-800 flex-col ">
 
-            <div>
+            <div className='relative top-8 lg:w-3/4'>
 
                 <div className='flex md:flex-row flex-col gap-2'>
                     <Skeleton className='h-auto' isLoaded={thisProduct}>
@@ -147,7 +145,7 @@ const Product = ({ product, forThis, category }) => {
                         </Skeleton>
                         <PayOptions price={price} />
                         <div className='center flex-wrap md:w-3/4 m-auto mt-2 gap-2'>
-                            <Select
+                            {variants.length > 0 && <Select
                                 onChange={({ target }) => { console.log(target.value); setItemToCheckOut(prev => ({ ...prev, StockQty: target.value.split(',', 4)[3], price: Number(target.value.split(',', 3)[2]?.replace('$', '')), priceID: target.value.split(',', 2)[0], variant: target.value.split(',', 2)[1] })) }}
                                 labelPlacement={'outside'}
                                 label="Select Variant"
@@ -156,24 +154,24 @@ const Product = ({ product, forThis, category }) => {
                                 {variants.map((variant) => {
                                     return (
                                         <SelectItem key={[variant.id, variant.nickname, variant.metadata.price, Number(variant.metadata.qty)]} name={variant.nickname}>
-                                            {`${variant.nickname} - ${variant.metadata.price}`}
+                                            {`${variant.nickname ? variant.nickname + ' - ' : ''}  ${variant.metadata.price}`}
                                         </SelectItem>
                                     )
                                 })}
-                            </Select>
+                            </Select>}
 
                         </div>
                         <div className='mt-2 '>
                             <div className=' gap-4 items-center  flex md:flex-row flex-col'>
                                 <ItemQTYButton state={itemToCheckOut} setState={setItemToCheckOut} />
-                                <Button onClick={addToCart} className='h-12 rounded-md w-48 bg-gray-500 mb-2'>ADD TO CART</Button>
+                                <Button onClick={addToCart} className='h-12 rounded-md w-48 hover:bg-blue-700 hover:text-white bg-gray-500 mb-2'>ADD TO CART</Button>
                             </div>
                         </div>
 
                         <div className={font1.className}>
                             <h1 className='text-2xl font-extralight text-white bg-black-800'>Description</h1>
                             <Skeleton className='w-fit' isLoaded={desc}>
-                                <h1 className='text-black'>{desc}</h1>
+                                <h1 className=''>{desc}</h1>
                                 <h1>{feats}</h1>
                             </Skeleton>
                         </div>

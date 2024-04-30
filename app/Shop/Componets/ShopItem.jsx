@@ -49,7 +49,7 @@ function ShopItem({ shopItems, location = 'HotTools', onShopPage }) {
                     </Skeleton>
                     <div className='h-[30%] md:h-[20%] bg-opacity-75  bottom-0  w-full flex items-center flex-col p-2'>
                         <div className=' w-full center gap-1'>
-                            <span className='font-extralight text-sm'>from</span><span className='text-2xl font-semibold'>
+                            <span className='font-extralight text-sm'>$</span><span className='text-2xl font-semibold'>
                                 <Skeleton isLoaded={productsLoaded} className='w-auto h-auto bg-gray-400 '>
                                     <h1 className={font2.className}><Skeleton isLoaded={price} className='rounded'>{price}</Skeleton></h1>
 

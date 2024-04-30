@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export const revalidate = 60
 
 export async function POST(request) {
-  console.log('first')
   let data = await request.json();
   const { limit } = data
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)

@@ -19,7 +19,6 @@ function Shop() {
         const getData = async () => {
             //fetch products from stripe
             const data = await fetchAllProducts(null, 100)
-            console.log(data)
             //filter Products by if they have metadata, is active and has images
             //then sets PRODUCT state to the result
             setPRODUCTS(Object.values(
@@ -125,8 +124,8 @@ function Shop() {
             </div>
             <div className='ITEMS center  h-auto w-full lg:w-3/4 p-2 mx-auto'>
                 <div className='grid lg:grid-cols-4 gap-4 md:grid-cols-3 grid-cols-2'>
-                    {filterProducts().map(i => {
-                        return (<ShopItem shopItems={i} />)
+                    {filterProducts().map(product => {
+                        return (<ShopItem shopItems={product} location={product.metadata.category} />)
                     })}
                 </div>
             </div>

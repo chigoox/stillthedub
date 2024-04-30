@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Skeleton } from '@nextui-org/react'
 import { filterNullFromArray } from '@/app/myCodes/Util'
 import ItemQTYButton from './ItemQTYButton'
 import EmblaCarouselThumb from '@/app/Componets/HomePage/CarouselThumb'
+import { useCartContext } from '@/StateManager/CartContext'
 
 function ProductView({ showShopView, setShowShopView }) {
 
@@ -11,12 +12,23 @@ function ProductView({ showShopView, setShowShopView }) {
     const { price } = metadata || { price: 0 }
 
     const slides = images?.map(item => (item))
-    const desc = product?.caption
+    const desc = product?.description
     const variants = filterNullFromArray(product?.variants || [])
 
+    const { dispatch } = useCartContext()
+
     const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: 0, Qty: 0, images: [] })
+
+    useEffect(() => {
+        setItemToCheckOut(old => ({ ...old, priceID: product.default_price, images: product.images, name: product.name, price: product?.metadata?.price }))
+
+
+    }, [product])
+
+
+
     const addToCart = () => {
-        //if (itemToCheckOut.priceID && itemToCheckOut.Qty > 0) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
+        if (itemToCheckOut.priceID && itemToCheckOut.Qty > 0) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
     }
 
 
@@ -26,7 +38,7 @@ function ProductView({ showShopView, setShowShopView }) {
         return (
             <div className={'rounded-xl w-fit center-col m-auto mt-2 gap-2 relative p-2 overflow-hidden'} >
 
-                <div className='  rounded-full flex flex-col'>
+                <div className='bg-white overflow-hidden items-center justify-center  rounded-full flex flex-col'>
                     {services.map(service => (
                         <Skeleton isLoaded={price} key={service} className='w-12 h-8   font-bold text-gray-500 text-sm'>
                             <div className='text-center w-full   h-full rounded-full'>
@@ -50,19 +62,18 @@ function ProductView({ showShopView, setShowShopView }) {
 
     return (
         < Modal isOpen={showShopView} backdrop={'blur'} onOpenChange={() => { setShowShopView(false) }
-        } placement='auto' scrollBehavior='inside' className={`h-auto min-w-full w-auto overflow-x-hidden md:px-20 lg:px-40 xl:px-32 py-4 bg-gray-100  ${{
+        } placement='auto' scrollBehavior='inside' className={`h-auto min-w-full text-white w-auto overflow-x-hidden md:px-20 lg:px-40 xl:px-32 py-4 bg-black-800   ${{
             backdrop: "bg-black bg-opacity-100"
         }}`}>
             <ModalContent>
                 {() => (
                     <>
-                        <ModalHeader className="center-col gap-1  text-black md:scroll-px-20 lg:px-40">
+                        <ModalHeader className="center-col gap-1   md:scroll-px-20 lg:px-40">
 
                             <div className='flex items-center justify-evenly  w-full'>
                                 <div>
-                                    <span className='font-thin'>from</span>
                                     <Skeleton isLoaded={price} className='w-fit flex'>
-                                        <span className=' font-light text-2xl'>${price}.00</span>
+                                        <span className=' font-light text-4xl'>${price}.00</span>
                                     </Skeleton>
                                 </div>
 
