@@ -47,8 +47,8 @@ function Home() {
 
         </section>
 
-        <section className="center-col overflow-x-scroll hidescroll lg:w-3/4 m-auto text-white relative mt-10 font-bold text-3xl">
-          <h1 className="border-b m-4">Featurd Items</h1>
+        <section className=" overflow-x-scroll hidescroll lg:w-3/4 m-auto text-white relative mt-10 font-bold text-3xl">
+          <h1 className="border-b m-4 md:text-center">Featurd Items</h1>
           <ProductsList search={'isNew'} category={'true'} list={true} limit={6} />
         </section>
 
