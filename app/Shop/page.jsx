@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 function Shop() {
     const [PRODUCTS, setPRODUCTS] = useState([])
     const [sortBy, setSortBy] = useState('none')
+    const [Search, setSearch] = useState('')
 
     useEffect(() => {
         const getData = async () => {
@@ -34,47 +35,57 @@ function Shop() {
     }, [])
 
     const sortList = ['A-Z', 'Z-A', '$-$$$', '$$$-$', 'Newest', 'Most Popular']
-    console.log(PRODUCTS)
     const filterProducts = () => {
+        let result = []
         switch (sortBy) {
             case sortList[0]:
-                return PRODUCTS.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase()) ? 1 : ((b.name.toUpperCase() > a.name.toUpperCase()) ? -1 : 0))
+                result = PRODUCTS.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase()) ? 1 : ((b.name.toUpperCase() > a.name.toUpperCase()) ? -1 : 0))
                 break
 
             case sortList[1]:
 
-                return PRODUCTS.sort((a, b) => (b.name.toUpperCase() > a.name.toUpperCase()) ? 1 : ((a.name.toUpperCase() > b.name.toUpperCase()) ? -1 : 0))
+                result = PRODUCTS.sort((a, b) => (b.name.toUpperCase() > a.name.toUpperCase()) ? 1 : ((a.name.toUpperCase() > b.name.toUpperCase()) ? -1 : 0))
 
 
                 break
 
 
             case sortList[2]:
-                return PRODUCTS.sort((a, b) => b.metadata.price - a.metadata.price)
+                result = PRODUCTS.sort((a, b) => b.metadata.price - a.metadata.price)
 
                 break
 
             case sortList[3]:
-                return PRODUCTS.sort((a, b) => a.metadata.price - b.metadata.price)
+                result = PRODUCTS.sort((a, b) => a.metadata.price - b.metadata.price)
 
 
                 break
             case sortList[4]:
 
-                return PRODUCTS.sort((a, b) => b.created - a.created)
+                result = PRODUCTS.sort((a, b) => b.created - a.created)
                 break
 
             case sortList[5]:
-                return PRODUCTS.sort((a, b) => b.metadata?.unitsSold - a.metadata?.unitsSold)
+                result = PRODUCTS.sort((a, b) => b.metadata?.unitsSold - a.metadata?.unitsSold)
 
                 break
 
             default:
-                return PRODUCTS
+                result = PRODUCTS
                 break
 
 
         }
+
+        if (Search != '') return (result.filter(product => {
+            for (let index = 0; index < Search.split(' ').length; index++) {
+
+                if (product.metadata.tags?.split(' ').includes(Search.split(' ')[index])) return true
+            }
+
+            return false
+        }))
+        return result
     }
 
 
@@ -108,7 +119,7 @@ function Shop() {
                 </div>
             </div>
             <div className='p-2 center text-black'>
-                <Input startContent={<AiOutlineSearch />} type='text' className='h-24 lg:w-1/2 px-2' label='Search' labelPlacement='inside' />
+                <Input onValueChange={(v) => { setSearch(v) }} startContent={<AiOutlineSearch />} type='text' className='h-24 lg:w-1/2 px-2' label='Search' labelPlacement='inside' />
 
             </div>
             <div className='ITEMS center  h-auto w-full lg:w-3/4 p-2 mx-auto'>
