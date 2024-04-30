@@ -73,7 +73,7 @@ function ProductView({ showShopView, setShowShopView }) {
                             <div className='flex items-center justify-evenly  w-full'>
                                 <div>
                                     <Skeleton isLoaded={price} className='w-fit flex'>
-                                        <span className=' font-light text-4xl'>${price}.00</span>
+                                        <span className=' font-light text-4xl'>${price}</span>
                                     </Skeleton>
                                 </div>
 
