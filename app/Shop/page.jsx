@@ -6,6 +6,7 @@ import { createArray, filterObject } from '../myCodes/Util'
 import ShopItem from './Componets/ShopItem'
 import { fetchAllProducts, fetchProducts } from '../myCodes/Stripe'
 import { useEffect, useState } from 'react'
+import ProductsList from './Componets/ProductsList'
 
 
 
@@ -91,6 +92,7 @@ function Shop() {
 
     return (
         <div className='flex min-h-screen overflow-hidden text-white flex-col bg-black'>
+
             <div className='relative mt-24 center gap-4 lg:hover:scale-110 trans overflow-y-scroll'>
                 {CATEGORY.map(_category => {
                     return (
@@ -129,6 +131,8 @@ function Shop() {
                     })}
                 </div>
             </div>
+
+
 
 
         </div>

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 export const ProductsList = ({ category, limit, list, search }) => {
     const [productData, setProductData] = useState([])
 
-
     useEffect(() => {
         fetchProducts(category, setProductData, limit, search)
 
@@ -18,12 +17,10 @@ export const ProductsList = ({ category, limit, list, search }) => {
 
     const categoryList = useFilterEmptyCategory()
 
-
     return (
-        <div className='mt-12'>
-            <div className={` ${list ? 'flex overflow-x-scroll gap-2 p-2 justify-start items-start  hidescroll    w-full' : 'grid grid-flow-row grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tems-center justify-items-center'}  w-full m-auto`}>
+        <div className=''>
+            <div className={` ${list ? 'flex overflow-x-scroll  gap-2 p-2 justify-start items-start  hidescroll    w-full' : 'grid grid-flow-row grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tems-center justify-items-center'}  w-full m-auto`}>
                 {productData.map(product => {
-                    console.log((product.metadata.category))
                     return categoryList.map(item => item.replace(/\s/g, '')).includes(product.metadata.category) ? (
                         <ShopItem key={product.id} location={(category == 'true') ? product.metadata.category : category} shopItems={product} />
 

@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 import { useState } from 'react';
 import ProductView from "./Shop/Componets/ProductView";
 import { createArray } from "./myCodes/Util";
+import ProductsList from "./Shop/Componets/ProductsList";
 //import ProductView from '../Support/ProductView';
 
 
@@ -14,15 +15,7 @@ function Home() {
   const [showShopView, setShowShopView] = useState(false)
 
 
-  const mock = {
-    price: 126,
-    caption: 'this is the description',
-    media: ['https://img.ltwebstatic.com/images3_pi/2021/09/13/16315032568193ac51c3403e29d4a0b00ad9cef0e9_wk_shein_thumbnail_900x.webp',
-      'https://s3-eu-west-1.amazonaws.com/emap-nibiru-prod/wp-content/uploads/sites/2/2020/11/02173926/REISS_LUX_LEISURE_3648-1024x683.jpg',
-      'https://img.ltwebstatic.com/images3_pi/2021/08/19/162936919953106120b021e87432cf0fd7cdb99e42.webp',
 
-    ]
-  }
 
 
   return (
@@ -54,27 +47,9 @@ function Home() {
 
         </section>
 
-        <section className="center-col lg:w-3/4 m-auto text-white relative mt-10 font-bold text-3xl">
-          <h1 className="bordr-b m-4">Featurd Items</h1>
-          <div className="grid grid-cols-3 lg:grid-cols-4 hidescroll p-2  overflow-x-scroll  gap-2 w-full">
-            {createArray(5).map(item => {
-
-              return (
-                <div className=" center-col m-auto group text-white">
-                  <div className="lg:h-40 lg:w-40 w-28 h-28  overflow-hidden relative rounded-full border-4  border-lime-400 hover:border-lime-300">
-                    <h1 className="absolute group-hover:scale-105 trans bg-black bg-opacity-40 h-full center w-full">name</h1>
-                    <img src="https://images.unsplash.com/photo-1599629954294-14df9ec8bc05?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                  </div>
-                  <div className="font-extrabolds">
-
-                    <h1 className=" group-hover:text-lime-400 trans text-lg">$0.00</h1>
-
-                  </div>
-
-                </div>
-              )
-            })}
-          </div>
+        <section className="center-col  lg:w-3/4 m-auto text-white relative mt-10 font-bold text-3xl">
+          <h1 className="border-b m-4">Featurd Items</h1>
+          <ProductsList search={'isNew'} category={'true'} list={true} limit={6} />
         </section>
 
         <section className="m-auto mt-20  mb-12 lg:w-[90%]">

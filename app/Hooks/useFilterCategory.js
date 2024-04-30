@@ -25,7 +25,6 @@ function useFilterEmptyCategory(_category = category) {
 
     }, [])
 
-
     return filteredCategory
 
 }
