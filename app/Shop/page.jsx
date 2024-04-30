@@ -1,7 +1,7 @@
 'use client'
 import { Button, Input } from '@nextui-org/react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { category } from '../META'
+import { category as CATEGORY } from '../META'
 import { createArray, filterObject } from '../myCodes/Util'
 import ShopItem from './Componets/ShopItem'
 import { fetchAllProducts, fetchProducts } from '../myCodes/Stripe'
@@ -13,6 +13,7 @@ function Shop() {
     const [PRODUCTS, setPRODUCTS] = useState([])
     const [sortBy, setSortBy] = useState('none')
     const [Search, setSearch] = useState('')
+    const [category, setCategory] = useState('All')
 
     useEffect(() => {
         const getData = async () => {
@@ -71,7 +72,7 @@ function Shop() {
                 break
 
             default:
-                result = PRODUCTS
+                result = PRODUCTS.sort((a, b) => b.updated - a.updated)
                 break
 
 
@@ -85,24 +86,24 @@ function Shop() {
 
             return false
         }))
-        return result
+        return (category != 'All') ? result.filter(item => item.category == category) : result
     }
 
 
     return (
         <div className='flex min-h-screen overflow-hidden text-white flex-col bg-black'>
             <div className='relative mt-24 center gap-4 lg:hover:scale-110 trans overflow-y-scroll'>
-                {category.map(i => {
+                {CATEGORY.map(_category => {
                     return (
-                        <Button key={i} className='center-col rounded-t-full h-auto w-auto bg-transparent text-white'>
-                            <div className='h-20 w-20 overflow-hidden  rounded-full'>
+                        <Button onPress={() => { setCategory(category == _category ? 'All' : _category) }} key={_category} className='center-col rounded-full h-auto w-auto bg-transparent text-white'>
+                            <div className={`h-20 w-20  overflow-hidden  rounded-full ${category == _category ? 'border-4 border-lime-400' : 'border-2'}`}>
                                 <img className='h-full w-full object-cover' src={
-                                    i == 'Drinks' ? 'https://www.instacart.com/image-server/386x386/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_01dd896b-371a-4d04-9ff6-cdfdd949886f.png' :
-                                        i == 'Candy' ? 'https://www.instacart.com/image-server/296x296/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_8bf706ca-64c5-4505-b464-626f5d0091a4.jpg' :
-                                            i == 'Snacks' ? 'https://www.instacart.com/image-server/296x296/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_01213fde-149e-4297-8f57-1fc1762797aa.png' :
+                                    _category == 'Drinks' ? 'https://www.instacart.com/image-server/386x386/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_01dd896b-371a-4d04-9ff6-cdfdd949886f.png' :
+                                        _category == 'Candy' ? 'https://www.instacart.com/image-server/296x296/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_8bf706ca-64c5-4505-b464-626f5d0091a4.jpg' :
+                                            _category == 'Snacks' ? 'https://www.instacart.com/image-server/296x296/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_01213fde-149e-4297-8f57-1fc1762797aa.png' :
                                                 'https://www.instacart.com/assets/domains/product-image/file/large_3a3749ea-89a5-41a3-a995-152d3b8cb2ce.jpg'} alt="" />
                             </div>
-                            <h1>{i}</h1>
+                            <h1>{_category}</h1>
                         </Button>
                     )
                 })}
