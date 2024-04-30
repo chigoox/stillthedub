@@ -19,7 +19,7 @@ function Shop() {
         const getData = async () => {
             //fetch products from stripe
             const data = await fetchAllProducts(null, 100)
-
+            console.log(data)
             //filter Products by if they have metadata, is active and has images
             //then sets PRODUCT state to the result
             setPRODUCTS(Object.values(
