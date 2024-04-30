@@ -78,7 +78,7 @@ function Shop() {
 
         }
 
-        if (Search != '') return (result.filter(product => {
+        if (Search != '') result = (result.filter(product => {
             for (let index = 0; index < Search.split(' ').length; index++) {
 
                 if (product.metadata.tags?.split(' ').includes(Search.split(' ')[index])) return true
@@ -86,7 +86,7 @@ function Shop() {
 
             return false
         }))
-        return (category != 'All') ? result.filter(item => item.category == category) : result
+        return (category != 'All') ? result.filter(item => item.metadata.category == category) : result
     }
 
 
