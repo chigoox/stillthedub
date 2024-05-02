@@ -108,7 +108,7 @@ function Cart({ showCart, setShowCart }) {
 
             </div >
 
-            <div className="center-col">
+            <div className="center-col relative bottom-4">
                 <div className={`${showCart ? 'scale-1' : 'scale-0'} trans-slow evenly w-full text-black`}>
                     <h1 className="">Total</h1>
                     <h1 className="font-extrabold">${total}</h1>
