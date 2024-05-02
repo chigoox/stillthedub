@@ -1,43 +1,37 @@
-'use client'
-import { Button, Card, Input } from "@nextui-org/react";
+
+import { Button, Card, Input, Link } from "@nextui-org/react";
 import { Mail } from "lucide-react";
-import { useState } from 'react';
-import ProductView from "./Shop/Componets/ProductView";
-import { createArray } from "./myCodes/Util";
 import ProductsList from "./Shop/Componets/ProductsList";
+import { createArray } from "./myCodes/Util";
 //import ProductView from '../Support/ProductView';
 
 
 function Home() {
-  const [showCart, setShowCart] = useState(false)
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
-  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu)
-  const [showShopView, setShowShopView] = useState(false)
+
 
 
 
 
 
   return (
-    <div className='bg-black   h-screen overflow- -hidden  relative overflow-x-hidden'>
+    <div className='bg-black   h-screen   relative overflow-x-hidden'>
 
-      <ProductView
-        showShopView={showShopView}
-        setShowShopView={setShowShopView}
-      />
+
 
       <div className="top-16 mb-40 relative">
         <section className="grid grid-cols-12 gap-4 p-4 w-full lg:w-3/4  m-auto">
-          <Card className="col-span-12 hover:scale-[1.03] trans-slow group  h-64 overflow-hidden rounded-3xl relative">
-            <h1 className="font-bold text-white absolute lg:group-hover:text-4xl trans-slow left-4 bottom-4 text-3xl">Shop The Dub</h1>
-            <img className="w-full z-10 h-full object-cover" src="https://images.unsplash.com/photo-1487452066049-a710f7296400?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-          </Card>
+          <Link href="/Shop" className="col-span-12">
+            <Card className=" hover:scale-[1.03] w-full trans-slow group bg-transparent  h-64 overflow-hidden rounded-3xl relative">
+              <h1 className="font-bold text-white z-30 absolute lg:group-hover:text-4xl trans-slow left-4 bottom-4 text-3xl">Shop The Dub</h1>
+              <img className="w-full z-10 h-full object-cover" src="https://images.unsplash.com/photo-1487452066049-a710f7296400?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            </Card>
+          </Link>
 
-          <div className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
+          <Link href="/Shop" className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
             <h1 className="font-bold center h-full w-full lg:hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute text-2xl text-center  lg:text-3xl">Shop Convincence</h1>
-            <img className="w-full z-10 h-full object-cover" src="https://images.unsplash.com/photo-1614735241165-6756e1df61ab?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            <img className="w-full  h-full object-cover" src="https://images.unsplash.com/photo-1614735241165-6756e1df61ab?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
 
-          </div>
+          </Link>
 
           <div className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
             <h1 className="font-bold center h-full w-full lg:hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute text-2xl  lg:text-3xl">Shop Tabaco</h1>

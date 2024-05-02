@@ -1,12 +1,11 @@
-import { updateArrayDatabaseItem } from "./Database"
+import { addToDoc, updateArrayDatabaseItem } from "./Database"
 
-export const addEmailToList = (email) =>{
-//addToDatabase('Admin', 'Emails', 'emails', {email})
-updateArrayDatabaseItem('Admin', 'Emails', 'allEmails', email)
-} 
+export const addEmailToList = (name, email) => {
+    //addToDatabase('Admin', 'Emails', 'emails', {email})
+    addToDoc('Emails', name, email)
+}
 
-export const addUIDToList = (UID) =>{
-//addToDatabase('Admin', 'Emails', 'emails', {email})
-updateArrayDatabaseItem('Admin', 'Users', 'allUIDs', UID)
-} 
-    
+export const addUIDToList = (UID) => {
+    //addToDatabase('Admin', 'Emails', 'emails', {email})
+    updateArrayDatabaseItem('Admin', 'Users', 'allUIDs', UID)
+}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vis.gl/react-google-maps": "latest",
     "@nextui-org/react": "^2.2.9",
     "@nextui-org/theme": "^2.2.3",
     "@react-email/components": "^0.0.7",

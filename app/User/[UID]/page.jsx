@@ -74,30 +74,35 @@ export default function ProtectedRoute({ params }) {
     }
 
     return (
-        <div className="w- min-h-screen ">
-            <AUTHListener protectedPage={true} set={setUser} />
-            <h1 className="text-xl font-bold text-center">Welcome Back </h1>
-            <h1 className="font-extrabold text-center">{user?.displayName}</h1>
-            <div className="center"><Button onPress={logOut} className="bg-black-800 text-white w-3/4">LogOut</Button></div>
+        <div className="h-screen text-white bg-black ">
+            <div className="">
+                <AUTHListener protectedPage={true} set={setUser} />
+                <br />
+                <br />
+                <br />
+                <h1 className="text-xl  font-bold text-center">Welcome Back </h1>
+                <h1 className="font-extrabold text-center">{user?.displayName}</h1>
+                <div className="center"><Button onPress={logOut} className="bg-black-800 text-white w-3/4">LogOut</Button></div>
 
-            <div className="flex md:flex-row flex-col w-full border justify-center gap-4 p-2">
-                <Card className="h-auto  md:w-96 w-full my-12" variant={'bordered'}>
-                    <CardHeader className="text-3xl  font-bold text-center bg-black mb-4 text-white p-2">Orders</CardHeader>
-                    <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-2  p-2 gap-2 items-center justify-center">
-                        {Object.values(userData?.orders ? userData?.orders : {}).map((order) => <OrderItem orderInfo={order} />)}
-                    </CardBody>
-                </Card>
-                <Card className="h-auto md:w-96 w-full my-12" variant={'bordered'}>
-                    <CardHeader className="text-3xl  font-bold text-center bg-black mb-4 text-white p-2">Reservations</CardHeader>
-                    <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-1  p-2 gap-2 items-center justify-center">
-                        {mockReservations.map(reservation => <ReservationItem reservationInfo={reservation} />)}
-                    </CardBody>
+                <div className="flex md:flex-row flex-col w-full border justify-center gap-4 p-2">
+                    <Card className="h-auto  md:w-96 w-full my-12" variant={'bordered'}>
+                        <CardHeader className="text-3xl  font-bold text-center bg-black mb-4 text-white p-2">Orders</CardHeader>
+                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-2  p-2 gap-2 items-center justify-center">
+                            {Object.values(userData?.orders ? userData?.orders : {}).map((order) => <OrderItem orderInfo={order} />)}
+                        </CardBody>
+                    </Card>
+                    <Card className="h-auto md:w-96 w-full my-12" variant={'bordered'}>
+                        <CardHeader className="text-3xl  font-bold text-center bg-black mb-4 text-white p-2">Reservations</CardHeader>
+                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-1  p-2 gap-2 items-center justify-center">
+                            {mockReservations.map(reservation => <ReservationItem reservationInfo={reservation} />)}
+                        </CardBody>
 
-                </Card>
+                    </Card>
+                </div>
+
+                <ShippinInfo user={user} />
+
             </div>
-
-            <ShippinInfo user={user} />
-
 
 
 

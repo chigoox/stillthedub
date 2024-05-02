@@ -3,7 +3,8 @@ import { useAUTHListener } from '@/StateManager/AUTHListener'
 import useFilterEmptyCategory from '@/app/Hooks/useFilterCategory'
 import useWindowDimensions from '@/app/Hooks/useGetWindowDeimentions'
 import useScrollPosition from '@/app/Hooks/useScrollPosition'
-import { Alex_Brush, Bebas_Neue, Jost } from 'next/font/google'
+import { User2Icon } from 'lucide-react'
+import { Bebas_Neue, Jost } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
@@ -29,6 +30,7 @@ function NavBar() {
     const [showLogin, setShowLogin] = useState(false)
     const [navRoute, setNavRoute] = useState([])
     const user = useAUTHListener()
+    const [cartCount, setCartCount] = useState()
     const { push } = useRouter()
     const category = useFilterEmptyCategory()
 
@@ -38,9 +40,8 @@ function NavBar() {
 
     const NoCart = usePathname().includes('Checkout')
 
-
     useEffect(() => {
-
+        setCartCount(Object.values(JSON.parse(localStorage.getItem('Cart'))).length - 1)
     }, [])
 
 
@@ -50,10 +51,7 @@ function NavBar() {
         return (!showMobileMenu)
     }
 
-    const toggleCart = () => {
-        setShowCart(!showCart)
-        return (!showCart)
-    }
+
     const toggleLogin = () => {
         if (user?.uid) {
             push(`/User/${user.uid}`)
@@ -138,9 +136,21 @@ function NavBar() {
 
 
                 </div>
-                <button className='' onClick={() => { setShowCart(true) }}>
-                    <IoBagHandle size={30} color='gray' />
-                </button>
+                <div className='center gap-4'>
+                    <div className=" text-white">
+
+                        <button className='relative ' onClick={() => { setShowCart(true) }}>
+                            <div className='absolute border-2 top-1 -right-2 bg-lime-400 font-bold z-10 h-4 w-4 p-2 bg-opacity-75  center rounded-full '>
+                                {(cartCount) ? cartCount : 0}
+                            </div>
+                            <IoBagHandle size={30} color='gray' />
+                        </button>
+                    </div>
+
+                    <button className='' onClick={() => { toggleLogin() }}>
+                        <User2Icon size={30} color='gray' />
+                    </button>
+                </div>
 
                 <video autoPlay muted playsInline className='absolute -z-10 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>

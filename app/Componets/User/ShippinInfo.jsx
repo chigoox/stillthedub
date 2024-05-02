@@ -49,7 +49,7 @@ function ShippinInfo({ user, forCheckOut, event }) {
                         placements={'inside'}
                         variant="flat"
                         name="email"
-                        label={'Address'}
+                        label={'Email'}
                         className="w-64 m-auto"
                     />
                     <Input type="text"
@@ -76,22 +76,8 @@ function ShippinInfo({ user, forCheckOut, event }) {
                         label={'Address'}
                         className="w-64 m-auto"
                     />
-                    <Input type="text"
-                        onChange={updateShippingInfo}
-                        placements={'inside'}
-                        variant="flat"
-                        name="apt"
-                        label={'APT'}
-                        className="w-64 m-auto"
-                    />
-                    <Input type="number"
-                        onChange={updateShippingInfo}
-                        placements={'inside'}
-                        variant="flat"
-                        name="zipcode"
-                        label={'Zip Code'}
-                        className="w-64 m-auto"
-                    />
+
+
                     <Input type="number"
                         onChange={updateShippingInfo}
                         placements={'inside'}
