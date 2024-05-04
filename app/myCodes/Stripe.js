@@ -71,7 +71,7 @@ export const fetchPricesFor = async (nameNoSpace, setterfunction) => {
 
 
 
-export const checkout = async (event, cart, userID) => {
+export const checkout = async (event, cart, userID, fullCart) => {
   event.preventDefault();
 
   addToDatabase('User', userID, 'CurrentOrder', { ...JSON.parse(localStorage.getItem('Cart')), paid: false })
@@ -79,7 +79,8 @@ export const checkout = async (event, cart, userID) => {
     {
       cart: cart[0],
       total: cart[1],
-      UID: userID
+      UID: userID,
+      fullCart: fullCart,
     },
     {
       headers: {
