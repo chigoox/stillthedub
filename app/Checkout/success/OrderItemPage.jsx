@@ -24,14 +24,14 @@ function OrderItemPage({ orderID }) {
     const getData = async () => {
 
         const orderInfo = UID ? await fetchDocument('User', UID) : null
-        const ORDER = await fetchDocument('Orders', orderInfo?.currentOrder)
+        const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
 
         console.log(ORDER)
 
 
 
-        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
-        return { shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total), }
+        if (orderInfo && ORDER) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
+        // return { shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total), }
 
 
     }
@@ -149,7 +149,7 @@ function OrderItemPage({ orderID }) {
                     })}
                 </div>
                 <div className={`${MONEYFONT} center-col p-2`}>
-                    <h1 className='font-bold text-3xl border-b mb-5'>Total: $ {data?.total}</h1>
+                    <h1 className='font-bold text-3xl border-b mb-5'>Total: $ {data?.total / 100}</h1>
                     {showExitButton &&
                         <div className='center gap-4'>
                             <Button color='primary' onPress={() => { push('/Shop') }}>
