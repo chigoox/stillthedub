@@ -1,6 +1,5 @@
 import { orderNumberPrefix } from "@/app/META";
-import { addToDatabase, fetchDocument, updateDatabaseItem } from "@/app/myCodes/Database";
-import { sendMail } from "@/app/myCodes/Email";
+import { addToDoc, fetchDocument, updateDatabaseItem } from "@/app/myCodes/Database";
 import Cors from "micro-cors";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -20,12 +19,10 @@ export async function POST(request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      console.log(event.data.object.metadata)
       const { uid, cart, total, fullCart } = event.data.object.metadata
       const { orderID } = await fetchDocument('Admin', 'Orders')
       const { ShippingInfo } = await fetchDocument('User', uid)
 
-      console.log(fullCart)
       const CurrentOrder = Object.values(JSON.parse(fullCart))
 
 
@@ -64,17 +61,19 @@ export async function POST(request) {
 
       const order = {
         [`${orderNumberPrefix}-${orderID}`]: {
-          shippingInfo: ShippingInfo,
+          orderInfo: ShippingInfo,
           orderedItems: CurrentOrder,//CurrentOrder.lineItems,
           id: `${orderNumberPrefix}-${orderID}`,
           qty: orderQTY,
           total: orderPrice,
-          images: arrayImages
+          images: arrayImages,
+          user: uid,
+          status: 'No started',
+          driverLocationWhenComplete: [],
         }
       }
 
-      await addToDatabase('User', uid, 'orders', order)
-      await addToDatabase('Admin', 'Manage', 'orders', order)
+      await addToDoc('Orders', orderID, order)
 
       const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
 
