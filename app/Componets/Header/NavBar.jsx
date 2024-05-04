@@ -13,6 +13,7 @@ import { IoBag, IoBagHandle } from 'react-icons/io5'
 import LoginCard from '../General/Auth/LoginCard'
 import { NavigationEvents } from "../NavigationEvents"
 import Cart from './Cart'
+import { useCartContext } from '@/StateManager/CartContext'
 
 const alexFont = Bebas_Neue({
     weight: '400',
@@ -33,18 +34,21 @@ function NavBar() {
     const [cartCount, setCartCount] = useState()
     const { push } = useRouter()
     const category = useFilterEmptyCategory()
+    const { state } = useCartContext()
 
     let scrollPosition = 1
     scrollPosition = useScrollPosition()
     const { height, width } = useWindowDimensions();
 
     const NoCart = usePathname().includes('Checkout')
-
-
-
+    const test = () => {
+        if (typeof window != undefined)
+            return localStorage
+    }
+    const localStore = test()
     useEffect(() => {
         setCartCount(Object.values(JSON.parse(localStorage?.getItem('Cart'))?.lineItems || {})?.length || 0)
-    }, [])
+    }, [state.lineItems, localStore.getItem('Cart')])
 
 
 
