@@ -16,7 +16,6 @@ export async function addToDatabase(collection, Doc, field, data, merge = true) 
 
 }
 export async function addToDoc(collection, Doc, data) {
-    console.log(collection, Doc, data)
     if (Doc) {
         try {
             await setDoc(doc(DATABASE, collection, Doc),
