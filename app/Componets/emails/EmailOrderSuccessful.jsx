@@ -23,7 +23,6 @@ const baseUrl = process.env.VERCEL_URL
 function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
     const cart = emailData.lineItems
     const total = emailData.total
-    console.log(cart)
     const { firstName, lastName, address } = shippinginfo
     const date = new Date()
     return (

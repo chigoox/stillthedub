@@ -74,7 +74,7 @@ function OrderItemPage({ orderID }) {
 
     useEffect(() => {
         if (!emailSent && shipdata) {
-            sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', data?.cart.state, orderID)
+            //  sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', data?.cart.state, orderID)
             setEmailSent(true)
         }
 

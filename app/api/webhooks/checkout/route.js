@@ -20,12 +20,13 @@ export async function POST(request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-
+      console.log(event.data.object.metadata)
       const { uid, cart, total } = event.data.object.metadata
       const { orderID } = await fetchDocument('Admin', 'Orders')
       const { ShippingInfo } = await fetchDocument('User', uid)
 
       CurrentOrder = [...JSON.parse(cart)]
+
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
       const addArray = (array) => {
