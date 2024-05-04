@@ -79,8 +79,8 @@ export async function POST(request) {
       // const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
       const ORDERS = await FetchTheseDocs('Orders', 'id', '==', ORDERID, 'cartID') //Object.values(JSON.parse(fullCart))
 
-
-      if (Object.keys(ORDERS[0].id) == ORDERID) {
+      console.log(ORDERS)
+      if (Object.keys(ORDERS[0]) == ORDERID) {
 
         updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
       }
