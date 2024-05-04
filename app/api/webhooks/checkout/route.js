@@ -24,7 +24,6 @@ export async function POST(request) {
       const { ShippingInfo } = await fetchDocument('User', uid)
 
       const CART = await FetchTheseDocs('Carts', 'cartID', '==', cartID, 'cartID') //Object.values(JSON.parse(fullCart))
-      console.log(CART[0].cart)
       const CurrentOrder = Object.values(CART[0].cart)
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
@@ -79,7 +78,6 @@ export async function POST(request) {
       // const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
       const ORDERS = await FetchTheseDocs('Orders', 'id', '==', ORDERID, 'id') //Object.values(JSON.parse(fullCart))
 
-      console.log(ORDERS)
       if (Object.keys(ORDERS[0]) == ORDERID) {
 
         updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
