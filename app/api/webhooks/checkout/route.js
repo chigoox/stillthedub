@@ -61,24 +61,26 @@ export async function POST(request) {
       const orderPrice = addArray(arrayPrice)
 
       const order = {
-        [`${orderNumberPrefix}-${orderID}`]: {
-          orderInfo: ShippingInfo,
-          orderedItems: CurrentOrder,//CurrentOrder.lineItems,
-          id: `${orderNumberPrefix}-${orderID}`,
-          qty: orderQTY,
-          total: orderPrice,
-          images: arrayImages,
-          user: uid,
-          status: 'No started',
-          driverLocationWhenComplete: [],
-        }
+        orderInfo: ShippingInfo,
+        orderedItems: CurrentOrder,//CurrentOrder.lineItems,
+        id: `${orderNumberPrefix}-${orderID}`,
+        qty: orderQTY,
+        total: orderPrice,
+        images: arrayImages,
+        user: uid,
+        status: 'No started',
+        driverLocationWhenComplete: [],
       }
 
-      await addToDoc('Orders', orderID, order)
 
-      const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
+      const ORDERID = order.id
+      await addToDoc('Orders', ORDERID, order)
 
-      if (Object.keys(orders).includes(`${orderNumberPrefix}-${orderID}`)) {
+      // const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
+      const ORDERS = await FetchTheseDocs('Orders', 'id', '==', ORDERID, 'cartID') //Object.values(JSON.parse(fullCart))
+
+
+      if (Object.keys(ORDERS[0].id) == ORDERID) {
 
         updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
       }
