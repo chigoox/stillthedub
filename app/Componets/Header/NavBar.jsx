@@ -43,7 +43,9 @@ function NavBar() {
     const NoCart = usePathname().includes('Checkout')
 
     useEffect(() => {
-        setCartCount(Object.values(JSON.parse(localStorage?.getItem('Cart'))?.lineItems || {})?.length || 0)
+        setTimeout(() => {
+            setCartCount(Object.values(JSON.parse(localStorage?.getItem('Cart'))?.lineItems || {})?.length || 0)
+        }, 1000);
     }, [state.lineItems])
 
 
