@@ -8,7 +8,7 @@ import Stripe from "stripe";
 export async function POST(request) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     let data = await request.json();
-    let { cart, UID, total, fullCart } = data
+    let { cart, UID, total, cartID } = data
     const session = await stripe.checkout.sessions.create({
         line_items: cart,
         mode: 'payment',
@@ -17,7 +17,7 @@ export async function POST(request) {
         metadata: {
             uid: UID.toString(),
             cart: JSON.stringify(cart), //for Stripe
-            fullCart: JSON.stringify(fullCart),
+            cartID: cartID.toString(),
             total: total
         },
 

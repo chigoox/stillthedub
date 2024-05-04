@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, deleteField, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, deleteField, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
 import { DATABASE } from '../../Firebase';
 
 
@@ -73,4 +73,18 @@ export async function fetchDocument2(collection, document, setterfunction) {
     } catch (error) {
         console.log(error.message)
     }
+}
+
+export const fetchInOrder = async (datacollection, orderby, _limit = 100) => {
+    const ref = collection(DATABASE, datacollection)
+    const qry = _limit ? query(ref, orderBy(orderby, 'desc'), limit(_limit)) : query(ref, orderBy(orderby, 'desc'))
+    const snapShot = await getDocs(qry)
+
+    let data = []
+    snapShot.forEach((doc) => {
+        data = [...data, doc.data()]
+    });
+
+    return data
+
 }

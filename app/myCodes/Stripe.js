@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { addToDatabase } from './Database'
+import { addToDatabase, addToDoc } from './Database'
+import { getRandTN } from './Util'
 export const fetchProducts = async (category, setterfunction = null, limit, search) => {
   const { data } = await axios.post('/api/fetchProducts', {
     category: category ? category : undefined,
@@ -70,16 +71,17 @@ export const fetchPricesFor = async (nameNoSpace, setterfunction) => {
 }
 
 
+const cartID = getRandTN()
 
 export const checkout = async (event, cart, userID, fullCart) => {
   event.preventDefault();
-
+  addToDoc('Carts', cartID, { cartID: cartID, cart: fullCart })
   const { data } = await axios.post('/api/Checkout',
     {
       cart: cart[0],
       total: cart[1],
       UID: userID,
-      fullCart: fullCart,
+      cartID: cartID
     },
     {
       headers: {

@@ -1,5 +1,5 @@
 import { orderNumberPrefix } from "@/app/META";
-import { addToDoc, fetchDocument, updateDatabaseItem } from "@/app/myCodes/Database";
+import { addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
 import Cors from "micro-cors";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -19,12 +19,12 @@ export async function POST(request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      const { uid, cart, total, fullCart } = event.data.object.metadata
+      const { uid, cart, total, cartID } = event.data.object.metadata
       const { orderID } = await fetchDocument('Admin', 'Orders')
       const { ShippingInfo } = await fetchDocument('User', uid)
 
-      const CurrentOrder = Object.values(JSON.parse(fullCart))
-
+      const CurrentOrder = await (fetchInOrder('Carts', 'cartID')) //Object.values(JSON.parse(fullCart))
+      console.log(CurrentOrder)
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
       const addArray = (array) => {
