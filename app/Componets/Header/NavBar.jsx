@@ -40,9 +40,13 @@ function NavBar() {
 
     const NoCart = usePathname().includes('Checkout')
 
+
+    let windowx;
+    windowx = window || null
+
     useEffect(() => {
         setCartCount(Object.values(JSON.parse(localStorage?.getItem('Cart'))?.lineItems || {})?.length || 0)
-    }, [window])
+    }, [windowx])
 
 
 
