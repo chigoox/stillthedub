@@ -22,8 +22,9 @@ const baseUrl = process.env.VERCEL_URL
 
 function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
     const { cart, total } = emailData
-    const { firstName, lastName } = shippinginfo
+    const { firstName, lastName, address, name } = shippinginfo
     const date = new Date()
+    const orderType = shippinginfo?.orderType
     return (
         <Html>
             <Head />
@@ -43,10 +44,10 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                     </Section>
                     <Hr style={global.hr} />
                     <Section style={message}>
-                        <h1 className='font-bold'>{siteName}</h1>
-                        <Heading style={global.heading}>It's On Its Way.</Heading>
+                        <h1 className='font-bold text-4xl'>{siteName}</h1>
+                        <Heading style={global.heading}>We got your order!</Heading>
                         <Text style={global.text}>
-                            Your order is on its way. Use the link above to track its progress.
+                            {shippinginfo}
                         </Text>
                         <Text style={{ ...global.text, marginTop: 24 }}>
                             We´ve also charged your payment method for the cost of your order
@@ -56,7 +57,10 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                     </Section>
                     <Hr style={global.hr} />
                     <Section style={global.defaultPadding}>
-                        <Text style={adressTitle}>Shipping to: {firstName} {lastName}</Text>
+
+                        <Text style={adressTitle}>{orderType == 'pickUp' ? 'Check the order page to see when your order is ready!' : `Items will be delivered to: ${firstName} ${lastName} at ${address}`}</Text>
+
+
                         <Text style={{ ...global.text, fontSize: 14 }}>
                             {'address'.replace('.', '')}, {shippinginfo?.zipcode}
                         </Text>
@@ -67,7 +71,7 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                     >
                         {Object.values(cart).map((order) => {
                             return (
-                                <Row>
+                                <Row key={order.name}>
                                     <Column>
                                         <Img
                                             src={order.images[0]}
