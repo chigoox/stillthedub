@@ -23,7 +23,7 @@ export async function POST(request) {
       const { orderID } = await fetchDocument('Admin', 'Orders')
       const { ShippingInfo } = await fetchDocument('User', uid)
 
-      const CART = await (FetchTheseDocs('Carts', 'cartID', '==', cartID, 'cartID')) //Object.values(JSON.parse(fullCart))
+      const CART = await FetchTheseDocs('Carts', 'cartID', '==', cartID, 'cartID') //Object.values(JSON.parse(fullCart))
       console.log(CART)
       const CurrentOrder = Object.values(CART[0].cart)
 
