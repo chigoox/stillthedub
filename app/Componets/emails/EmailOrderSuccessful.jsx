@@ -1,4 +1,5 @@
 import { siteName } from '@/app/META';
+import { isDev } from '@/app/myCodes/Util';
 import {
     Body,
     Column,
@@ -31,23 +32,13 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
             <Preview>Get your order summary, estimated delivery date and more</Preview>
             <Body style={main}>
                 <Container style={container}>
-                    <Section style={track.container}>
-                        <Row>
-                            <Column>
-                                <Text style={global.paragraphWithBold}>Tracking Number</Text>
-                                <Text style={track.number}>Coming soon...</Text>
-                            </Column>
-                            <Column align="right">
-                                <Link style={global.button}>Track Package</Link>
-                            </Column>
-                        </Row>
-                    </Section>
+
                     <Hr style={global.hr} />
                     <Section style={message}>
                         <h1 className='font-bold text-4xl'>{siteName}</h1>
                         <Heading style={global.heading}>We got your order!</Heading>
                         <Text style={global.text}>
-                            {shippinginfo}
+                            {''}
                         </Text>
                         <Text style={{ ...global.text, marginTop: 24 }}>
                             We´ve also charged your payment method for the cost of your order
@@ -69,9 +60,9 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                     <Section
                         style={{ ...paddingX, paddingTop: '40px', paddingBottom: '40px' }}
                     >
-                        {Object.values(cart).map((order) => {
+                        {Object.values(cart).map((order, index) => {
                             return (
-                                <Row key={order.name}>
+                                <Row key={index}>
                                     <Column>
                                         <Img
                                             src={order.images[0]}
@@ -101,7 +92,7 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                         <Row style={{ display: 'inline-flex', marginBottom: 40 }}>
                             <Column style={{ width: '170px' }}>
                                 <Text style={global.paragraphWithBold}>Order Number</Text>
-                                <Text style={track.number}>{orderID}</Text>
+                                <Text style={track.number}>DUB-{orderID}</Text>
                             </Column>
                             <Column>
                                 <Text style={global.paragraphWithBold}>Order Date</Text>
@@ -110,7 +101,7 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                         </Row>
                         <Row>
                             <Column align="center">
-                                <Link style={global.button}>Order Status</Link>
+                                <Link href={isDev ? 'localhost:3000/' : 'https://stillthedub.vercel.app'} style={global.button}>Order Status</Link>
                             </Column>
                         </Row>
                     </Section>
