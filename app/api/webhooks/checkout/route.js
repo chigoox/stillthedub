@@ -24,12 +24,13 @@ export async function POST(request) {
 
 
     if (event.type === "checkout.session.completed") {
-      const { uid, cart } = event.data.object.metadata
+      let { uid, cart } = event.data.object.metadata
 
 
       const { orderID } = await fetchDocument('Admin', 'Orders')
       let { ShippingInfo, CurrentOrder } = await fetchDocument('User', uid)
       cart = { ...JSON.parse(cart) }
+      console.log(cart)
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
       const addArray = (array) => {
