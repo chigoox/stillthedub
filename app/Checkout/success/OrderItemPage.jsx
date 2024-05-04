@@ -22,15 +22,11 @@ function OrderItemPage({ orderID }) {
     const getData = async () => {
 
         const orderInfo = UID ? await fetchDocument('User', UID) : null
-        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: orderInfo?.cart ? orderInfo?.cart : state.lineItems })
+        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: orderInfo?.Current ? orderInfo?.cart : state.lineItems })
         return { shipping: orderInfo?.ShippingInfo, cart: orderInfo?.cart ? orderInfo?.cart : state.lineItems }
 
     }
-    const addArray = (array) => {
-        const mainArray = Array.isArray(array) ? array : Object.values(array ? array : {})
-        const sum = mainArray.reduce((partialSum, a) => partialSum + a, 0)
-        return sum
-    }
+
     const [arrayQTY, setArrayQTY] = useState()
     const [arrayPrice, setArrayPrice] = useState()
     const [arrayImages, setArrayImages] = useState()
@@ -120,7 +116,7 @@ function OrderItemPage({ orderID }) {
 
     return (
         <div className=' center h-[40rem] relative text-white flex md:flex-row flex-col md:gap-0 gap-24 bg-black'>
-            <div className='h-96 md:w-[50%] w-[90%] bg-black flex flex-col relative'>
+            <div className='h-96 md:w-[50%] mt-20 w-[90%] bg-black flex flex-col relative'>
                 <h1 className='text-4xl text-white font-extrabold text-center'>Thank you for ordering</h1>
                 <h1 className='text-sm font-light text-center text-white'>an email confirmation has been sent to {data?.shipping?.email || user?.email}</h1>
 
@@ -133,6 +129,7 @@ function OrderItemPage({ orderID }) {
                                 <div key={item.name + getRand(9999)}>
                                     <div className='bg-white m-auto text-black center border-2 w-12 h-12 overflow-hidden rounded-full relative'>
                                         <h1 className='absolute h-full w-full text-2xl center text-white bg-opacity-50 bg-black'>{item.Qty}</h1>
+                                        <img className='h-full w-full object-cover' src={item.images[0]} alt="" />
                                     </div>
                                     <h1 className='bg-opacity-25 text-xs text-center'>{item.name}</h1>
                                 </div>
