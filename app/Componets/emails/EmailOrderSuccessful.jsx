@@ -21,9 +21,8 @@ const baseUrl = process.env.VERCEL_URL
     : '';
 
 function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
-    const cart = emailData.lineItems
-    const total = emailData.total
-    const { firstName, lastName, address } = shippinginfo
+    const { cart, total } = emailData
+    const { firstName, lastName } = shippinginfo
     const date = new Date()
     return (
         <Html>
@@ -59,7 +58,7 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                     <Section style={global.defaultPadding}>
                         <Text style={adressTitle}>Shipping to: {firstName} {lastName}</Text>
                         <Text style={{ ...global.text, fontSize: 14 }}>
-                            {address.replace('.', '')}, {shippinginfo?.zipcode}
+                            {'address'.replace('.', '')}, {shippinginfo?.zipcode}
                         </Text>
                     </Section>
                     <Hr style={global.hr} />

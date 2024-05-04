@@ -36,59 +36,45 @@ function OrderItemPage({ orderID }) {
 
     }
 
-    console.log(data)
 
-    const [arrayQTY, setArrayQTY] = useState()
     const [arrayPrice, setArrayPrice] = useState()
-    const [arrayImages, setArrayImages] = useState()
-    const getArrayToAddQTY = () => {
-        Object.values(data?.cart ? data?.cart : {}).map((order) => {
-            const total = Object.values(order.lineItems ? order.lineItems : {}).map((orderInfo) => {
-                return orderInfo.Qty
-            })
-            setArrayQTY(total)
-            return total
 
-        })
-    }
     const getArrayToAddPrice = () => {
-        Object.values(data?.cart ? data?.cart : {}).map((order) => {
-            const total = Object.values(order.lineItems ? order.lineItems : {}).map((orderInfo) => {
-                return orderInfo.price
-            })
-            setArrayPrice(total)
+        console.log(data?.cart)
+        setArrayPrice(data?.cart?.map((order) => {
+            const total = Number(order.price)
             return total
 
-        })
+        }))
+
+        console.log(arrayPrice)
     }
 
-    const getArrayToAddImages = () => {
-        Object.values(data?.cart ? data?.cart : {}).map((order) => {
-            const total = Object.values(order.lineItems ? order.lineItems : {}).map((orderInfo) => {
-                return orderInfo.images[0]
-            })
-            setArrayImages(total)
-            return total
 
 
-        })
-    }
 
-    if (!arrayQTY) getArrayToAddQTY()
-    if (!arrayPrice) getArrayToAddPrice()
-    if (!arrayImages) getArrayToAddImages()
 
 
     const shipdata = data?.shipping
 
 
 
+    const addArray = (array) => {
+        const mainArray = Array.isArray(array) ? array : Object.values(array ? array : {})
+        const sum = mainArray.reduce((partialSum, a) => partialSum + a, 0)
+        return sum
+    }
+
+    const orderTotal = addArray(arrayPrice)
+
     useEffect(() => {
         if (!emailSent && shipdata) {
-            //  sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', data?.cart.state, orderID)
+            sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
             setEmailSent(true)
         }
 
+
+        if (!arrayPrice) getArrayToAddPrice()
 
 
     }, [data])
@@ -149,7 +135,7 @@ function OrderItemPage({ orderID }) {
                     })}
                 </div>
                 <div className={`${MONEYFONT} center-col p-2`}>
-                    <h1 className='font-bold text-3xl border-b mb-5'>Total: $ {data?.total / 100}</h1>
+                    <h1 className='font-bold text-3xl border-b mb-5'>Total: $ {orderTotal}</h1>
                     {showExitButton &&
                         <div className='center gap-4'>
                             <Button color='primary' onPress={() => { push('/Shop') }}>

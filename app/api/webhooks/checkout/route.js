@@ -79,7 +79,6 @@ export async function POST(request) {
       const ORDERID = order.id
       await addToDoc('Orders', ORDERID, order)
 
-      // const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
       const ORDERS = await FetchTheseDocs('Orders', 'id', '==', ORDERID, 'id') //Object.values(JSON.parse(fullCart))
 
       if (ORDERS[0].id == ORDERID) {
