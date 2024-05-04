@@ -1,5 +1,5 @@
 import { orderNumberPrefix } from "@/app/META";
-import { FetchTheseDocs, addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
+import { FetchTheseDocs, addToDatabase, addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
 import { format } from "date-fns";
 import { serverTimestamp } from "firebase/firestore";
 import Cors from "micro-cors";
@@ -84,8 +84,10 @@ export async function POST(request) {
 
       if (ORDERS[0].id == ORDERID) {
 
-        updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
+        await updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
       }
+
+      await addToDatabase('User', uid, 'currentOrder', ORDERID)
 
 
 

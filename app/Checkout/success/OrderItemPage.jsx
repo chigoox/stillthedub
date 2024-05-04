@@ -2,10 +2,12 @@
 import { useAUTHListener } from '@/StateManager/AUTHListener'
 import { useCartContext } from '@/StateManager/CartContext'
 import { orderNumberPrefix } from '@/app/META'
+import { MONEYFONT } from '@/app/Shop/Componets/ShopItem'
 import { fetchDocument } from '@/app/myCodes/Database'
 import { sendMail } from '@/app/myCodes/Email'
 import { getRand } from '@/app/myCodes/Util'
 import { Button } from '@nextui-org/react'
+import Link from 'next/link'
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from 'react'
 
@@ -22,10 +24,19 @@ function OrderItemPage({ orderID }) {
     const getData = async () => {
 
         const orderInfo = UID ? await fetchDocument('User', UID) : null
-        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: orderInfo?.CurrentOrder ? orderInfo?.cart : state?.lineItems })
-        return { shipping: orderInfo?.ShippingInfo, cart: orderInfo?.cart ? orderInfo?.cart : state?.lineItems }
+        const ORDER = await fetchDocument('Orders', orderInfo?.currentOrder)
+
+        console.log(ORDER)
+
+
+
+        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
+        return { shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total), }
+
 
     }
+
+    console.log(data)
 
     const [arrayQTY, setArrayQTY] = useState()
     const [arrayPrice, setArrayPrice] = useState()
@@ -105,54 +116,58 @@ function OrderItemPage({ orderID }) {
 
 
 
-    const orderMap = Object.values(data?.cart?.state?.lineItems ? data?.cart?.state?.lineItems : {})
+    const orderMap = Object.values(data?.cart ? data?.cart : {})
 
 
 
-    if (!data) run()
+    if (!data?.currentOrder) run()
 
 
 
 
     return (
-        <div className=' center h-[40rem] relative text-white flex md:flex-row flex-col md:gap-0 gap-24 bg-black'>
-            <div className='h-96 md:w-[50%] mt-20 w-[90%] bg-black flex flex-col relative'>
-                <h1 className='text-4xl text-white font-extrabold text-center'>Thank you for ordering</h1>
-                <h1 className='text-sm font-light text-center text-white'>an email confirmation has been sent to {data?.shipping?.email || user?.email}</h1>
+        <div className=' flex p-4 lg:px-10 m-auto lg:w-1/2 flex-col item-center h-[40rem] mt-12 relative text-white flex  flex-col md:gap-0 gap-2 bg-black w-full overflow-hidden'>
 
-                <div className='h-20 w-full mt-10'>
-                    <h1 className='text-2xl text-white'>Items ordered</h1>
 
-                    <div className='grid grid-cols-2 p-2 h-32 border-y overflow-y-scroll hidescroll  md:grid-cols-3 gap-1 w-full'>
-                        {orderMap.map((item) => {
-                            return (
-                                <div key={item.name + getRand(9999)}>
-                                    <div className='bg-white m-auto text-black center border-2 w-12 h-12 overflow-hidden rounded-full relative'>
-                                        <h1 className='absolute h-full w-full text-2xl center text-white bg-opacity-50 bg-black'>{item.Qty}</h1>
-                                        <img className='h-full w-full object-cover' src={item.images[0]} alt="" />
-                                    </div>
-                                    <h1 className='bg-opacity-25 text-xs text-center'>{item.name}</h1>
+            <h1 className='text-4xl text-white mt-12 font-extrabold text-center'>Thank you for ordering</h1>
+            <h1 className='text-sm font-light text-center text-white'>an email confirmation has been sent to {data?.shipping?.email || user?.email}</h1>
+
+            <div className='h-20 w-full mt-10'>
+                <h1 className='text-2xl text-white'>Items ordered</h1>
+
+                <div className='grid grid-cols-2 p-2 h-32 border-y overflow-y-scroll hidescroll  md:grid-cols-3 gap-1 w-full'>
+                    {orderMap.map((item) => {
+                        return (
+                            <div key={item.name + getRand(9999)}>
+                                <div className='bg-white m-auto text-black center border-2 w-12 h-12 overflow-hidden rounded-full relative'>
+                                    <h1 className='absolute h-full w-full text-2xl center text-white bg-opacity-50 bg-black'>{item.Qty}</h1>
+                                    <img className='h-full w-full object-cover' src={item.images[0]} alt="" />
                                 </div>
-                            )
-                        })}
-                    </div>
-                    <div className='center-col p-2'>
-                        <h1>Total: {data?.cart?.state?.total}</h1>
-                        {showExitButton &&
-                            <Button onPress={() => { push('/Shop') }}>
+                                <h1 className='bg-opacity-25 text-xs text-center'>{item.name}</h1>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className={`${MONEYFONT} center-col p-2`}>
+                    <h1 className='font-bold text-3xl border-b mb-5'>Total: $ {data?.total}</h1>
+                    {showExitButton &&
+                        <div className='center gap-4'>
+                            <Button color='primary' onPress={() => { push('/Shop') }}>
                                 Continue to store
-                            </Button>}
+                            </Button>
 
-                    </div>
+                            <Link color='success' href={`/Orders/${data.currentOrder}`}>
+                                View Order Details
+                            </Link>
+                        </div>
 
-
+                    }
 
                 </div>
-            </div>
-            <div className='h-40 overflow-hidden'>
+
+
 
             </div>
-
         </div>
     )
 }

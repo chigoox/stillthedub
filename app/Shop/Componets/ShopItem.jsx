@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import ProductView from './ProductView';
 const font = Grandstander({ subsets: ['latin'], weight: ['400'] })
 const font2 = Dosis({ subsets: ['latin'], weight: ['400'] })
-
+export const MONEYFONT = font2
 
 function ShopItem({ shopItems, location = 'HotTools', onShopPage }) {
     const { name, images, metadata } = shopItems ? shopItems : { name: 'Item', images: [] }
