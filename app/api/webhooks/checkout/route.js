@@ -1,5 +1,7 @@
 import { orderNumberPrefix } from "@/app/META";
 import { FetchTheseDocs, addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
+import { format } from "date-fns";
+import { serverTimestamp } from "firebase/firestore";
 import Cors from "micro-cors";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -69,6 +71,8 @@ export async function POST(request) {
         user: uid,
         status: 'No started',
         driverLocationWhenComplete: [],
+        dateServer: serverTimestamp(),
+        dateReal: new Date().toLocaleString()
       }
 
 
