@@ -1,13 +1,13 @@
 'use client'
 import { addToDatabase } from '@/app/myCodes/Database'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Switch, useDisclosure } from '@nextui-org/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Uploader } from '../General/Uploader'
 import { siteEmail, siteName } from '@/app/META'
 import { MailCheckIcon, ShipIcon, StoreIcon, TruckIcon } from 'lucide-react'
 import { filterObject } from '@/app/myCodes/Util'
 
-function ShippinInfo({ user, forCheckOut, event }) {
+function ShippinInfo({ defualtData, user, forCheckOut, event }) {
     const [shippingInfo, setShippingInfo] = useState({})
     const [showTerms, setShowTerms] = useState(false)
     const [orderType, setOrderType] = useState('pickUp')
@@ -18,20 +18,24 @@ function ShippinInfo({ user, forCheckOut, event }) {
 
     const updateDatabase = (() => {
         const filterObjectForNull = filterObject(shippingInfo, (a) => a)
+
         addToDatabase('User', user?.uid ? user?.uid : user?.gid, 'ShippingInfo', filterObjectForNull)
+
         if (forCheckOut &&
             ((Object.keys(filterObjectForNull).reduce((a, c) => a + 'email firstName lastName address  phone'.includes(c), 0) >= 5 && orderType == 'delivery') ||
                 (Object.keys(filterObjectForNull).reduce((a, c) => a + 'email name'.includes(c), 0) >= 2 && orderType != 'delivery'))
         ) forCheckOut(filterObjectForNull, event)
 
     })
+    if (defualtData) useEffect(() => { setShippingInfo({ ...defualtData?.ShippingInfo }) }, [])
+
     return (
         <div className={`center-col w-full fadeInRight  relative hidescroll ${forCheckOut ? 'h-[45rem] md:h-[50rem]' : 'h-auto'}`}>
             <Card className={`${forCheckOut ? 'w-full' : 'w-3/4'} shadow-md shadow-black border-2 border-[#121212] h-auto bg-[#171717] center-col`}>
                 <CardHeader className="font-bold  text-white bg-black-800 mb-4">
                     <h1 className="text-center w-full">Order Info</h1>
                 </CardHeader>
-                <CardBody className="center-col hidescroll  gap-2 text-black">
+                <CardBody className="center-col hidescroll trans gap-2 text-black">
 
 
                     {/*  <h1 className='text-white md:mt-10 mt-24'>Upload ID Please</h1>
@@ -45,10 +49,10 @@ function ShippinInfo({ user, forCheckOut, event }) {
                     </div> */}
                     <div className='border-white center-col text-white rounded-3xl p-2 m-2'>
 
-                        <Switch name='orderType' onValueChange={(v) => { setOrderType(v ? 'delivery' : 'pickUp'); setShippingInfo({ email: '', name: '', firstName: '', lastName: '', address: '', phone: '', orderType: v ? 'delivery' : 'pickUp' }) }} size='lg' color='success' startContent={<TruckIcon />} endContent={<StoreIcon />} className='w-full'>
+                        <Switch name='orderType' onValueChange={(v) => { setOrderType(v ? 'delivery' : 'pickUp'); setShippingInfo({ email: defualtData?.ShippinInfo?.email, name: '', firstName: '', lastName: '', address: '', phone: '', orderType: v ? 'delivery' : 'pickUp' }) }} size='lg' color='success' startContent={<TruckIcon />} endContent={<StoreIcon />} className='w-full'>
 
                         </Switch>
-                        <h1>{orderType != 'delivery' ? 'Pickup' : 'Delivery'}</h1>
+                        <h1 className='text-3xl font-bold'>{orderType != 'delivery' ? 'Pickup' : 'Delivery'}</h1>
 
 
                     </div>
@@ -67,45 +71,49 @@ function ShippinInfo({ user, forCheckOut, event }) {
                         placements={'inside'}
                         variant="flat"
                         name={orderType == 'pickUp' ? 'name' : "firstName"}
-                        label={orderType == 'pickup' ? 'Name' : 'First Name'}
+                        label={orderType == 'pickUp' ? 'Name' : 'First Name'}
                         className="w-64 m-auto"
                         value={orderType == 'pickUp' ? shippingInfo?.name : shippingInfo?.firstName}
 
                     />
-                    {orderType == 'delivery' && <div className={`center-col gap-2 ${orderType != 'delivery' ? 'h-0' : ' h-[12rem]'} trans overflow-hidden`}>
-                        <Input type="text"
-                            onChange={updateShippingInfo}
-                            placements={'inside'}
-                            variant="flat"
-                            name="lastName"
-                            label={'Last Name'}
-                            className="w-64 m-auto"
-                            value={shippingInfo?.lastName}
+                    {
+                        <div className={`center-col gap-2 ${orderType != 'delivery' ? 'h-[0rem]' : ' h-[12rem]'} trans overflow-hidden`}>
+                            <Input type="text"
+                                onChange={updateShippingInfo}
+                                placements={'inside'}
+                                variant="flat"
+                                name="lastName"
+                                label={'Last Name'}
+                                className="w-64 m-auto"
+                                value={shippingInfo?.lastName}
+                                isDisabled={orderType != 'delivery'}
 
-                        />
-                        <Input type="text"
-                            onChange={updateShippingInfo}
-                            placements={'inside'}
-                            variant="flat"
-                            name="address"
-                            label={'Address'}
-                            className="w-64 m-auto"
-                            value={shippingInfo?.address}
+                            />
+                            <Input type="text"
+                                onChange={updateShippingInfo}
+                                placements={'inside'}
+                                variant="flat"
+                                name="address"
+                                label={'Address'}
+                                className="w-64 m-auto"
+                                value={shippingInfo?.address}
+                                isDisabled={orderType != 'delivery'}
 
-                        />
+                            />
 
 
-                        <Input type="number"
-                            onChange={updateShippingInfo}
-                            placements={'inside'}
-                            variant="flat"
-                            name="phone"
-                            label={'Phone'}
-                            className="w-64 m-auto"
-                            value={shippingInfo?.phone}
+                            <Input type="number"
+                                onChange={updateShippingInfo}
+                                placements={'inside'}
+                                variant="flat"
+                                name="phone"
+                                label={'Phone'}
+                                className="w-64 m-auto"
+                                value={shippingInfo?.phone}
+                                isDisabled={orderType != 'delivery'}
 
-                        />
-                    </div>}
+                            />
+                        </div>}
                 </CardBody>
                 <CardFooter className='p-2 bg-black-800'><Button className="w-3/4 m-auto mb-4 font-bold text-white bg-blue-700" onPress={updateDatabase}>{forCheckOut ? 'Checkout' : 'Update'}</Button></CardFooter>
             </Card>

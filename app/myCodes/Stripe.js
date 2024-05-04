@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { addToDatabase } from './Database'
 export const fetchProducts = async (category, setterfunction = null, limit, search) => {
   const { data } = await axios.post('/api/fetchProducts', {
     category: category ? category : undefined,
@@ -72,6 +73,7 @@ export const fetchPricesFor = async (nameNoSpace, setterfunction) => {
 
 export const checkout = async (event, cart, userID) => {
   event.preventDefault();
+  addToDatabase('User', userID, 'CurrentOrder', { ...JSON.parse(localStorage.getItem('Cart')), paid: false })
   const { data } = await axios.post('/api/Checkout',
     {
       cart: cart,

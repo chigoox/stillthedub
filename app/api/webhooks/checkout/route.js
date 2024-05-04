@@ -16,91 +16,79 @@ const secret = process.env.STRIPE_WEBHOOK_KEY || "";
 export async function POST(request) {
   try {
     const body = await request.text();
-    
+
     const signature = headers().get("stripe-signature");
-    
+
     const event = stripe.webhooks.constructEvent(body, signature, secret);
-      
-    
-    
+
+
+
     if (event.type === "checkout.session.completed") {
-      const {uid} = event.data.object.metadata
-      
-      console.log(uid)
-
-      const {orderID} = await fetchDocument('Admin','Orders')
-      const {ShippingInfo} = await fetchDocument('User',uid)
-      const {cart} = await fetchDocument('User',uid)
+      const { uid } = event.data.object.metadata
 
 
+      const { orderID } = await fetchDocument('Admin', 'Orders')
+      const { ShippingInfo, CurrentOrder } = await fetchDocument('User', uid)
+
+      const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
       const addArray = (array) => {
-          const mainArray = Array.isArray(array) ? array : Object.values(array ? array : {})
-          const sum = mainArray.reduce((partialSum, a) => partialSum + a, 0)
-          return sum
+        const mainArray = Array.isArray(array) ? array : Object.values(array ? array : {})
+        const sum = mainArray.reduce((partialSum, a) => partialSum + a, 0)
+        return sum
       }
 
-    const getArrayToAddQTY = async () => {
-        const total = Object.values(cart?.state?.lineItems ? cart?.state?.lineItems : {}).map((orderInfo) => {
-                return orderInfo.Qty
-            })
-            return total
-     }
-    const getArrayToAddPrice = async () => {
-        const total = Object.values(cart?.state?.lineItems ? cart?.state?.lineItems : {}).map((orderInfo) => {
-                return orderInfo.price
-            })
-            return total
+      const getArrayToAddQTY = async () => {
+        const total = Object.values(cart).map((orderInfo) => {
+          return orderInfo.Qty
+        })
+        return total
+      }
+      const getArrayToAddPrice = async () => {
+        const total = Object.values(cart).map((orderInfo) => {
+          return orderInfo.price
+        })
+        return total
       }
 
-    const getArrayToAddImages = async () => {
-        const total = Object.values(cart?.state?.lineItems ? cart?.state?.lineItems : {}).map((orderInfo) => {
-                return orderInfo.images[0]
-            })
-            return total
+      const getArrayToAddImages = async () => {
+        const total = Object.values(cart).map((orderInfo) => {
+          return orderInfo.images[0]
+        })
+        return total
+      }
+
+      const arrayQTY = await getArrayToAddQTY()
+      const arrayPrice = await getArrayToAddPrice()
+      const arrayImages = await getArrayToAddImages()
+      const orderQTY = addArray(arrayQTY)
+      const orderPrice = addArray(arrayPrice)
+
+      const order = {
+        [`${orderNumberPrefix}-${orderID}`]: {
+          shippingInfo: ShippingInfo,
+          orderedItems: CurrentOrder.lineItems,
+          id: `${orderNumberPrefix}-${orderID}`,
+          qty: orderQTY,
+          total: orderPrice,
+          images: arrayImages
+        }
+      }
+
+      await addToDatabase('User', uid, 'orders', order)
+      await addToDatabase('Admin', 'Manage', 'orders', order)
+
+      const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
+
+      if (Object.keys(orders).includes(`${orderNumberPrefix}-${orderID}`)) {
+
+        updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
+      }
+
+
+
+
     }
 
-    const arrayQTY = await getArrayToAddQTY()
-    const arrayPrice = await getArrayToAddPrice()
-    const arrayImages = await getArrayToAddImages()
-    const orderQTY = addArray(arrayQTY)
-    const orderPrice = addArray(arrayPrice)
-
-    await addToDatabase('User', uid, 'orders', {
-            [`${orderNumberPrefix}-${orderID}`]: {
-                shippingInfo: ShippingInfo ,
-                order: cart?.state, 
-                id: `${orderNumberPrefix}-${orderID}`,
-                qty: orderQTY,
-                total: orderPrice,
-                images: arrayImages
-            }
-        })
-
-
-
-        await addToDatabase('Admin', 'Manage', 'orders', {
-            [`${orderNumberPrefix}-${orderID}`]: {
-                shippingInfo:ShippingInfo,
-                order: cart?.state,
-                id: `${orderNumberPrefix}-${orderID}`,
-                qty: orderQTY,
-                total: orderPrice,
-                images: arrayImages
-            }
-        })
-
-        const { orders } = uid ? await fetchDocument('User', uid) : { orders: {} }
-
-        if (Object.keys(orders).includes(`${orderNumberPrefix}-${orderID}`)) {
-           
-            updateDatabaseItem('Admin', 'Orders', 'orderID', orderID + 1)
-        }
-      
-
-     
-  
-      }
-    
     return NextResponse.json({ result: event, ok: true });
   } catch (error) {
     console.error(error);

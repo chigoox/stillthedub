@@ -10,7 +10,7 @@ export const siteEmail = 'Still The Dubb'
 
 
 export const NavBarVideoURL = 'hLDQ88vAhIs'
-export const orderNumberPrefix = 'OTL'
+export const orderNumberPrefix = 'DUB'
 export const category = ['Drinks', 'Candy', 'Snacks', 'Others']
 
 export const IGFeedURL = 'https://feeds.behold.so/uPB30an9PtEhQZrvqN22'

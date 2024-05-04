@@ -2,13 +2,13 @@ import { arrayRemove, arrayUnion, deleteField, doc, getDoc, setDoc, updateDoc } 
 import { DATABASE } from '../../Firebase';
 
 
-export async function addToDatabase(collection, Doc, field, data) {
+export async function addToDatabase(collection, Doc, field, data, merge = true) {
     console.log(collection, Doc, field, data)
     if (Doc) {
         try {
             await setDoc(doc(DATABASE, collection, Doc), {
                 [field]: data,
-            }, { merge: true });
+            }, { merge: merge });
         } catch (error) {
             console.log(error.message)
         }

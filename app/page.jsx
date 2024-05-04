@@ -96,7 +96,7 @@ function Home() {
             <h1 className="text-lg font-bold">For Exclusive Offers!</h1>
             <div className="center-col gap-4">
               <Input label={'Full name'} labelPlacement="inside" className="w-64 h-12" />
-              <Input label={'Email'} labelPlacement="inside" onBeforeInput={<Mail />} className="w-64 h-12" />
+              <Input label={'Email'} labelPlacement="inside" startContent={<Mail />} className="w-64 h-12" />
               <Button className="bg-blue-700 text-white font-bold hover:bg-blue-500">Join Now</Button>
             </div>
           </div>

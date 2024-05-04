@@ -19,7 +19,7 @@ function Cart({ showCart, setShowCart }) {
     const { lineItems, total } = state
     const user = useAUTHListener()
     const [event, setEvent] = useState()
-
+    const [shippingData, setShippingData] = useState({})
     const g_u_ID = user?.uid ? user?.uid : user?.gid
 
     const checkOutItems = Object.values(lineItems).map(item => ({ price: item.priceID, quantity: Number(item.Qty) }))
@@ -38,8 +38,13 @@ function Cart({ showCart, setShowCart }) {
     }
 
     const checkShippingInfo = async (_event) => {
-        await fetchDocument('User', user?.uid ? user?.uid : user?.gid)
-            .then((data) => {
+        //Always Show ShippingInfo
+        await fetchDocument('User', user?.uid ? user?.uid : user?.gid, setShippingData)
+        setEvent(_event)
+        setGetShippingWindow(true)
+
+        //Show shippinginfo if not in database
+        /* .then((data) => {
                 if (data?.ShippingInfo) {
                     checkout(_event, checkOutItems, g_u_ID)
                 } else {
@@ -48,7 +53,7 @@ function Cart({ showCart, setShowCart }) {
 
 
                 }
-            })
+            }) */
     }
 
     useEffect(() => {
@@ -69,7 +74,7 @@ function Cart({ showCart, setShowCart }) {
             dragConstraints={{ left: 0, right: 0, }}
             className={`fixed z-[999]  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0'} h-[100vh] bg-gray-100 opacity-95`}>
             {(getShippingWindow && showCart) && <div className="absolute w-auto z-50  -left-40 ">
-                <ShippinInfo user={user} forCheckOut={getShippingInfo} />
+                <ShippinInfo defualtData={shippingData} user={user} forCheckOut={getShippingInfo} />
             </div>}
             <div className="center gap-2">
                 <h1 className={`${showCart ? '' : 'left-20 relative'}  text-center text-2xl font-bold`}>Cart</h1>
