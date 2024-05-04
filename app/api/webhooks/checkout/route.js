@@ -16,21 +16,16 @@ const secret = process.env.STRIPE_WEBHOOK_KEY || "";
 export async function POST(request) {
   try {
     const body = await request.text();
-
     const signature = headers().get("stripe-signature");
-
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
-
-
     if (event.type === "checkout.session.completed") {
-      let { uid, cart } = event.data.object.metadata
 
-
+      const { uid, cart, total } = event.data.object.metadata
       const { orderID } = await fetchDocument('Admin', 'Orders')
-      let { ShippingInfo, CurrentOrder } = await fetchDocument('User', uid)
-      cart = { ...JSON.parse(cart) }
-      console.log(cart)
+      const { ShippingInfo } = await fetchDocument('User', uid)
+
+      CurrentOrder = [...JSON.parse(cart)]
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
       const addArray = (array) => {
@@ -40,20 +35,20 @@ export async function POST(request) {
       }
 
       const getArrayToAddQTY = async () => {
-        const total = Object.values(cart).map((orderInfo) => {
+        const total = CurrentOrder.map((orderInfo) => {
           return orderInfo.Qty
         })
         return total
       }
       const getArrayToAddPrice = async () => {
-        const total = Object.values(cart).map((orderInfo) => {
+        const total = CurrentOrder.map((orderInfo) => {
           return orderInfo.price
         })
         return total
       }
 
       const getArrayToAddImages = async () => {
-        const total = Object.values(cart).map((orderInfo) => {
+        const total = CurrentOrder.map((orderInfo) => {
           return orderInfo.images[0]
         })
         return total
@@ -68,7 +63,7 @@ export async function POST(request) {
       const order = {
         [`${orderNumberPrefix}-${orderID}`]: {
           shippingInfo: ShippingInfo,
-          orderedItems: CurrentOrder.lineItems,
+          orderedItems: CurrentOrder,//CurrentOrder.lineItems,
           id: `${orderNumberPrefix}-${orderID}`,
           qty: orderQTY,
           total: orderPrice,

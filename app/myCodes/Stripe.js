@@ -73,10 +73,12 @@ export const fetchPricesFor = async (nameNoSpace, setterfunction) => {
 
 export const checkout = async (event, cart, userID) => {
   event.preventDefault();
+
   addToDatabase('User', userID, 'CurrentOrder', { ...JSON.parse(localStorage.getItem('Cart')), paid: false })
   const { data } = await axios.post('/api/Checkout',
     {
-      cart: cart,
+      cart: cart[0],
+      total: cart[1],
       UID: userID
     },
     {

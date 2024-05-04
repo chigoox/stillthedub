@@ -22,8 +22,8 @@ function OrderItemPage({ orderID }) {
     const getData = async () => {
 
         const orderInfo = UID ? await fetchDocument('User', UID) : null
-        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: orderInfo?.Current ? orderInfo?.cart : state.lineItems })
-        return { shipping: orderInfo?.ShippingInfo, cart: orderInfo?.cart ? orderInfo?.cart : state.lineItems }
+        if (orderInfo) setData({ shipping: orderInfo?.ShippingInfo, cart: orderInfo?.CurrentOrder ? orderInfo?.cart : state?.lineItems })
+        return { shipping: orderInfo?.ShippingInfo, cart: orderInfo?.cart ? orderInfo?.cart : state?.lineItems }
 
     }
 

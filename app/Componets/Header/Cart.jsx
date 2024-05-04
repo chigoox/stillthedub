@@ -34,7 +34,7 @@ function Cart({ showCart, setShowCart }) {
 
     const getShippingInfo = (shippinginfo) => {
         setGetShippingWindow(false)
-        if (checkOutItems) checkout(event, checkOutItems, g_u_ID)
+        if (checkOutItems) checkout(event, [checkOutItems, total], g_u_ID)
     }
 
     const checkShippingInfo = async (_event) => {
