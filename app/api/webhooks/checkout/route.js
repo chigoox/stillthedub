@@ -1,5 +1,5 @@
 import { orderNumberPrefix } from "@/app/META";
-import { addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
+import { FetchTheseDocs, addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
 import Cors from "micro-cors";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -23,7 +23,8 @@ export async function POST(request) {
       const { orderID } = await fetchDocument('Admin', 'Orders')
       const { ShippingInfo } = await fetchDocument('User', uid)
 
-      const CART = await (fetchInOrder('Carts', 'cartID')) //Object.values(JSON.parse(fullCart))
+      const CART = await (FetchTheseDocs('Carts', 'cartID', '==', cartID, 'cartID')) //Object.values(JSON.parse(fullCart))
+      console.log(CART)
       const CurrentOrder = Object.values(CART.cart)
 
       //const cart = CurrentOrder?.lineItems ? CurrentOrder?.lineItems : {}
