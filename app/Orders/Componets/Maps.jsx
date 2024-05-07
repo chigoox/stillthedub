@@ -7,18 +7,17 @@ import { Contact } from 'lucide-react'
 
 
 
-function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination }) {
+function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking }) {
     const [currentLocation, setCurrentLocation] = useState([])
+    const watchPosition = navigator.geolocation.watchPosition((v) => setCurrentLocation([v.coords.latitude, v.coords.longitude]))
+    const [position, setPosition] = useState({})
+    //console.log(currentLocation)
+    //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
 
     useEffect(() => {
+        setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
+    }, [currentLocation])
 
-        navigator.geolocation.getCurrentPosition((v) => { setCurrentLocation([v.coords.latitude, v.coords.longitude]) })
-
-
-
-    }, [])
-
-    console.log(destination)
     const Directions = () => {
         const map = useMap()
         const routesLibrary = useMapsLibrary('routes')
@@ -39,7 +38,7 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination }) {
 
             directionsService
                 .route({
-                    origin: origin,
+                    origin: orderTracking ? position : origin,
                     destination: destination,
                     travelMode: 'DRIVING',
                     provideRouteAlternatives: true,

@@ -11,6 +11,7 @@ export default function page() {
     const [order, setOrder] = useState({})
     const orderID = usePathname().slice(-5)
     const customer = order.orderInfo
+    const [orderTracking, setOrderTracking] = useState(false)
 
     console.log(order, orderID)
 
@@ -34,10 +35,10 @@ export default function page() {
                     <h1 className='text-center'>{customer?.firstName} {customer?.lastName}</h1>
                     <h1 className='font-bold text-center'>{customer?.address}</h1>
                 </div>
-                <Maps destination={order?.orderInfo?.address} />
+                <Maps destination={order?.orderInfo?.address} orderTracking={orderTracking} />
                 <OrderDetails order={order} />
                 <div className=' w-full  lg:w-1/2  center gap-2 lg:absolute lg:top-0 lg:right-0'>
-                    <Button className='p-4 text-xl font-bold text-white bg-blue-700'>Start Order</Button>
+                    <Button onPress={() => setOrderTracking(!orderTracking)} className='p-4 text-xl font-bold text-white bg-blue-700'>Start Order</Button>
                     {order.status == 'not started' && <Button className='p-4 text-xl font-bold text-white bg-red-700'>Cancel order</Button>}
                 </div>
 
