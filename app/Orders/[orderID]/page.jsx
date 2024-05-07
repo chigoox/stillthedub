@@ -30,13 +30,13 @@ export default function page() {
 
 
             <div className="flex flex-col lg:flex-row gap-2 w-full lg:p-4 p-2 lg:w-1/2 text-white relative">
-                <div className=' h-10 center-col relative top-12'>
-                    <h1>{customer?.firstName} {customer?.lastName}</h1>
-                    <h1 className='font-bold'>{customer?.address}</h1>
+                <div className=' h-10  absolute text-center lg:w-1/2  center-col z-50 m-auto top-14 bg-black lg:bg-transparent md:top-32 w-full lg:top-0 lg:left-0'>
+                    <h1 className='text-center'>{customer?.firstName} {customer?.lastName}</h1>
+                    <h1 className='font-bold text-center'>{customer?.address}</h1>
                 </div>
                 <Maps destination={order?.orderInfo?.address} />
                 <OrderDetails order={order} />
-                <div className=' w-full  center gap-2'>
+                <div className=' w-full  lg:w-1/2  center gap-2 lg:absolute lg:top-0 lg:right-0'>
                     <Button className='p-4 text-xl font-bold text-white bg-blue-700'>Start Order</Button>
                     {order.status == 'not started' && <Button className='p-4 text-xl font-bold text-white bg-red-700'>Cancel order</Button>}
                 </div>

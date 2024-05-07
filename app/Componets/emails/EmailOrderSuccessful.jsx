@@ -101,7 +101,7 @@ function EmailOrderSuccessful({ shippinginfo, emailData, orderID }) {
                         </Row>
                         <Row>
                             <Column align="center">
-                                <Link href={isDev ? 'localhost:3000/' : 'https://stillthedub.vercel.app'} style={global.button}>Order Status</Link>
+                                <Link href={isDev ? 'localhost:3000/' : `https://stillthedub.vercel.app/Orders/DUB-${orderID}`} style={global.button}>Order Status</Link>
                             </Column>
                         </Row>
                     </Section>

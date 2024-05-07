@@ -58,7 +58,7 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination }) {
     }
 
     return (
-        <Card className='mt-12 rounded-3xl h-96 lg:w-3/4 w-full overflow-hidden border-4 border-gray-400'>
+        <Card className='mt-12 md:mt-20 rounded-3xl h-96 lg:w-3/4 w-full overflow-hidden border-4 border-gray-400'>
             <APIProvider apiKey={'AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok'}>
                 <Map
                     className='h-full w-full bg-black'

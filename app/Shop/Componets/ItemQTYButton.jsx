@@ -4,7 +4,7 @@ import { MinusIcon, PlusIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 function ItemQTYButton({ state, setState, product, forCart }) {
     const { dispatch } = useCartContext()
-    const [QTY, setQTY] = useState(product?.Qty ? product?.Qty : 0)
+    const [QTY, setQTY] = useState(product?.Qty ? product?.Qty : 1)
     const controlQTY = (action = 'add', count = 1, event) => {
         if (action == 'add') setQTY(prevState => prevState < 99 ? prevState + count : prevState)
         if (action == 'sub') setQTY(prevState => prevState > 0 ? prevState - count : prevState)
