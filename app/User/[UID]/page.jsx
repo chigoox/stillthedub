@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Skeleton } from "@nextu
 import AUTHListener from "@/StateManager/AUTHListener";
 import { FetchTheseDocs, fetchDocument } from "@/app/myCodes/Database";
 import { logOut } from "@/app/myCodes/Auth";
-import ShippinInfo from "@/app/Componets/User/ShippinInfo";
+import ShippinInfo from "@/app/User/Componets/ShippinInfo";
 import Image from "next/image";
 import Link from "next/link";
 import { isDev } from "@/app/myCodes/Util";
@@ -22,21 +22,20 @@ const getUID = (user) => {
 export default function ProtectedRoute({ params }) {
     const [user, setUser] = useState({})
     const [orderData, setOrderData] = useState()
-    //  const fetchUserData = async () => {
-    //    const data = await fetchDocument('User', getUID(user))
-    //  return data
-    //}
-
-    !orderData ? FetchTheseDocs('Orders', 'user', '==', getUID(user), 'dateServer').then((data) => {
-        if (data) setOrderData(data)
-    }) : null
-
-    console.log(orderData)
+    const [userData, setUserData] = useState()
 
 
 
+    console.log(userData)
     useEffect(() => {
+        const run = async () => {
+            !userData ? setUserData(await fetchDocument('User', getUID(user))) : null
 
+            !orderData ? setOrderData(await FetchTheseDocs('Orders', 'user', '==', getUID(user), 'dateServer')) : null
+
+        }
+
+        run()
 
     }, [user])
 
@@ -70,19 +69,19 @@ export default function ProtectedRoute({ params }) {
                 <br />
                 <h1 className="text-xl  font-bold text-center">Welcome Back </h1>
                 <h1 className="font-extrabold text-center">{user?.displayName}</h1>
-                <div className="center"><Button onPress={logOut} className="bg-black-800 text-white w-3/4">LogOut</Button></div>
+                <div className="center"><Button onPress={logOut} className="bg-black-800 text-white w-3/4 lg:w-1/2">LogOut</Button></div>
 
                 <div className="flex  md:flex-row flex-col w-full  justify-center gap-4 p-2">
                     <Card className="h-auto bg-black-900  md:w-96 w-full my-12" variant={'bordered'}>
                         <CardHeader className="text-3xl  font-bold text-center bg-black-800 mb-4 text-white p-2">Orders</CardHeader>
-                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-2  p-2 gap-2 items-center justify-center">
+                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-4   p-2 gap-2 items-center justify-center">
                             {orderData?.map((order) => <OrderItem orderInfo={order} />)}
                         </CardBody>
                     </Card>
 
                 </div>
 
-                <ShippinInfo user={user} />
+                <ShippinInfo defualtData={userData} user={user} />
 
             </div>
 

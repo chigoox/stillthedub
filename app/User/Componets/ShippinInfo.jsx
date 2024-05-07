@@ -15,7 +15,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
     const updateShippingInfo = ({ target }) => {
         setShippingInfo(oldState => ({ ...oldState, [target.name]: target.value }))
     }
-
+    console.log(defualtData?.ShippingInfo?.firstName)
 
     const updateDatabase = (() => {
         const filterObjectForNull = filterObject(shippingInfo, (a) => a)
@@ -28,8 +28,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
         ) forCheckOut(filterObjectForNull, event)
 
     })
-    if (defualtData) useEffect(() => { setShippingInfo({ ...defualtData?.ShippingInfo }) }, [])
-
+    useEffect(() => { if (defualtData) setShippingInfo({ ...defualtData?.ShippingInfo }) }, [defualtData])
     return (
         <div className={`center-col w-full fadeInRight  relative hidescroll ${forCheckOut ? 'h-[45rem] md:h-[50rem]' : 'h-auto'}`}>
             <Card className={`${forCheckOut ? 'w-full' : 'w-3/4'} shadow-md shadow-black border-2 border-[#121212] h-auto bg-[#171717] center-col`}>
@@ -50,7 +49,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
                     </div> */}
                     <div className='border-white center-col text-white rounded-3xl p-2 m-2'>
 
-                        <Switch name='orderType' onValueChange={(v) => { setOrderType(v ? 'delivery' : 'pickUp'); setShippingInfo({ email: defualtData?.ShippinInfo?.email, name: '', firstName: '', lastName: '', address: '', phone: '', orderType: v ? 'delivery' : 'pickUp' }) }} size='lg' color='success' startContent={<TruckIcon />} endContent={<StoreIcon />} className='w-full'>
+                        <Switch isDisabled={!user?.uid} name='orderType' onValueChange={(v) => { setOrderType(v ? 'delivery' : 'pickUp') }} size='lg' color='success' startContent={<TruckIcon />} endContent={<StoreIcon />} className='w-full'>
 
                         </Switch>
                         <h1 className='text-3xl font-bold'>{orderType != 'delivery' ? 'Pickup' : 'Delivery'}</h1>
@@ -90,7 +89,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
                                 isDisabled={orderType != 'delivery'}
 
                             />
-                            <AutoCompleteInput className="w-64 m-auto" isDisabled={orderType != 'delivery'} setter={updateShippingInfo} />
+                            <AutoCompleteInput valueX={shippingInfo?.address} className="w-64 m-auto" isDisabled={orderType != 'delivery'} setter={updateShippingInfo} />
 
 
                             <Input type="number"

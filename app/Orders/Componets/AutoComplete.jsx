@@ -2,12 +2,16 @@ import { Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 
-export const AutoCompleteInput = ({ setter, isDisabled, className, }) => {
+export const AutoCompleteInput = ({ valueX, setter, isDisabled, className, }) => {
 
     const [inputValue, setInputValue] = useState('')
     const [updatedInput, setUpdatedInput] = useState(false)
 
-    useEffect(() => { if (updatedInput) setter({ target: { name: 'address', value: inputValue } }); setUpdatedInput(false) }, [inputValue])
+    useEffect(() => {
+        if (updatedInput) setter({ target: { name: 'address', value: inputValue } })
+        setUpdatedInput(false)
+        setInputValue(valueX)
+    }, [inputValue, valueX])
 
 
     const { ref } = usePlacesWidget({
