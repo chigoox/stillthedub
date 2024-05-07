@@ -1,17 +1,18 @@
 'use client'
-import { addToDatabase } from '@/app/myCodes/Database'
-import { Button, Card, CardBody, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Switch, useDisclosure } from '@nextui-org/react'
-import React, { useEffect, useState } from 'react'
-import { Uploader } from '../General/Uploader'
 import { siteEmail, siteName } from '@/app/META'
-import { MailCheckIcon, ShipIcon, StoreIcon, TruckIcon } from 'lucide-react'
+import { AutoCompleteInput } from '@/app/Orders/Componets/AutoComplete'
+import { addToDatabase } from '@/app/myCodes/Database'
 import { filterObject } from '@/app/myCodes/Util'
+import { Button, Card, CardBody, CardFooter, CardHeader, Input, Switch } from '@nextui-org/react'
+import { StoreIcon, TruckIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 function ShippinInfo({ defualtData, user, forCheckOut, event }) {
     const [shippingInfo, setShippingInfo] = useState({})
     const [showTerms, setShowTerms] = useState(false)
     const [orderType, setOrderType] = useState('pickUp')
-    const updateShippingInfo = async ({ target }) => {
+
+    const updateShippingInfo = ({ target }) => {
         setShippingInfo(oldState => ({ ...oldState, [target.name]: target.value }))
     }
 
@@ -89,17 +90,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
                                 isDisabled={orderType != 'delivery'}
 
                             />
-                            <Input type="text"
-                                onChange={updateShippingInfo}
-                                placements={'inside'}
-                                variant="flat"
-                                name="address"
-                                label={'Address'}
-                                className="w-64 m-auto"
-                                value={shippingInfo?.address}
-                                isDisabled={orderType != 'delivery'}
-
-                            />
+                            <AutoCompleteInput className="w-64 m-auto" isDisabled={orderType != 'delivery'} setter={updateShippingInfo} />
 
 
                             <Input type="number"

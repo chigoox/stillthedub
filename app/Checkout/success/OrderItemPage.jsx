@@ -1,7 +1,7 @@
 'use client'
 import { useAUTHListener } from '@/StateManager/AUTHListener'
 import { useCartContext } from '@/StateManager/CartContext'
-import { orderNumberPrefix } from '@/app/META'
+import { OrderItem } from '@/app/Orders/Componets/OrderItem'
 import { MONEYFONT } from '@/app/Shop/Componets/ShopItem'
 import { fetchDocument } from '@/app/myCodes/Database'
 import { sendMail } from '@/app/myCodes/Email'
@@ -26,7 +26,7 @@ function OrderItemPage({ orderID }) {
         const orderInfo = UID ? await fetchDocument('User', UID) : null
         const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
 
-        console.log(ORDER)
+
 
 
 
@@ -40,14 +40,13 @@ function OrderItemPage({ orderID }) {
     const [arrayPrice, setArrayPrice] = useState()
 
     const getArrayToAddPrice = () => {
-        console.log(data?.cart)
         setArrayPrice(data?.cart?.map((order) => {
             const total = Number(order.price)
             return total
 
         }))
 
-        console.log(arrayPrice)
+
     }
 
 
@@ -81,7 +80,7 @@ function OrderItemPage({ orderID }) {
 
 
     const run = async () => {
-        const x = await getData()
+        await getData()
 
         const orderData = UID ? await fetchDocument('User', UID) : undefined
 
@@ -124,13 +123,7 @@ function OrderItemPage({ orderID }) {
                 <div className='grid grid-cols-2 p-2 h-32 border-y overflow-y-scroll hidescroll  md:grid-cols-3 gap-1 w-full'>
                     {orderMap.map((item) => {
                         return (
-                            <div key={item.name + getRand(9999)}>
-                                <div className='bg-white m-auto text-black center border-2 w-12 h-12 overflow-hidden rounded-full relative'>
-                                    <h1 className='absolute h-full w-full text-2xl center text-white bg-opacity-50 bg-black'>{item.Qty}</h1>
-                                    <img className='h-full w-full object-cover' src={item.images[0]} alt="" />
-                                </div>
-                                <h1 className='bg-opacity-25 text-xs text-center'>{item.name}</h1>
-                            </div>
+                            <OrderItem item={item} />
                         )
                     })}
                 </div>
@@ -142,7 +135,7 @@ function OrderItemPage({ orderID }) {
                                 Continue to store
                             </Button>
 
-                            <Link color='success' href={`/Orders/${data.currentOrder}`}>
+                            <Link color='success' href={`/Orders/${data?.currentOrder}`}>
                                 View Order Details
                             </Link>
                         </div>

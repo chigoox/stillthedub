@@ -69,7 +69,7 @@ export async function POST(request) {
         total: orderPrice,
         images: arrayImages,
         user: uid,
-        status: 'No started',
+        status: 'not started',
         driverLocationWhenComplete: [],
         dateServer: serverTimestamp(),
         dateReal: new Date().toLocaleString()
