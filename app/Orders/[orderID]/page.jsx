@@ -25,20 +25,19 @@ export default function page() {
 
 
     const StartEndDelivery = async () => {
+        setOrderTracking(!orderTracking)
         if (orderTracking) {
             await updateDatabaseItem('Orders', orderID, 'status', 'ready')
             await updateDatabaseItem('Orders', orderID, 'driverLocation')
         }
         console.log(orderTracking)
         if (!orderTracking) {
-            console.log(currentLocation)
             await updateDatabaseItem('Orders', orderID, 'status', 'on the way')
-            await updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
+            if (currentLocation?.length >= 2) await updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
             // if (currentDriverLocation?.length >= 2)
             setCurrentDriverLocation()
         }
 
-        setOrderTracking(!orderTracking)
     }
 
 
