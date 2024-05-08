@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, collection, deleteField, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, deleteField, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc, where, onSnapshot } from "firebase/firestore";
 import { DATABASE } from '../../Firebase';
 
 
@@ -15,6 +15,14 @@ export async function addToDatabase(collection, Doc, field, data, merge = true) 
     }
 
 }
+
+export const watchDocument = async (collection, Doc, setter) => {
+    onSnapshot(doc(DATABASE, collection, Doc), (doc) => {
+        if (setter) setter(doc.data())
+        return doc.data()
+    });
+}
+
 export async function addToDoc(collection, Doc, data) {
     if (Doc) {
         try {

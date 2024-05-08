@@ -6,7 +6,7 @@ import { Trash2Icon } from "lucide-react";
 import { useAUTHListener } from "@/StateManager/AUTHListener";
 import { fetchDocument } from "@/app/myCodes/Database";
 import { useEffect, useState } from "react";
-import ShippinInfo from "../../User/Componets/ShippinInfo";
+import ShippinInfo from "../../User/Comonts/ShippinInfo";
 import { Card } from "@nextui-org/react";
 import { getRand } from "@/app/myCodes/Util";
 import { motion, useMotionValue, useTransform } from "framer-motion"

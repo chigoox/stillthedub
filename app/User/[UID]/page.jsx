@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Skeleton } from "@nextu
 import AUTHListener from "@/StateManager/AUTHListener";
 import { FetchTheseDocs, fetchDocument } from "@/app/myCodes/Database";
 import { logOut } from "@/app/myCodes/Auth";
-import ShippinInfo from "@/app/User/Componets/ShippinInfo";
+import ShippinInfo from "@/app/User/Comonts/ShippinInfo";
 import Image from "next/image";
 import Link from "next/link";
 import { isDev } from "@/app/myCodes/Util";

@@ -35,10 +35,9 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, order
             setDirectionsService(new routesLibrary.DirectionsService());
             setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
         }, [routesLibrary, map]);
-
+        console.log(currentDriverLocation)
         useEffect(() => {
             if (!directionsService || !directionsRenderer) return;
-            console.log(currentDriverLocation)
             directionsService
                 .route({
                     origin: orderTracking ? position : currentDriverLocation ? currentDriverLocation : origin,
