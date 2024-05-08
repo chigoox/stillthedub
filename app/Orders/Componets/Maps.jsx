@@ -17,16 +17,16 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
 
     useEffect(() => {
         if (!orderTracking) return
-        setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
-        if (currentLocation.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
+        if (currentLocation?.length >= 2) setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
+        if (currentLocation?.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
     }, [currentLocation, orderTracking])
-
+    console.log(orderStatus)
     useEffect(() => {
-        navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus == 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
+        navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus != 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
         updateOrderLocation()
 
 
-    }, [orderTracking])
+    }, [orderTracking, orderStatus])
 
 
 
