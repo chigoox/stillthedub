@@ -111,7 +111,7 @@ function OrderItemPage({ orderID }) {
 
 
     return (
-        <div className=' flex p-4 lg:px-10 m-auto lg:w-1/2 flex-col item-center h-[40rem] mt-12 relative text-white flex  flex-col md:gap-0 gap-2 bg-black w-full overflow-hidden'>
+        <div className='  p-4 lg:px-10 m-auto lg:w-1/2 flex-col item-center h-[40rem] mt-12 relative text-white flex md:gap-0 gap-2 bg-black w-full overflow-hidden'>
 
 
             <h1 className='text-4xl text-white mt-12 font-extrabold text-center'>Thank you for ordering</h1>

@@ -8,17 +8,26 @@ import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 
-function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation }) {
-    const [currentLocation, setCurrentLocation] = useState([])
+function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation }) {
+    const [currentLocation, setCurrentLocation] = positionState
     const [position, setPosition] = useState({})
-    //console.log(currentLocation)
+    console.log(currentDriverLocation)
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
 
-    if (orderTracking) navigator.geolocation.watchPosition((v) => setCurrentLocation([v.coords.latitude, v.coords.longitude]))
+
     useEffect(() => {
+        if (!orderTracking) return
         setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
         if (currentLocation.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
-    }, [currentLocation])
+    }, [currentLocation, orderTracking])
+
+    useEffect(() => {
+        navigator.geolocation.watchPosition((v) => { console.log(v); setCurrentLocation([v.coords.latitude, v.coords.longitude]) })
+        updateOrderLocation()
+
+
+    }, [orderTracking])
+
 
 
     const Directions = () => {
@@ -35,12 +44,11 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, order
             setDirectionsService(new routesLibrary.DirectionsService());
             setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
         }, [routesLibrary, map]);
-        console.log(currentDriverLocation)
         useEffect(() => {
             if (!directionsService || !directionsRenderer) return;
             directionsService
                 .route({
-                    origin: orderTracking ? position : currentDriverLocation ? currentDriverLocation : origin,
+                    origin: orderTracking ? position : (currentDriverLocation && orderTracking) ? currentDriverLocation : origin,
                     destination: destination,
                     travelMode: 'DRIVING',
                     provideRouteAlternatives: true,

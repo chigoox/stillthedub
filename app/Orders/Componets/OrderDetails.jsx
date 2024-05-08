@@ -3,7 +3,6 @@ import { OrderItem } from './OrderItem'
 import { Card, CardBody, CardHeader, Skeleton } from '@nextui-org/react'
 
 const OrderDetails = ({ order }) => {
-    console.log(order)
     const orderType = order.orderInfo?.orderType
     const orderID = order.id
     const orderStatus = order.status

@@ -13,31 +13,39 @@ export default function page() {
     const customer = order.orderInfo
     const [orderTracking, setOrderTracking] = useState(false)
     const [currentDriverLocation, setCurrentDriverLocation] = useState()
-    const [onTheWay, setOnTheWay] = useState(false)
+    const [currentLocation, setCurrentLocation] = useState([])
     const updateOrderLocation = async (location) => {
         if (location) await updateDatabaseItem('Orders', orderID, 'driverLocation', location)
         const order = await fetchDocument('Orders', orderID)
         const orderLocation = order?.driverLocation
         const beingDelivered = order?.beingDelivered || false
         setCurrentDriverLocation(orderLocation)
-        setOnTheWay(beingDelivered)
     }
 
-    order
+
 
     const StartEndDelivery = async () => {
-        if (orderTracking) await updateDatabaseItem('Orders', orderID, 'driverLocation')
+        if (orderTracking) {
+            await updateDatabaseItem('Orders', orderID, 'status', 'ready')
+            await updateDatabaseItem('Orders', orderID, 'driverLocation')
+        }
+        if (!orderTracking) {
+            await updateDatabaseItem('Orders', orderID, 'status', 'on the way')
+            await updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
+            setCurrentDriverLocation()
+        }
 
         setOrderTracking(!orderTracking)
     }
-    watchDocument('Orders', orderID, setOrder)
+
 
     useEffect(() => {
+        if (!orderID) return
         const getOrder = async () => {
             setOrder(await fetchDocument('Orders', orderID))
             await updateOrderLocation()
+            await watchDocument('Orders', orderID, setOrder)
         }
-
         getOrder()
     }, [orderID])
 
@@ -50,7 +58,13 @@ export default function page() {
                     <h1 className='text-center'>{customer?.firstName} {customer?.lastName}</h1>
                     <h1 className='font-bold text-center'>{customer?.address}</h1>
                 </div>
-                <Maps updateOrderLocation={updateOrderLocation} destination={order?.orderInfo?.address} orderTracking={orderTracking} currentDriverLocation={currentDriverLocation} />
+                <Maps
+                    updateOrderLocation={updateOrderLocation}
+                    destination={order?.orderInfo?.address}
+                    orderTracking={orderTracking}
+                    currentDriverLocation={currentDriverLocation}
+                    positionState={[currentLocation, setCurrentLocation]}
+                />
                 <OrderDetails order={order} />
                 <div className=' w-full  lg:w-1/2  center gap-2 lg:absolute lg:top-0 lg:right-0'>
                     <Button onPress={StartEndDelivery} className={`${orderTracking ? 'bg-rose-700' : 'bg-blue-700'} p-4 text-xl font-bold text-white `}>{orderTracking ? 'End Delivery' : 'Start Order'}</Button>
