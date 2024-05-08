@@ -3,20 +3,23 @@ import { Card, CardBody } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 import { APIProvider, Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import { Contact } from 'lucide-react'
+import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 
 
-function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking }) {
+function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation }) {
     const [currentLocation, setCurrentLocation] = useState([])
-    const watchPosition = navigator.geolocation.watchPosition((v) => setCurrentLocation([v.coords.latitude, v.coords.longitude]))
     const [position, setPosition] = useState({})
     //console.log(currentLocation)
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
 
+    if (orderTracking) navigator.geolocation.watchPosition((v) => setCurrentLocation([v.coords.latitude, v.coords.longitude]))
     useEffect(() => {
         setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
+        if (currentLocation.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
     }, [currentLocation])
+
 
     const Directions = () => {
         const map = useMap()
@@ -38,7 +41,7 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, order
 
             directionsService
                 .route({
-                    origin: orderTracking ? position : origin,
+                    origin: orderTracking ? position : currentDriverLocation || origin,
                     destination: destination,
                     travelMode: 'DRIVING',
                     provideRouteAlternatives: true,
@@ -48,6 +51,8 @@ function Maps({ origin = '760 Springfield Ave, Irvington NJ', destination, order
                     directionsRenderer.setDirections(response);
                     setRoutes(response.routes);
                 });
+
+            directionsRenderer.suppressMarkers
 
             return () => directionsRenderer.setMap(null);
         }, [directionsService, directionsRenderer]);
