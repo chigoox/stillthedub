@@ -11,6 +11,7 @@ export default function page() {
     const [order, setOrder] = useState({})
     const orderID = usePathname().slice(-5)
     const customer = order.orderInfo
+    const orderStatus = order.status
     const [orderTracking, setOrderTracking] = useState(false)
     const [currentDriverLocation, setCurrentDriverLocation] = useState()
     const [currentLocation, setCurrentLocation] = useState([])
@@ -18,7 +19,6 @@ export default function page() {
         if (location) await updateDatabaseItem('Orders', orderID, 'driverLocation', location)
         const order = await fetchDocument('Orders', orderID)
         const orderLocation = order?.driverLocation
-        const beingDelivered = order?.beingDelivered || false
         setCurrentDriverLocation(orderLocation)
     }
 
@@ -59,6 +59,7 @@ export default function page() {
                     <h1 className='font-bold text-center'>{customer?.address}</h1>
                 </div>
                 <Maps
+                    orderStatus={orderStatus}
                     updateOrderLocation={updateOrderLocation}
                     destination={order?.orderInfo?.address}
                     orderTracking={orderTracking}

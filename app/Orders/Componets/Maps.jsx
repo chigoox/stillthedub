@@ -8,7 +8,7 @@ import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 
-function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation }) {
+function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, orderStatus }) {
     const [currentLocation, setCurrentLocation] = positionState
     const [position, setPosition] = useState({})
     console.log(currentDriverLocation)
@@ -22,7 +22,7 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
     }, [currentLocation, orderTracking])
 
     useEffect(() => {
-        navigator.geolocation.watchPosition((v) => { console.log(v); setCurrentLocation([v.coords.latitude, v.coords.longitude]) })
+        navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus == 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
         updateOrderLocation()
 
 
@@ -284,6 +284,7 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
                     ]}
                 >
                     <Directions />
+                    <Marker position={{ ...currentDriverLocation }} />
                 </Map>
 
             </APIProvider>
