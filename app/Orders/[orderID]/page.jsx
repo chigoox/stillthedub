@@ -30,10 +30,10 @@ export default function page() {
             await updateDatabaseItem('Orders', orderID, 'status', 'ready')
             await updateDatabaseItem('Orders', orderID, 'driverLocation')
         }
-        console.log(orderTracking)
         if (!orderTracking) {
             await updateDatabaseItem('Orders', orderID, 'status', 'on the way')
-            if (currentLocation?.length >= 2) await updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
+            navigator.geolocation.getCurrentPosition(p => setCurrentLocation([p.coords.latitude, p.coords.longitude]))
+            await updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
             // if (currentDriverLocation?.length >= 2)
             setCurrentDriverLocation()
         }
