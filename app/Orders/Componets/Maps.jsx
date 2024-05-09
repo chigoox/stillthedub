@@ -11,7 +11,6 @@ import { updateDatabaseItem } from '@/app/myCodes/Database'
 function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, orderStatus }) {
     const [currentLocation, setCurrentLocation] = positionState
     const [position, setPosition] = useState({})
-    console.log(currentDriverLocation)
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
 
 
@@ -20,7 +19,6 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
         if (currentLocation?.length >= 2) setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
         if (currentLocation?.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
     }, [currentLocation, orderTracking])
-    console.log(orderStatus)
     useEffect(() => {
         navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus != 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
         updateOrderLocation()
