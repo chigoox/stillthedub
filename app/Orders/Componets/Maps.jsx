@@ -1,14 +1,14 @@
 'use client'
 import { Card, CardBody } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
-import { APIProvider, AdvancedMarker, Map, Marker, Pin, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
+import { APIProvider, Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import { Contact } from 'lucide-react'
 import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 
 
-function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, prevLocation, updateOrderLocation, currentDriverLocation, orderStatus }) {
+function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, orderStatus }) {
     const [currentLocation, setCurrentLocation] = positionState
     const [position, setPosition] = useState({})
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
@@ -30,7 +30,6 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
     const [originPosition, setOriginPosition] = useState({})
     const addressDestination = destination?.replace(/ /g, "+")
     const addressOrigin = origin?.replace(/ /g, "+")
-
     useEffect(() => {
         const getLatLng = async () => {
             const destinationData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressDestination}&key=AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok`)
@@ -44,9 +43,7 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
 
         getLatLng()
     }, [addressDestination])
-
-
-    const Directions = ({ }) => {
+    const Directions = () => {
         const map = useMap()
         const routesLibrary = useMapsLibrary('routes')
         const [directionsService, setDirectionsService] = useState()
@@ -55,42 +52,41 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
         const [routeIndex, setRouteIndex] = useState(0);
         const selected = routes[routeIndex];
         const leg = selected?.legs[0];
-        const [defaultDirections, setDefaultDirections] = useState()
+
+
+
 
 
         useEffect(() => {
             if (!routesLibrary || !map) return;
             setDirectionsService(new routesLibrary.DirectionsService());
             setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-        }, [routesLibrary, map, currentDriverLocation]);
-        console.log(currentDriverLocation)
-        console.log(prevLocation)
-
+        }, [routesLibrary, map, orderStatus, currentDriverLocation]);
         useEffect(() => {
+            console.log(currentDriverLocation)
+            console.log(orderTracking ? "pos " + position : (currentDriverLocation && orderTracking) ? 'cdp ' + currentDriverLocation : 'org ' + origin)
             if (!directionsService || !directionsRenderer) return;
-            //if (orderStatus == 'on the way' || (!defaultDirections && orderStatus != 'on the way'))
-            directionsService.route({
-                origin: orderTracking ? position : (currentDriverLocation && orderStatus == 'on the way' && prevLocation) ? prevLocation : origin,
-                destination: destination,
-                travelMode: 'DRIVING',
-                provideRouteAlternatives: false,
-                avoidTolls: true,
-            }).then(response => {
-                console.log(response.status)
-                if (response.status == 'OK' && !defaultDirections)
-                    setDefaultDirections(response)
-                directionsRenderer.setDirections(response);
-                setRoutes(response.routes);
-            });
+            directionsService
+                .route({
+                    origin: orderTracking ? position : (currentDriverLocation && orderStatus == 'on the way') ? currentDriverLocation : origin,
+                    destination: destination,
+                    travelMode: 'DRIVING',
+                    provideRouteAlternatives: true,
+                    avoidTolls: true,
+                })
+                .then(response => {
+                    directionsRenderer.setDirections(response);
+                    setRoutes(response.routes);
+                });
 
             directionsRenderer.setOptions({ suppressMarkers: true })
+
 
             return () => directionsRenderer.setMap(null);
         }, [directionsService, directionsRenderer]);
 
-
-
     }
+
     return (
         <Card className='mt-12 md:mt-20 rounded-3xl h-96 lg:w-3/4 w-full overflow-hidden border-4 border-gray-400'>
             <APIProvider apiKey={'AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok'}>
@@ -322,14 +318,11 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
                         title={'You'}
 
                     />
-
                 </Map>
 
             </APIProvider>
         </Card>
     )
 }
-
-
 
 export default Maps
