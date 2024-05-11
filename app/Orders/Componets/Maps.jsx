@@ -8,7 +8,7 @@ import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 
-function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, orderStatus }) {
+function Maps({ destinationPosition, originPosition, positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, driverPrevLocation, orderStatus }) {
     const [currentLocation, setCurrentLocation] = positionState
     const [position, setPosition] = useState({})
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
@@ -26,23 +26,7 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
 
     }, [orderTracking, orderStatus])
 
-    const [destinationPosition, setDestinationPosition] = useState({})
-    const [originPosition, setOriginPosition] = useState({})
-    const addressDestination = destination?.replace(/ /g, "+")
-    const addressOrigin = origin?.replace(/ /g, "+")
-    useEffect(() => {
-        const getLatLng = async () => {
-            const destinationData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressDestination}&key=AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok`)
-            const originData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressOrigin}&key=AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok`)
-            const resD = await destinationData.json()
-            const resO = await originData.json()
 
-            if (resD.results[0]) setDestinationPosition(resD.results[0].geometry.location)
-            if (resD.results[0]) setOriginPosition(resO.results[0].geometry.location)
-        }
-
-        getLatLng()
-    }, [addressDestination])
     const Directions = () => {
         const map = useMap()
         const routesLibrary = useMapsLibrary('routes')
@@ -59,12 +43,12 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
 
         useEffect(() => {
             if (!routesLibrary || !map) return;
-            setDirectionsService(new routesLibrary.DirectionsService());
-            setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-        }, [routesLibrary, map, orderStatus, currentDriverLocation]);
+            if (orderStatus == 'on the way' || orderTracking) {
+                setDirectionsService(new routesLibrary.DirectionsService());
+                setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+            }
+        }, [routesLibrary, map, orderStatus, driverPrevLocation]);
         useEffect(() => {
-            console.log(currentDriverLocation)
-            console.log(orderTracking ? "pos " + position : (currentDriverLocation && orderTracking) ? 'cdp ' + currentDriverLocation : 'org ' + origin)
             if (!directionsService || !directionsRenderer) return;
             directionsService
                 .route({
@@ -88,7 +72,7 @@ function Maps({ positionState, origin = '760 Springfield Ave, Irvington NJ', des
     }
 
     return (
-        <Card className='mt-12 md:mt-20 rounded-3xl h-96 lg:w-3/4 w-full overflow-hidden border-4 border-gray-400'>
+        <Card className={`mt-12 md:mt-20 rounded-3xl h-96  w-full overflow-hidden border-4 ${orderStatus == "ready" ? 'border-lime-400' : orderStatus == 'on the way' ? 'border-blue-400' : 'border-gray-400'} trans`}>
             <APIProvider apiKey={'AIzaSyDu0t5ZAFoF8oKGdoretlTZfmZ0XQXmgok'}>
                 <Map
                     className='h-full w-full bg-black'

@@ -26,7 +26,6 @@ export default function ProtectedRoute({ params }) {
 
 
 
-    console.log(userData)
     useEffect(() => {
         const run = async () => {
             !userData ? setUserData(await fetchDocument('User', getUID(user))) : null

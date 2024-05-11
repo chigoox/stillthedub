@@ -1,7 +1,7 @@
 'use client'
 import app, { AUTH } from '@/Firebase'
 import { useGuest } from '@/app/Hooks/useGuest'
-import { fetchDocument } from '@/app/myCodes/Database'
+import { fetchDocument, updateDatabaseItem } from '@/app/myCodes/Database'
 import { addEmailToList, addUIDToList } from '@/app/myCodes/DatabaseUtils'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
@@ -37,11 +37,6 @@ export function useAUTHListener(add = false, set, protectedPage) {
 
     const GID = useGuest()
 
-
-
-
-
-
     useEffect(() => {
         const auth = AUTH
         onAuthStateChanged(auth, (user) => {
@@ -50,6 +45,20 @@ export function useAUTHListener(add = false, set, protectedPage) {
                 if (add) addUIDToList(user.uid)
                 if (add) addEmailToList(user.email)
                 setUser(user)
+                console.log(user.uid)
+                fetchDocument('User', user.uid).then((userDATA) => {
+                    console.log('first')
+                    if (!userDATA.ACCOUNTSTATUS)
+                        updateDatabaseItem('User', user.uid, 'ACCOUNTSTATUS', 'USER')
+
+
+
+                }).catch((e) => {
+                    console.log(e.message)
+
+                })
+
+
             } else {
                 // User is signed out
                 if (set) set()
@@ -61,6 +70,8 @@ export function useAUTHListener(add = false, set, protectedPage) {
                     } else {
                         setUser({ gid: GID })
                     }
+
+
 
 
                 }).catch((e) => {

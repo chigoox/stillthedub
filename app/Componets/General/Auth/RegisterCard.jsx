@@ -4,6 +4,7 @@ import { Card, Spacer, Button, Text, Input, Row, Checkbox } from '@nextui-org/re
 import { MailCheckIcon } from 'lucide-react';
 import { AiFillCloseCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { signUp } from '@/app/myCodes/Auth';
+import { addToDatabase } from '@/app/myCodes/Database';
 
 
 function RegisterCard({ toggleRegister }) {
@@ -12,11 +13,12 @@ function RegisterCard({ toggleRegister }) {
     const [credentials, setCredentials] = useState({ password: '', email: '' })
     const signup = () => {
 
-        if (credentials.password === credentials.passwordMatch && password.length > 5) {
+        if (credentials.password === credentials.passwordMatch && credentials.password.length > 5) {
             (async () => {
                 try {
                     await signUp(credentials.email, credentials.password).then(() => {
                         toggleRegister()
+
 
                     })
                 } catch (error) {
