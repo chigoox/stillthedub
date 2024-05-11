@@ -1,13 +1,14 @@
 'use client'
 import { useAUTHListener } from '@/StateManager/AUTHListener';
 import { useEffect, useState } from 'react';
-import EmailCollector from './EmailCollector';
+import MedicalCard from './MedicalCard';
 
-function EmailCollectorMain() {
+function MedicalCardMain() {
     const [openEmailCollect, setOpenEmailCollect] = useState(false)
     const user = useAUTHListener()
+    console.log(user.email)
     useEffect(() => {
-        if (user?.email) {
+        if (true) {
             setTimeout(() => {
                 setOpenEmailCollect(true)
             }, 6000);
@@ -17,8 +18,8 @@ function EmailCollectorMain() {
     }, [])
 
     return (
-        < EmailCollector isopen5={openEmailCollect} setOpen={setOpenEmailCollect} />
+        <MedicalCard isopen5={openEmailCollect} setOpen={setOpenEmailCollect} />
     )
 }
 
-export default EmailCollectorMain
+export default MedicalCardMain

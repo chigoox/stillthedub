@@ -18,7 +18,8 @@ export async function POST(request) {
             uid: UID.toString(),
             cart: JSON.stringify(cart), //for Stripe
             cartID: cartID.toString(),
-            total: total
+            total: total,
+            type: 'checkout'
         },
 
     })

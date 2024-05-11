@@ -3,6 +3,7 @@ import { Button, Card, Input, Link } from "@nextui-org/react";
 import { Mail } from "lucide-react";
 import ProductsList from "./Shop/Componets/ProductsList";
 import { createArray } from "./myCodes/Util";
+import MedicalCardMain from "./Componets/General/MedicalCardMain";
 //import ProductView from '../Support/ProductView';
 
 
@@ -16,7 +17,7 @@ function Home() {
   return (
     <div className='bg-black   h-screen   relative overflow-x-hidden'>
 
-
+      <MedicalCardMain />
 
       <div className="top-16 mb-40 relative">
         <section className="grid grid-cols-12 gap-4 p-4 w-full lg:w-3/4  m-auto">

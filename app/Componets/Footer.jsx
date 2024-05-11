@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { AiFillFacebook, AiFillInstagram, AiFillTwitterSquare, AiFillYoutube } from 'react-icons/ai'
 import { siteName } from '../META'
-import { collectAndSendEmail } from './General/EmailCollector'
+import { collectAndSendEmail } from './General/MedicalCard'
 
 const jost = Jost({
     weight: '400',

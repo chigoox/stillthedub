@@ -91,3 +91,17 @@ export const checkout = async (event, cart, userID, fullCart) => {
   );
   window.location.assign(data)
 }
+
+export const checkoutMedical = async (formData) => {
+  const { data } = await axios.post('/api/CheckOutMedical',
+    {
+      formData: formData
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  window.location.assign(data)
+}
