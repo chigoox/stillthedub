@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Button, Skeleton } from '@nextui-org/react';
 import { useAUTHListener } from '@/StateManager/AUTHListener';
 import { getUID } from '@/app/myCodes/Auth';
+import { isDev } from '@/app/myCodes/Util';
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
@@ -32,7 +33,9 @@ const deg2rad = (deg) => {
 export default function page() {
 
     const [order, setOrder] = useState({})
-    const orderID = usePathname().slice(-5)
+    const path = usePathname()
+    const replacePath = '/Orders/'
+    const orderID = path.replace(replacePath, '')
     const customer = order?.orderInfo
     const orderType = order?.orderInfo?.orderType
     const orderStatus = order?.status
@@ -191,7 +194,7 @@ export default function page() {
                         <h1 className='font-bold text-center'>{customer?.address}</h1>
                     </div>
                 </Skeleton>
-                <Skeleton className='rounded-xl h-auto lg:w-3/4 w-full  bg-black' isLoaded={isOrderCreator}>
+                {orderType == 'delivery' && <Skeleton className='rounded-xl h-auto lg:w-3/4 w-full  bg-black' isLoaded={isOrderCreator}>
                     <Maps
                         destinationPosition={destinationPosition}
                         originPosition={originPosition}
@@ -203,7 +206,7 @@ export default function page() {
                         positionState={[currentLocation, setCurrentLocation]}
                         driverPrevLocation={driverPrevLocation}
                     />
-                </Skeleton>
+                </Skeleton>}
                 <OrderDetails isOrderCreator={isOrderCreator} order={order} />
 
                 <div className=' w-full  lg:w-1/2  center gap-2 lg:absolute lg:top-0 lg:right-0'>
