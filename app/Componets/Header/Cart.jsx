@@ -7,7 +7,7 @@ import { useAUTHListener } from "@/StateManager/AUTHListener";
 import { fetchDocument } from "@/app/myCodes/Database";
 import { useEffect, useState } from "react";
 import ShippinInfo from "../../User/Comonts/ShippinInfo";
-import { Card } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import { getRand } from "@/app/myCodes/Util";
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { AiOutlineClose } from "react-icons/ai";
@@ -72,60 +72,60 @@ function Cart({ showCart, setShowCart }) {
             style={{ touchAction: "none" }}
             drag='x'
             dragConstraints={{ left: 0, right: 0, }}
-            className={`fixed z-[999]  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0'} h-[100vh] bg-gray-100 opacity-95`}>
+            className={`fixed z-[999] border-l border-dashed border-opacity-50 border-gray-400  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0 overflow-hidden'} h-[100vh] bg-black-800 text-white opacity-95`}>
             {(getShippingWindow && showCart) && <div className="absolute w-auto z-50  -left-40 ">
                 <ShippinInfo defualtData={shippingData} user={user} forCheckOut={getShippingInfo} />
             </div>}
             <div className="center gap-2">
                 <h1 className={`${showCart ? '' : 'left-20 relative'}  text-center text-2xl font-bold`}>Cart</h1>
-                <button onClick={() => { dispatch({ type: "EMPTY_CART", value: null }) }}><Trash2Icon color="red" /></button>
+                <Button className=" bg-transparent text-gray-500 gap-1 text-sm" onClick={() => { dispatch({ type: "EMPTY_CART", value: null }) }}><Trash2Icon color="red" />Empty</Button>
 
             </div>
-            <button onClick={() => { setShowCart(!showCart) }} className={`trans bg-black  p-2 center w-full border-b text-white   flex z-[9999]  right-2 sm:right-6 md:right-8 `}>
+            <Button onClick={() => { setShowCart(!showCart) }} className={`trans bg-rose-700  p-2  w-full border-b  border-gray-600  flex z-[9999]  `}>
                 <AiOutlineClose size={32} />
-            </button>
+            </Button>
             <div className=" h-[70%] mb-4 m-auto  hidescroll overflow-y-scroll py-2 start-col gap-1">
                 {Object.values(lineItems).map(item => {
                     return (
-                        <div key={item.priceId + getRand()} className="h-52 md:h-48  flex-shrink-0 border-b-2 border-gray-300  relative">
+                        <div key={item.priceId + getRand()} className="h-52 md:h-48  flex-shrink-0 border-b-2 border-gray-700  relative">
                             <div className="evenly gap-2 relative h-1/2 top-4 ">
-                                <Card shadow="true" className={'w-24 h-full relative overflow-hidden'}>
+                                <Card shadow="true" className={'w-24 h-full relative bg-black overflow-hidden'}>
                                     <Image fill src={item.images ? item.images[0] : ''} alt="" />
 
                                 </Card>
                                 <div className="p-1  w-1/2">
                                     <h1 className="md:text-lg">{item.name?.substr(0, 20)}{item?.name?.length > 20 ? '...' : ''}</h1>
-                                    <h1 className="font-light text-xs h-4 overflow-hidden">{item?.variant}</h1>
+                                    {item?.variant && <h1 className="font-light text-xs h-4 overflow-hidden">{item?.variant}</h1>}
                                     <h1 className="font-bold">{String(item?.price).includes('$') ? '' : '$'}{item?.price}</h1>
                                 </div>
 
 
                             </div>
-                            <button onClick={() => { RemoveFromCart(item) }} className="h-6 rounded-t-md  w-full center bottom-0  absolute">
-                                <div className="font-semibold w-24 w rounded-t center text-red-500 bg-gray-600"><Trash2Icon /></div>
-                            </button>
-                            <div className={'text-black my-8'}>
+                            <div className={'text-black mt-8'}>
                                 <ItemQTYButton product={item} forCart={true} />
                             </div>
+                            <Button onClick={() => { RemoveFromCart(item) }} className="h-6 mb-2 rounded-t-md font-semibold w-24  center text-red-500 bg-gray-600 m-auto bottom-0  ">
+                                <Trash2Icon />
+                            </Button>
                         </div>
                     )
                 })}
 
             </div >
 
-            <div className="center-col relative bottom-4">
+            <div className="center-col relative bottom-4 text-white">
                 <div className={`${showCart ? 'scale-1' : 'scale-0'} trans-slow evenly w-full text-black`}>
                     <h1 className="">Total</h1>
                     <h1 className="font-extrabold">${total}</h1>
                 </div>
 
 
-                <button onClick={(event) => {
+                <Button onClick={(event) => {
                     checkShippingInfo(event)
 
-                }} className="w-3/4 h-12 bg-white rounded hover:text-lg trans">
+                }} className="w-3/4 h-12 bg-blue-700 font-bold rounded hover:text-lg trans">
                     <h1>CheckOut</h1>
-                </button>
+                </Button>
 
             </div>
 

@@ -27,7 +27,7 @@ function ItemQTYButton({ state, setState, product, forCart }) {
         }
     }, [QTY, product?.Qty])
     return (
-        <div className="center h-1/2 w-fit m-auto my-2 bg-gray-50 rounded-full  overflow-hidden relative">
+        <div className="center h-1/2 w-fit m-auto my-2 bg-gray-50 rounded-full text-black  overflow-hidden relative">
             <h1 className={`${forCart ? 'text-white' : ''} font-light absolute w-full text-center -top-5`}>Quntity</h1>
             <Button onClick={() => { controlQTY('sub') }} className="rounded-none rounded-l min-w-0 h-8 w-10  bg-gray-300 center"><MinusIcon /> </Button>
             <input max={2} maxLength={2} onChange={event => controlQTY('set', null, event)} value={product?.Qty ? product?.Qty : QTY} className="w-10 h-8  bg-gray-200 text-center center" placeholder="0" type="number" name="" id="" />

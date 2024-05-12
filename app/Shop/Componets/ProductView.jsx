@@ -38,7 +38,7 @@ function ProductView({ showShopView, setShowShopView }) {
         return (
             <div className={'rounded-xl w-fit center-col m-auto mt-2 gap-2 relative p-2 overflow-hidden'} >
 
-                <div className='bg-white overflow-hidden items-center justify-center  rounded-full flex flex-col'>
+                <div className='bg-white border-4 border-white border-dashed overflow-hidden items-center justify-center  rounded-full flex flex-col'>
                     {services.map(service => (
                         <Skeleton isLoaded={price} key={service} className='w-12 h-8   font-bold text-gray-500 text-sm'>
                             <div className='text-center w-full   h-full rounded-full'>
@@ -81,7 +81,7 @@ function ProductView({ showShopView, setShowShopView }) {
                                     <PayOptions price={price} />
                                     <div className=' items-center  flex  flex-col'>
                                         {<ItemQTYButton state={itemToCheckOut} setState={setItemToCheckOut} />}
-                                        <Button onClick={addToCart} className='h-12 rounded-md w-32 bg-black text-white font-bold mb-2'>ADD TO CART</Button>
+                                        <Button onClick={addToCart} className='h-12 rounded-md w-32 bg-blue-700 hover:blue-400 text-white font-bold mb-2'>ADD TO CART</Button>
                                     </div>
                                 </div>
                             </div>

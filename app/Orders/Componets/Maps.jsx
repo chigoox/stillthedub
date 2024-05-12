@@ -9,17 +9,18 @@ import { updateDatabaseItem } from '@/app/myCodes/Database'
 
 
 function Maps({ destinationPosition, originPosition, positionState, origin = '760 Springfield Ave, Irvington NJ', destination, orderTracking, updateOrderLocation, currentDriverLocation, driverPrevLocation, orderStatus }) {
-    const [currentLocation, setCurrentLocation] = positionState
+    const [currentLocation, setCurrentLocation] = positionState || []
     const [position, setPosition] = useState({})
     //navigator.geolocation.getCurrentPosition(p => console.log(p), null, { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true })
 
 
     useEffect(() => {
-        if (!orderTracking) return
+        if (!orderTracking || !updateOrderLocation) return
         if (currentLocation?.length >= 2) setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
         if (currentLocation?.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
     }, [currentLocation, orderTracking])
     useEffect(() => {
+        if (!updateOrderLocation) return
         navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus != 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
         updateOrderLocation()
 
@@ -42,7 +43,7 @@ function Maps({ destinationPosition, originPosition, positionState, origin = '76
 
 
         useEffect(() => {
-            if (!routesLibrary || !map) return;
+            if (!routesLibrary || !map || !updateOrderLocation) return;
             if (orderStatus == 'on the way' || orderTracking) {
                 setDirectionsService(new routesLibrary.DirectionsService());
                 setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));

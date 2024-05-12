@@ -81,7 +81,7 @@ function Shop() {
         if (Search != '') result = (result.filter(product => {
             for (let index = 0; index < Search.split(' ').length; index++) {
 
-                if (product.metadata.tags?.split(' ').includes(Search.split(' ')[index])) return true
+                if (product.metadata.tags?.toUpperCase().split(' ').includes(Search.toUpperCase().split(' ')[index])) return true
             }
 
             return false
@@ -93,10 +93,10 @@ function Shop() {
     return (
         <div className='flex min-h-screen overflow-hidden text-white flex-col bg-black'>
 
-            <div className='relative mt-24 center gap-4 lg:hover:scale-110 trans overflow-y-scroll'>
+            <div className='relative mt-24 center gap-4 p-2 lg:hover:scale-105 trans overflow-y-scroll'>
                 {CATEGORY.map(_category => {
                     return (
-                        <Button onPress={() => { setCategory(category == _category ? 'All' : _category) }} key={_category} className='center-col rounded-full h-auto w-auto bg-transparent text-white'>
+                        <Button onPress={() => { setCategory(category == _category ? 'All' : _category) }} key={_category} className='center-col rounded-full h-auto hover:scale-105 scale-100 w-auto bg-transparent text-white'>
                             <div className={`h-20 w-20  overflow-hidden  rounded-full ${category == _category ? 'border-4 border-lime-400' : 'border-2'}`}>
                                 <img className='h-full w-full object-cover' src={
                                     _category == 'Drinks' ? 'https://www.instacart.com/image-server/386x386/filters:fill(FFF,true):format(jpg)/d2lnr5mha7bycj.cloudfront.net/product-image/file/large_01dd896b-371a-4d04-9ff6-cdfdd949886f.png' :

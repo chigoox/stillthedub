@@ -34,6 +34,7 @@ export default function page() {
     const [order, setOrder] = useState({})
     const orderID = usePathname().slice(-5)
     const customer = order?.orderInfo
+    const orderType = order?.orderInfo?.orderType
     const orderStatus = order?.status
     const orderCreator = order?.user
     const driverPrevLocation = order?.driverPrevLocation
@@ -191,7 +192,7 @@ export default function page() {
                     </div>
                 </Skeleton>
                 <Skeleton className='rounded-xl h-auto lg:w-3/4 w-full  bg-black' isLoaded={isOrderCreator}>
-                    <Maps
+                    {orderType == 'delivery' ? <Maps
                         destinationPosition={destinationPosition}
                         originPosition={originPosition}
                         orderStatus={orderStatus}
@@ -201,7 +202,13 @@ export default function page() {
                         currentDriverLocation={currentDriverLocation}
                         positionState={[currentLocation, setCurrentLocation]}
                         driverPrevLocation={driverPrevLocation}
-                    />
+                    /> :
+
+                        <Maps
+                            originPosition={originPosition}
+                            orderStatus={orderStatus}
+                        />
+                    }
                 </Skeleton>
                 <OrderDetails isOrderCreator={isOrderCreator} order={order} />
 
