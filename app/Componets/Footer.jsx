@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { AiFillFacebook, AiFillInstagram, AiFillTwitterSquare, AiFillYoutube } from 'react-icons/ai'
 import { siteName } from '../META'
 import { collectAndSendEmail } from './General/MedicalCard'
+import { Mail, User } from 'lucide-react'
 
 const jost = Jost({
     weight: '400',
@@ -13,6 +14,7 @@ const jost = Jost({
 })
 function Footer() {
     const [Email, setEmail] = useState('')
+    const [name, setName] = useState('')
     const date = new Date()
     return (
         <div className=' w-full bg-black-800 text-white'>
@@ -24,17 +26,23 @@ function Footer() {
 
             </div>
 
-            <div className='m-auto mt-10 fadeInRight overflow-hidden w-fit'>
-                <div className='p-2 h-fit center flex-col'>
-                    <h1 className='m-1 font-bold text-2xl'>Newsletter</h1>
-                    <h1 className='m-1 '>Be the first to hear
-                        the latest news from {siteName}, and much more!
-                    </h1>
-                    <Input onValueChange={(text) => setEmail(text)} label={'Subscribe to my newsletter'} placement={'inside'} className='w-[90%] m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="text" />
+            <div className='center gap-4 p-2'>
+                <div className="border p-2 h-64 w-[7rem] md:w-96">
+                    <img className="h-full w-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/p/AF1QipM0frAOvzcFzqoktRlYM2BP_OB5mRGEXYOTI7zr=s1360-w1360-h1020" alt="" />
+                </div>
+                <div className='fadeInRight overflow-hidden w-3/4 md:w-[25%]'>
+                    <div className='p-2 h-fit center flex-col'>
+                        <h1 className='m-1 font-bold text-2xl'>Newsletter</h1>
+                        <h1 className='m-1 '>Be the first to hear
+                            the latest news from {siteName}, and much more!
+                        </h1>
+                        <Input onValueChange={(text) => setEmail(text)} label={'Email'} startContent={<Mail />} placement={'inside'} className=' m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="email" />
+                        <Input onValueChange={(text) => setName(text)} label={'Full Name'} startContent={<User />} placement={'inside'} className='s m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="text" />
 
 
-                    <h1 className='mt-4'>By subscribing you agree to our privacy policy</h1>
-                    <Button onPress={() => { collectAndSendEmail(Email) }} className='h-12 w-32 p-2 bg-black text-white trans-slow hover:bg-black hover:scale-110 my-8'>Subscribe</Button>
+                        <h1 className='mt-4'>By subscribing you agree to our privacy policy</h1>
+                        <Button onPress={() => { collectAndSendEmail(Email, name) }} className='h-12 w-32 p-2 bg-black text-white trans-slow hover:bg-black hover:scale-110 my-8'>Subscribe</Button>
+                    </div>
                 </div>
 
             </div>

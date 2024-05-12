@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 import ProductsList from "./Shop/Componets/ProductsList";
 import { createArray } from "./myCodes/Util";
 import MedicalCardMain from "./Componets/General/MedicalCardMain";
+import Footer from "./Componets/Footer";
 //import ProductView from '../Support/ProductView';
 
 
@@ -88,21 +89,8 @@ function Home() {
 
         </section>
 
-        <section className="p-2 center mt-10  lg:mt-40 gap-4 text-white">
-          <div className="border p-2 h-64 w-96">
-            <img className="h-full w-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/p/AF1QipM0frAOvzcFzqoktRlYM2BP_OB5mRGEXYOTI7zr=s1360-w1360-h1020" alt="" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-center">Join Our Mailing List</h1>
-            <h1 className="text-lg font-bold">For Exclusive Offers!</h1>
-            <div className="center-col gap-4">
-              <Input label={'Full name'} labelPlacement="inside" className="w-64 h-12" />
-              <Input label={'Email'} labelPlacement="inside" startContent={<Mail />} className="w-64 h-12" />
-              <Button className="bg-blue-700 text-white font-bold hover:bg-blue-500">Join Now</Button>
-            </div>
-          </div>
+        <Footer />
 
-        </section>
       </div>
 
 
