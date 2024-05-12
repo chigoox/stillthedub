@@ -15,12 +15,11 @@ function Maps({ destinationPosition, originPosition, positionState, origin = '76
 
 
     useEffect(() => {
-        if (!orderTracking || !updateOrderLocation) return
+        if (!orderTracking) return
         if (currentLocation?.length >= 2) setPosition({ lat: currentLocation[0], lng: currentLocation[1] })
         if (currentLocation?.length >= 2) updateOrderLocation({ lat: currentLocation[0], lng: currentLocation[1] })
     }, [currentLocation, orderTracking])
     useEffect(() => {
-        if (!updateOrderLocation) return
         navigator.geolocation.watchPosition((v) => { console.log(v); (orderStatus != 'on the way') ? setCurrentLocation([v.coords.latitude, v.coords.longitude]) : setCurrentLocation() })
         updateOrderLocation()
 
@@ -43,7 +42,7 @@ function Maps({ destinationPosition, originPosition, positionState, origin = '76
 
 
         useEffect(() => {
-            if (!routesLibrary || !map || !updateOrderLocation) return;
+            if (!routesLibrary || !map) return;
             if (orderStatus == 'on the way' || orderTracking) {
                 setDirectionsService(new routesLibrary.DirectionsService());
                 setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));

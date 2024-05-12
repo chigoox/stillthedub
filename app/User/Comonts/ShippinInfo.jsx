@@ -20,7 +20,7 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
     const updateDatabase = (() => {
         const filterObjectForNull = filterObject(shippingInfo, (a) => a)
 
-        addToDatabase('User', user?.uid ? user?.uid : user?.gid, 'ShippingInfo', filterObjectForNull)
+        addToDatabase('User', user?.uid ? user?.uid : user?.gid, 'ShippingInfo', { ...filterObjectForNull, orderType: orderType })
 
         if (forCheckOut &&
             ((Object.keys(filterObjectForNull).reduce((a, c) => a + 'email firstName lastName address  phone'.includes(c), 0) >= 5 && orderType == 'delivery') ||
