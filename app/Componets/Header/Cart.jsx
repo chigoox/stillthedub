@@ -11,6 +11,7 @@ import { Button, Card } from "@nextui-org/react";
 import { getRand } from "@/app/myCodes/Util";
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { AiOutlineClose } from "react-icons/ai";
+import Loading from "../General/Loading";
 
 
 function Cart({ showCart, setShowCart }) {
@@ -21,7 +22,8 @@ function Cart({ showCart, setShowCart }) {
     const [event, setEvent] = useState()
     const [shippingData, setShippingData] = useState({})
     const g_u_ID = user?.uid ? user?.uid : user?.gid
-
+    const [isLoading, setIsLoading] = useState(false)
+    console.log(isLoading)
     const checkOutItems = Object.values(lineItems).map(item => ({ price: item.priceID, quantity: Number(item.Qty) }))
     const RemoveFromCart = (itemRemove) => {
         dispatch({ type: "REMOVE_FROM_CART", value: itemRemove })
@@ -39,9 +41,12 @@ function Cart({ showCart, setShowCart }) {
 
     const checkShippingInfo = async (_event) => {
         //Always Show ShippingInfo
+        setIsLoading(true)
         await fetchDocument('User', user?.uid ? user?.uid : user?.gid, setShippingData)
         setEvent(_event)
         setGetShippingWindow(true)
+        setIsLoading(false)
+
 
         //Show shippinginfo if not in database
         /* .then((data) => {
@@ -73,6 +78,7 @@ function Cart({ showCart, setShowCart }) {
             drag='x'
             dragConstraints={{ left: 0, right: 0, }}
             className={`fixed z-[999] border-l border-dashed border-opacity-50 border-gray-400  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0 overflow-hidden'} h-[100vh] bg-black-800 text-white opacity-95`}>
+            {isLoading && <Loading />}
             {(getShippingWindow && showCart) && <div className="absolute w-auto z-50  -left-40 ">
                 <ShippinInfo defualtData={shippingData} user={user} forCheckOut={getShippingInfo} />
             </div>}
@@ -114,7 +120,7 @@ function Cart({ showCart, setShowCart }) {
             </div >
 
             <div className="center-col relative bottom-4 text-white">
-                <div className={`${showCart ? 'scale-1' : 'scale-0'} trans-slow evenly w-full text-black`}>
+                <div className={`${showCart ? 'scale-1' : 'scale-0'} trans-slow evenly w-full `}>
                     <h1 className="">Total</h1>
                     <h1 className="font-extrabold">${total}</h1>
                 </div>

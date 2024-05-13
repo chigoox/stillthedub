@@ -1,5 +1,5 @@
 import { orderNumberPrefix } from "@/app/META";
-import { FetchTheseDocs, addToDatabase, addToDoc, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
+import { FetchTheseDocs, addToDatabase, addToDoc, deleteDocument, fetchDocument, fetchInOrder, updateDatabaseItem } from "@/app/myCodes/Database";
 import { format } from "date-fns";
 import { serverTimestamp } from "firebase/firestore";
 import Cors from "micro-cors";
@@ -91,6 +91,8 @@ export async function POST(request) {
 
         await addToDatabase('User', uid, 'currentOrder', ORDERID)
 
+
+        await deleteDocument('Carts', cartID)
 
       }
 

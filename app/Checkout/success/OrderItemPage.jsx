@@ -1,9 +1,10 @@
 'use client'
 import { useAUTHListener } from '@/StateManager/AUTHListener'
 import { useCartContext } from '@/StateManager/CartContext'
+import Loading from '@/app/Componets/General/Loading'
 import { OrderItem } from '@/app/Orders/Componets/OrderItem'
 import { MONEYFONT } from '@/app/Shop/Componets/ShopItem'
-import { fetchDocument } from '@/app/myCodes/Database'
+import { fetchDocument, updateDatabaseItem } from '@/app/myCodes/Database'
 import { sendMail } from '@/app/myCodes/Email'
 import { getRand } from '@/app/myCodes/Util'
 import { Button } from '@nextui-org/react'
@@ -21,6 +22,9 @@ function OrderItemPage({ orderID }) {
     const [showExitButton, setShowExitButton] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+    const toggleLoading = () => setIsLoading(!isLoading)
+    console.log(isLoading)
     const getData = async () => {
 
         const orderInfo = UID ? await fetchDocument('User', UID) : null
@@ -67,23 +71,36 @@ function OrderItemPage({ orderID }) {
     const orderTotal = addArray(arrayPrice)
 
     useEffect(() => {
-        if (!emailSent && shipdata) {
-            sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
-            setEmailSent(true)
+        const sendMail = async () => {
+            setIsLoading(true)
+            const order = await fetchDocument('Orders', orderID)
+            if (!emailSent && shipdata && !order.emailComfirmationSent) {
+                sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
+                setEmailSent(true)
+                updateDatabaseItem('Orders', orderID, 'emailComfirmationSent', true)
+            }
+            setIsLoading(false)
+
+
         }
-
-
         if (!arrayPrice) getArrayToAddPrice()
 
 
     }, [data])
 
+    useEffect(() => {
+        if (!data?.currentOrder) run()
+
+    }, [])
+
+
 
     const run = async () => {
+        setIsLoading(true)
         await getData()
 
         const orderData = UID ? await fetchDocument('User', UID) : undefined
-
+        setIsLoading(false)
         setTimeout(() => {
             setShowExitButton(true)
             dispatch({ type: "EMPTY_CART", value: null })
@@ -105,14 +122,14 @@ function OrderItemPage({ orderID }) {
 
 
 
-    if (!data?.currentOrder) run()
+
 
 
 
 
     return (
         <div className='  p-4 lg:px-10 m-auto lg:w-1/2 flex-col item-center h-[40rem] mt-12 relative text-white flex md:gap-0 gap-2 bg-black w-full overflow-hidden'>
-
+            {isLoading && <Loading />}
 
             <h1 className='text-4xl text-white mt-12 font-extrabold text-center'>Thank you for ordering</h1>
             <h1 className='text-sm font-light text-center text-white'>an email confirmation has been sent to {data?.shipping?.email || user?.email}</h1>
@@ -123,7 +140,7 @@ function OrderItemPage({ orderID }) {
                 <div className='grid grid-cols-2 p-2 h-32 border-y overflow-y-scroll hidescroll  md:grid-cols-3 gap-1 w-full'>
                     {orderMap.map((item) => {
                         return (
-                            <OrderItem item={item} />
+                            <OrderItem isLoaded={item} item={item} />
                         )
                     })}
                 </div>

@@ -7,6 +7,7 @@ import { AiFillFacebook, AiFillInstagram, AiFillTwitterSquare, AiFillYoutube } f
 import { siteName } from '../META'
 import { collectAndSendEmail } from './General/MedicalCard'
 import { Mail, User } from 'lucide-react'
+import { message } from 'antd'
 
 const jost = Jost({
     weight: '400',
@@ -16,6 +17,14 @@ function Footer() {
     const [Email, setEmail] = useState('')
     const [name, setName] = useState('')
     const date = new Date()
+
+    const clear = () => {
+        setEmail('')
+        setName('')
+        message.success('You signed up to our mailing list')
+        //TODO::SEND EMAIL FOR SIGNNING UP
+    }
+
     return (
         <div className=' w-full bg-black-800 text-white'>
             <div className='flex flex-wrap  justify-between'>
@@ -33,15 +42,15 @@ function Footer() {
                 <div className='fadeInRight overflow-hidden w-3/4 md:w-[25%]'>
                     <div className='p-2 h-fit center flex-col'>
                         <h1 className='m-1 font-bold text-2xl'>Newsletter</h1>
-                        <h1 className='m-1 '>Be the first to hear
+                        <h1 className='m-1 text-center'>Be the first to hear
                             the latest news from {siteName}, and much more!
                         </h1>
-                        <Input onValueChange={(text) => setEmail(text)} label={'Email'} startContent={<Mail />} placement={'inside'} className=' m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="email" />
-                        <Input onValueChange={(text) => setName(text)} label={'Full Name'} startContent={<User />} placement={'inside'} className='s m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="text" />
+                        <Input value={Email} onValueChange={(text) => setEmail(text)} label={'Email'} startContent={<Mail />} placement={'inside'} className=' m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="email" />
+                        <Input value={name} onValueChange={(text) => setName(text)} label={'Full Name'} startContent={<User />} placement={'inside'} className='s m-auto text-black  trans p-2 focus:scale-110 hover:scale-105' type="text" />
 
 
-                        <h1 className='mt-4'>By subscribing you agree to our privacy policy</h1>
-                        <Button onPress={() => { collectAndSendEmail(Email, name) }} className='h-12 w-32 p-2 bg-black text-white trans-slow hover:bg-black hover:scale-110 my-8'>Subscribe</Button>
+                        <h1 className='mt-4 text-center'>By subscribing you agree to our privacy policy</h1>
+                        <Button onPress={() => { collectAndSendEmail(Email, name); clear() }} className='h-12 w-32 p-2 bg-black text-white trans-slow hover:bg-black hover:scale-110 my-8'>Subscribe</Button>
                     </div>
                 </div>
 

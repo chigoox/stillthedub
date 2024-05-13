@@ -1,4 +1,5 @@
 'use client'
+import Loading from '@/app/Componets/General/Loading'
 import { siteEmail, siteName } from '@/app/META'
 import { AutoCompleteInput } from '@/app/Orders/Componets/AutoComplete'
 import { addToDatabase } from '@/app/myCodes/Database'
@@ -11,26 +12,36 @@ function ShippinInfo({ defualtData, user, forCheckOut, event }) {
     const [shippingInfo, setShippingInfo] = useState({})
     const [showTerms, setShowTerms] = useState(false)
     const [orderType, setOrderType] = useState('pickUp')
+    const [isLoading, setIsLoading] = useState(false)
+    const toggleLoading = () => setIsLoading(!isLoading)
 
     const updateShippingInfo = ({ target }) => {
         setShippingInfo(oldState => ({ ...oldState, [target.name]: target.value }))
     }
-    console.log(defualtData?.ShippingInfo?.firstName)
+    console.log(isLoading)
 
-    const updateDatabase = (() => {
+    const updateDatabase = (async () => {
         const filterObjectForNull = filterObject(shippingInfo, (a) => a)
 
-        addToDatabase('User', user?.uid ? user?.uid : user?.gid, 'ShippingInfo', { ...filterObjectForNull, orderType: orderType })
+        toggleLoading()
+        await addToDatabase('User', user?.uid ? user?.uid : user?.gid, 'ShippingInfo', { ...filterObjectForNull, orderType: orderType })
 
         if (forCheckOut &&
             ((Object.keys(filterObjectForNull).reduce((a, c) => a + 'email firstName lastName address  phone'.includes(c), 0) >= 5 && orderType == 'delivery') ||
                 (Object.keys(filterObjectForNull).reduce((a, c) => a + 'email name'.includes(c), 0) >= 2 && orderType != 'delivery'))
-        ) forCheckOut(filterObjectForNull, event)
+        ) {
+            try {
+                forCheckOut(filterObjectForNull, event)
+            } catch (error) {
+            }
+            if (!forCheckOut) toggleLoading()
+        }
 
     })
     useEffect(() => { if (defualtData) setShippingInfo({ ...defualtData?.ShippingInfo }) }, [defualtData])
     return (
         <div className={`center-col w-full fadeInRight  relative hidescroll ${forCheckOut ? 'h-[45rem] md:h-[50rem]' : 'h-auto'}`}>
+            {isLoading && <Loading />}
             <Card className={`${forCheckOut ? 'w-full' : 'w-3/4'} shadow-md shadow-black border-2 border-[#121212] h-auto bg-[#171717] center-col`}>
                 <CardHeader className="font-bold  text-white bg-black-800 mb-4">
                     <h1 className="text-center w-full">Order Info</h1>
