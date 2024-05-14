@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Card, CardHeader, CardBody, Input, Textarea, Switch, Checkbox, Select, SelectItem } from "@nextui-org/react";
-import BundledEditor, { TextEditor } from './BundledEditor';
 import { Upload } from 'antd';
 import { Uploader } from './Uploader';
 import Masonry from 'masonry-layout';
 import { createArray } from '@/app/myCodes/Util';
+import dynamic from "next/dynamic";
 
+const TextEditor = dynamic(() => import("./BundledEditor"), {
+    ssr: false,
+});
 
 export const ProductAddEdit = ({ openType }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
