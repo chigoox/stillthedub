@@ -30,6 +30,8 @@ export const ProductAddEdit = ({ openType }) => {
         })
     }, [])
 
+    const [prouduct, setProuduct] = useState({})
+
 
     return (
         <>

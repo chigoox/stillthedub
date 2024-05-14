@@ -11,7 +11,7 @@ import ProductsList from './Componets/ProductsList'
 
 
 function Shop() {
-    const [PRODUCTS, setPRODUCTS] = useState([1, 1, 1, 1, 1])
+    const [PRODUCTS, setPRODUCTS] = useState([])
     const [sortBy, setSortBy] = useState('none')
     const [Search, setSearch] = useState('')
     const [category, setCategory] = useState('All')
