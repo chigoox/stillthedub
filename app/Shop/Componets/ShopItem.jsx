@@ -38,7 +38,7 @@ function ShopItem({ shopItems, location = 'HotTools', onShopPage }) {
                 setShowShopView={setShowQuickView}
             />
             <div className='group'>
-                <Link className='center-col ' href={`/Shop/${location}/${name.replace(/\s/g, '')}`}>
+                <Link className='center-col ' href={`/Shop/${location}/${name?.replace(/\s/g, '')}`}>
                     <Skeleton isLoaded={productsLoaded} className='w-auto h-auto rounded-full bg-gray-400 '>
                         <Card className={'h-40 w-40 border-4 relative rounded-full overflow-hidden bg-black'}>
                             <Image width={1920} height={1080} quality={100} src={images[0]} className=' m-auto h-full w-full object-cover' alt="" />

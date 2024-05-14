@@ -5,22 +5,20 @@ import { Uploader } from './Uploader';
 //import Masonry from 'masonry-layout';
 import { createArray } from '@/app/myCodes/Util';
 import dynamic from "next/dynamic";
-
 const TextEditor = dynamic(() => import("./BundledEditor"), {
     ssr: false,
 });
-
 const Masonry = dynamic(() => import("masonry-layout"), {
     ssr: false,
 });
+
+
 
 export const ProductAddEdit = ({ openType }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     useEffect(() => {
         if (openType == "openNew") onOpen()
         if (openType == "openEdit") onOpen()
-
-
     }, [openType])
 
     useEffect(() => {
