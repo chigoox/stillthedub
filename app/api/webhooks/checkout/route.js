@@ -77,7 +77,7 @@ export async function POST(request) {
           dateServer: serverTimestamp(),
           dateReal: new Date().toLocaleString()
         }
-
+        ''
 
         const ORDERID = order.id
         await addToDoc('Orders', ORDERID, order)
