@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Card, CardHeader, CardBody, Input, Textarea, Switch, Checkbox, Select, SelectItem } from "@nextui-org/react";
 import { Upload } from 'antd';
 import { Uploader } from './Uploader';
-import Masonry from 'masonry-layout';
+//import Masonry from 'masonry-layout';
 import { createArray } from '@/app/myCodes/Util';
 import dynamic from "next/dynamic";
 
 const TextEditor = dynamic(() => import("./BundledEditor"), {
+    ssr: false,
+});
+
+const Masonry = dynamic(() => import("masonry-layout"), {
     ssr: false,
 });
 
