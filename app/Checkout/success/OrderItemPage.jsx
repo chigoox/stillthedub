@@ -23,13 +23,12 @@ function OrderItemPage({ orderID }) {
     const [emailSent, setEmailSent] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const toggleLoading = () => setIsLoading(!isLoading)
+
+    console.log(UID)
     const getData = async () => {
         const orderInfo = UID ? await fetchDocument('User', UID) : null
         console.log(orderInfo)
         const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
-
-        console.log(UID)
-        console.log(ORDER)
 
 
         if (orderInfo && ORDER) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
@@ -88,9 +87,9 @@ function OrderItemPage({ orderID }) {
     }, [data])
 
     useEffect(() => {
-        if (!data?.currentOrder && UID) run()
+        if (!data?.currentOrder) run()
 
-    }, [UID])
+    }, [UID, data])
 
 
 

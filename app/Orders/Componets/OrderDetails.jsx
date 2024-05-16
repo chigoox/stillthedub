@@ -24,7 +24,7 @@ const OrderDetails = ({ order, isOrderCreator }) => {
                 <CardBody className='grid lg:grid-cols-4 grid-cols-5  gap-4 p-4'>
                     {orderItems.map(item => {
                         return (
-                            <OrderItem isLoaded={isOrderCreator} item={item} />
+                            <OrderItem key={item} isLoaded={isOrderCreator} item={item} />
 
                         )
                     })}
