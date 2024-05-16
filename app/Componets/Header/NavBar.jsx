@@ -156,7 +156,7 @@ function NavBar() {
                     </button>
                 </div>
 
-                <video autoPlay muted playsInline loop className='absolute z-50 w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
+                <video autoPlay muted playsInline loop className='absolute z-[5] w-full object-cover h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >
