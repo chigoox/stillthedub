@@ -21,6 +21,7 @@ const signUp = async (email, password) => {
     .then((userCredential) => {
       // Signed up 
       user = userCredential;
+      sendEmailVerification(user)
       return userCredential
     })
     .catch((error) => {

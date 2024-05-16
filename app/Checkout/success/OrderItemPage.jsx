@@ -69,18 +69,19 @@ function OrderItemPage({ orderID }) {
     const orderTotal = addArray(arrayPrice)
 
     useEffect(() => {
-        const sendMail = async () => {
+        const sendEmail = async () => {
             setIsLoading(true)
             const order = await fetchDocument('Orders', orderID)
             if (!emailSent && shipdata && !order.emailComfirmationSent) {
-                sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
+                await sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
                 setEmailSent(true)
-                updateDatabaseItem('Orders', orderID, 'emailComfirmationSent', true)
+                await updateDatabaseItem('Orders', orderID, 'emailComfirmationSent', true)
             }
             setIsLoading(false)
 
 
         }
+        sendEmail()
         if (!arrayPrice) getArrayToAddPrice()
 
 

@@ -43,7 +43,7 @@ function Cart({ showCart, setShowCart }) {
     const checkShippingInfo = async (_event) => {
         //Always Show ShippingInfo
         setIsLoading(true)
-        if (!g_u_ID) message.error('You should sign up! Guest Account Created Refreash Page!')
+        if (!g_u_ID) message.error('You should signup! Using Guest!')
         console.log(g_u_ID)
         if (g_u_ID) await fetchDocument('User', g_u_ID, setShippingData)
         setEvent(_event)
@@ -80,7 +80,7 @@ function Cart({ showCart, setShowCart }) {
             style={{ touchAction: "none" }}
             drag='x'
             dragConstraints={{ left: 0, right: 0, }}
-            className={`fixed z-[999] border-l border-dashed border-opacity-50 border-gray-400  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0 overflow-hidden'} h-[100vh] bg-black-800 text-white opacity-95`}>
+            className={`fixed z-[999] border-l border-dashed border-opacity-50 border-gray-400  md:top-0 top-0 trans  right-0 ${showCart ? 'w-[50vw] md:w-[25vw] p-2' : 'w-[0] P-0 overflow-hidden'} h-[100vh] bg-black-800 text-white bg-opacity-50`}>
             {isLoading && <Loading />}
             {(getShippingWindow && showCart) && <div className="absolute w-auto z-50  -left-40 ">
                 <ShippinInfo defualtData={shippingData} user={user} forCheckOut={getShippingInfo} />

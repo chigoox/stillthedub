@@ -35,11 +35,11 @@ function Home() {
 
           </Link>
 
-          <div className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
-            <h1 className="font-bold center h-full w-full lg:hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute text-2xl  lg:text-3xl">Shop Tabaco</h1>
-            <img className="w-full z-10 h-full object-cover" src="https://www.smchealth.org/sites/main/files/imagecache/lightbox/main-images/flavored_tobacco_image.jpg" alt="" />
+          <Link href="/Shop?tabaco" className="col-span-6 hover:scale-[1.03] trans-slow overflow-hidden relative  h-40 rounded-3xl">
+            <h1 className="font-bold z-10 center h-full w-full lg:hover:text-4xl trans-slow bg-black bg-opacity-40 text-white absolute text-2xl  lg:text-3xl">Shop Tabaco</h1>
+            <img className="w-full  h-full object-cover" src="https://www.smchealth.org/sites/main/files/imagecache/lightbox/main-images/flavored_tobacco_image.jpg" alt="" />
 
-          </div>
+          </Link>
 
         </section>
 
