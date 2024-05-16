@@ -21,13 +21,11 @@ function OrderItemPage({ orderID }) {
     const UID = user.uid ? user.uid : user.gid
     const [showExitButton, setShowExitButton] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
-
     const [isLoading, setIsLoading] = useState(false)
     const toggleLoading = () => setIsLoading(!isLoading)
-    console.log(isLoading)
     const getData = async () => {
-
         const orderInfo = UID ? await fetchDocument('User', UID) : null
+        console.log(orderInfo)
         const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
 
         console.log(UID)
@@ -89,9 +87,9 @@ function OrderItemPage({ orderID }) {
     }, [data])
 
     useEffect(() => {
-        if (!data?.currentOrder) run()
+        if (!data?.currentOrder && UID) run()
 
-    }, [])
+    }, [UID])
 
 
 
