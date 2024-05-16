@@ -30,8 +30,8 @@ function OrderItemPage({ orderID }) {
         const orderInfo = UID ? await fetchDocument('User', UID) : null
         const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
 
-
-
+        console.log(UID)
+        console.log(ORDER)
 
 
         if (orderInfo && ORDER) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
