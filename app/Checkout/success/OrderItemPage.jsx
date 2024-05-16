@@ -22,20 +22,20 @@ function OrderItemPage({ orderID }) {
     const [showExitButton, setShowExitButton] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const toggleLoading = () => setIsLoading(!isLoading)
+    const currentOrder = data?.ORDER.id
 
-    console.log(UID)
+
     const getData = async () => {
         const orderInfo = UID ? await fetchDocument('User', UID) : null
-        console.log(orderInfo)
         const ORDER = orderInfo?.currentOrder ? await fetchDocument('Orders', orderInfo?.currentOrder) : {}
 
 
-        if (orderInfo && ORDER) setData({ shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
+        if (orderInfo && ORDER) setData({ ORDER: ORDER, shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total) })
         // return { shipping: orderInfo?.ShippingInfo, cart: ORDER?.orderedItems, currentOrder: orderInfo?.currentOrder, total: Number(ORDER.total), }
 
-
     }
+
+
 
 
     const [arrayPrice, setArrayPrice] = useState()
@@ -70,11 +70,11 @@ function OrderItemPage({ orderID }) {
     useEffect(() => {
         const sendEmail = async () => {
             setIsLoading(true)
-            const order = await fetchDocument('Orders', orderID)
-            if (!emailSent && shipdata && !order.emailComfirmationSent) {
+            const order = currentOrder ? await fetchDocument('Orders', currentOrder) : null
+            if (!emailSent && shipdata && !order?.emailComfirmationSent) {
                 await sendMail(data?.shipping, data?.shipping.email, 'Order Successfull', 'EmailOrderSuccessful', { cart: data?.cart, total: orderTotal }, orderID)
                 setEmailSent(true)
-                await updateDatabaseItem('Orders', orderID, 'emailComfirmationSent', true)
+                await updateDatabaseItem('Orders', currentOrder, 'emailComfirmationSent', true)
             }
             setIsLoading(false)
 
