@@ -42,7 +42,7 @@ function Cart({ showCart, setShowCart }) {
     const checkShippingInfo = async (_event) => {
         //Always Show ShippingInfo
         setIsLoading(true)
-        await fetchDocument('User', user?.uid ? user?.uid : user?.gid, setShippingData)
+        if (g_u_ID) await fetchDocument('User', g_u_ID, setShippingData)
         setEvent(_event)
         setGetShippingWindow(true)
         setIsLoading(false)
