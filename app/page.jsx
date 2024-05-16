@@ -1,13 +1,22 @@
 
-import { Button, Card, Input, Link } from "@nextui-org/react";
+import { Button, Card, Image, Input, Link } from "@nextui-org/react";
 import { Mail } from "lucide-react";
 import ProductsList from "./Shop/Componets/ProductsList";
-import { createArray } from "./myCodes/Util";
+import { createArray, getRand } from "./myCodes/Util";
 import MedicalCardMain from "./Componets/General/MedicalCardMain";
 import Footer from "./Componets/Footer";
 //import ProductView from '../Support/ProductView';
-
-
+const LongBanner = () => {
+  return (
+    <div className="absolut top-20 lg:hover:h-72 trans-slow  z-[0] left-4 bg-black-900 flex overflow-hidden overflow-x-scroll hidescroll trans w-full h-40 ">
+      {createArray(20).map((item, index) => {
+        return (
+          <img alt="index" className="z-10 relative  object-cover" src={`/Images/eximg (${getRand(48)}).JPG`} />
+        )
+      })}
+    </div>
+  )
+}
 function Home() {
 
 
@@ -16,9 +25,11 @@ function Home() {
 
 
   return (
-    <div className='bg-black   h-screen   relative overflow-x-hidden'>
+    <div className='bg-black hidescroll  h-screen   relative overflow-x-hidden'>
 
       <MedicalCardMain />
+
+      <LongBanner />
 
       <div className="top-16 mb-40 relative">
         <section className="grid grid-cols-12 gap-4 p-4 w-full lg:w-3/4  m-auto">
