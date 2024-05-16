@@ -131,7 +131,7 @@ function Shop() {
                 </div>
             </div>
 
-            <div className='ITEMS center relative mt-96  h-auto w-full lg:w-3/4 p-2 mx-auto'>
+            <div className='ITEMS center relative mt-[26rem] md:mt-96 mb-20  h-auto w-full lg:w-3/4 p-2 mx-auto'>
                 <div className='grid lg:grid-cols-4 gap-4 md:grid-cols-3 grid-cols-2'>
                     {filterProducts().map(product => {
                         return (<ShopItem shopItems={product} location={product.metadata?.category} />)
