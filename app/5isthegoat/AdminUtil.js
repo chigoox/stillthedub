@@ -1,59 +1,124 @@
-export const createProduct = async () => {
-    const [priceData, setPriceData] = useState({ for: productData?.productName?.replace(/\s/g, '') })
-    const [productData, setProductData] = useState()
-    const updateInfo = (event, setter) => {
-        console.log(event.target.value, event.target.name)
-        const { target } = event
-        setter(oldState => ({ ...oldState, [target?.name]: target?.value }))
+import React, { useEffect, useState } from 'react'
+
+import { useUploader } from "../Hooks/useUploader"
+import { createProduct } from "../myCodes/Stripe"
+import { filterObject } from "../myCodes/Util"
+import axios from 'axios'
+import { message } from 'antd'
+
+export const useCreateProductUtil = async (product, runFunAfter) => {
+    //setup Products
+    let PRODUCT = { ...product }
+    delete PRODUCT.PRICES
+    PRODUCT.images = []
+    PRODUCT.metadata.tags = PRODUCT.metadata?.tags?.toString()
+    //get image url
+
+
+    for (let index = 0; index < product.images.length; index++) {
+        const file = product.images[index];
+        const url = await useUploader(file, product.name)
+        console.log(url)
+        PRODUCT.images.push(url)
+        console.log('images uploaded')
+        console.log(PRODUCT.images)
+
     }
-    const [priceIDCount, setPriceIDCount] = useState(1)
+    //setup Prices
+    let PRICES = Object.values(product.PRICES)
+    let allPRICES = [];
+    for (let index = 0; index < PRICES.length; index++) {
+        allPRICES = [...allPRICES, ...PRICES[index]]
 
-    const updatePrice = (event, setter, index) => {
-        const { target } = event
-        setter(oldState => ({ ...oldState, ['price' + index]: { ...oldState['price' + index], [target?.name]: (index == 0 && productData?.price && target?.name == 'amount') ? productData.price : target.value } }))
-    }
-
-
-    if (priceIDCount < 1) setPriceIDCount(1)
-    if (priceIDCount > 100) setPriceIDCount(100)
-
-
-    if (priceData['price0']?.priceName &&
-        priceData['price0']?.qty &&
-        productData?.productName &&
-        productData?.productDesc &&
-        productData?.img &&
-        productData?.price &&
-        productData?.category
-    ) {
-        try {
-            console.log(priceData)
-            await createProduct(productData, priceData)
-
-            setProductData({ productName: '', productDesc: '', productFeat: '', category: '', price: '', isNew: false, isBestSelling: false, })
-            setPriceData({ price0: { priceName: '', qty: '', amount: '' } })
-            setPriceIDCount(1)
-            message.success('Item Created', 5)
-
-        } catch (error) {
-            console.log(error)
-            message.error(error.message, 5)
-
-        }
-    } else {
-        if (!productData?.productName) message.error('Missing product name', 5)
-        if (!productData?.productDesc) message.error('Missing product description', 5)
-        if (!productData?.img) message.error('Missing product images', 5)
-        if (!productData?.price) message.error('Missing product price', 5)
-        if (!productData?.category) message.error('Missing product category', 5)
-        if (!priceData['price0']?.priceName) message.error('Missing variant name', 5)
-        if (!priceData['price0']?.qty) message.error('Missing variant QTY', 5)
     }
 
+    PRICES = allPRICES
 
-    useEffect(() => { setPriceData(old => ({ ...old, for: productData?.productName?.replace(/\s/g, '') })) }, [productData])
 
-    return null
+    const sendData = async () => {
+        const { data } = await axios.post('/api/CreateProduct', {
+            productData: PRODUCT,
+            priceData: PRICES,
+        },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+            })
+        return (data)
+
+    }
+
+    if (product.images.length == PRODUCT.images.length || !product.images) try {
+        await sendData()
+        runFunAfter()
+        message.success('Product Created')
+
+    } catch (error) {
+        message.error(error.message)
+
+    }
+
+}
+export const useUpdateProductUtil = async (product, runFunAfter) => {
+    //setup Products
+    let PRODUCT = { ...product }
+    delete PRODUCT.PRICES
+    PRODUCT.images = []
+    PRODUCT.metadata.tags = PRODUCT.metadata?.tags?.toString()
+    //get image url
+
+
+    for (let index = 0; index < product.images.length; index++) {
+        const file = product.images[index];
+        const url = typeof file === 'string' ? file : await useUploader(file, product.name)
+        console.log(url)
+        PRODUCT.images.push(url)
+        console.log('images uploaded')
+        console.log(PRODUCT.images)
+
+    }
+    //setup Prices
+    /*   let PRICES = Object.values(product?.PRICES)
+      let allPRICES = [];
+      for (let index = 0; index < PRICES.length; index++) {
+          allPRICES = [...allPRICES, ...PRICES[index]]
+  
+      }
+  
+      PRICES = allPRICES */
+
+
+    const sendData = async () => {
+        const { data } = await axios.post('/api/UpdateProduct', {
+            productData: PRODUCT,
+        },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+            })
+        return (data)
+
+    }
+    console.log(product.images.length == PRODUCT.images.length)
+
+    if (product.images.length == PRODUCT.images.length || !product.images) try {
+        await sendData()
+        runFunAfter()
+        message.success('Product Updated')
+
+    } catch (error) {
+        message.error(error.message)
+
+    }
+
 }
 
 

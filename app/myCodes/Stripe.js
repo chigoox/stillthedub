@@ -38,21 +38,6 @@ export const fetchAllProducts = async (setterfunction = null, limit) => {
 
 
 
-export const createProduct = async (productData, priceData) => {
-  const { data } = await axios.post('/api/CreateProduct', {
-    productData: productData,
-    priceData: priceData,
-  },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      },
-    })
-  return (data)
-}
 
 export const fetchPricesFor = async (nameNoSpace, setterfunction) => {
   const { data } = await axios.post('/api/fetchPrices', {

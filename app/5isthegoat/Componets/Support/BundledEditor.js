@@ -50,7 +50,7 @@ import 'tinymce/plugins/emoticons/js/emojis';
 /* eslint import/no-webpack-loader-syntax: off */
 import contentCss from '!!raw-loader!tinymce/skins/content/default/content.min.css';
 import contentUiCss from '!!raw-loader!tinymce/skins/ui/oxide/content.min.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function BundledEditor(props) {
     const { init, ...rest } = props;
@@ -72,17 +72,29 @@ function BundledEditor(props) {
 const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
 
-const TextEditor = () => {
+const TextEditor = ({ setter, defualt }) => {
     const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
-            console.log(editorRef.current.getContent());
+            console.log(editorRef.current?.getContent());
         }
     };
+
+    const EditorContent = editorRef.current?.getContent()
+
+    useEffect(() => {
+        if (!setter || !editorRef.current?.getContent()) return
+        console.log(editorRef.current?.getContent())
+    }, [EditorContent])
+
+
+
+
     return (
         <div>
-            <button hidden onClick={log}>Log editor content</button>
+            <button onClick={log}>Log editor content</button>
             <BundledEditor
+                initialValue={defualt}
                 onInit={(evt, editor) => editorRef.current = editor}
                 init={{
                     height: 250,
@@ -137,6 +149,8 @@ const TextEditor = () => {
                     content_css: useDarkMode ? 'dark' : 'default',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
                 }}
+
+                onEditorChange={() => { setter(o => ({ ...o, description: editorRef.current?.getContent() })) }}
             />
 
         </div>

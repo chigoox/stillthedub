@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Image, Upload } from 'antd';
 const getBase64 = (file) =>
@@ -10,18 +10,39 @@ const getBase64 = (file) =>
     });
 
 
-export const Uploader = ({ setFiles }) => {
+export const Uploader = ({ setFiles, defualt }) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([]);
+
+    useEffect(() => {
+        setFileList(defualt.map((item, index) => {
+            return {
+
+
+                name: 'index',
+                url: item,
+
+
+            }
+        }))
+    }, [])
+
     const handlePreview = async (file) => {
+        console.log(file)
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
         setPreviewImage(file.url || file.preview);
         setPreviewOpen(true);
     };
-    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+    const handleChange = ({ file, fileList: newFileList }) => {
+        const files = newFileList.map(item => {
+            return item.originFileObj
+        })
+        setFiles(o => ({ ...o, images: [...files] }))
+        setFileList(newFileList)
+    };
     const uploadButton = (
         <button
             style={{
@@ -40,6 +61,7 @@ export const Uploader = ({ setFiles }) => {
             </div>
         </button>
     );
+    console.log(defualt)
     return (
         <div className='rounded border-dotted p-2 border-2'>
             <h1 className='text-center font- text-xs'>Accepts images, videos, or 3D models</h1>
@@ -49,6 +71,7 @@ export const Uploader = ({ setFiles }) => {
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
+                defaultFileList={defualt}
                 multiple
                 beforeUpload={() => { return false }}
             >

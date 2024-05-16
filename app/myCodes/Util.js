@@ -13,6 +13,7 @@ export const filterNullFromArray = (array) => {
     return array.filter(x => !!x)
 }
 
+
 export const notify = (notification, duration = 5000) => {
     Toastify({
         text: notification,
