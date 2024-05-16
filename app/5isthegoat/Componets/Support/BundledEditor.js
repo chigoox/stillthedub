@@ -94,7 +94,7 @@ const TextEditor = ({ setter, defualt }) => {
         <div>
             <button onClick={log}>Log editor content</button>
             <BundledEditor
-                initialValue={defualt}
+                value={defualt}
                 onInit={(evt, editor) => editorRef.current = editor}
                 init={{
                     height: 250,
