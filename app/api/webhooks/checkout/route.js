@@ -46,7 +46,7 @@ export async function POST(request) {
         }
         const getArrayToAddPrice = async () => {
           const total = CurrentOrder.map((orderInfo) => {
-            return orderInfo.price
+            return Number(orderInfo.price)
           })
           return total
         }
