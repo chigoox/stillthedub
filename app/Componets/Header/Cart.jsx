@@ -12,6 +12,7 @@ import { getRand } from "@/app/myCodes/Util";
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { AiOutlineClose } from "react-icons/ai";
 import Loading from "../General/Loading";
+import { message } from "antd";
 
 
 function Cart({ showCart, setShowCart }) {
@@ -42,6 +43,8 @@ function Cart({ showCart, setShowCart }) {
     const checkShippingInfo = async (_event) => {
         //Always Show ShippingInfo
         setIsLoading(true)
+        if (!g_u_ID) message.error('You should sign up! Guest Account Created Refreash Page!')
+        console.log(g_u_ID)
         if (g_u_ID) await fetchDocument('User', g_u_ID, setShippingData)
         setEvent(_event)
         setGetShippingWindow(true)
