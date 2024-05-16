@@ -18,12 +18,6 @@ const LongBanner = () => {
   )
 }
 function Home() {
-
-
-
-
-
-
   return (
     <div className='bg-black hidescroll  h-screen   relative overflow-x-hidden'>
 
