@@ -43,7 +43,7 @@ export default function ProtectedRoute({ params }) {
     const OrderItem = ({ orderInfo }) => {
         const { id, total, qty, images } = orderInfo
         return (
-            <Skeleton isLoaded={id}>
+            <Skeleton className="m-auto" isLoaded={id}>
                 <Link href={!isDev ? `http://localhost:3000/Orders/${id}` : `https://stillthedubb.vercel.app/Orders/${id}`}>
                     <Card shadow="md" variant={'bordered'} className="h-36 w-full m-auto bg-black center-col">
                         <CardBody className="bg-white center-col relative">
@@ -73,7 +73,7 @@ export default function ProtectedRoute({ params }) {
                 <div className="flex  md:flex-row flex-col w-full  justify-center gap-4 p-2">
                     <Card className="h-auto bg-black-900  md:w-96 w-full my-12" variant={'bordered'}>
                         <CardHeader className="text-3xl  font-bold text-center bg-black-800 mb-4 text-white p-2">Orders</CardHeader>
-                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-4   p-2 gap-2 items-center justify-center">
+                        <CardBody className="w-full overflow-y-scroll hidescroll h-full grid grid-cols-4   p-2 gap-2">
                             {orderData?.map((order) => <OrderItem orderInfo={order} />)}
                         </CardBody>
                     </Card>
