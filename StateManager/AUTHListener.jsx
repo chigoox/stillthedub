@@ -39,17 +39,18 @@ export function useAUTHListener(add = false, set, protectedPage) {
 
     useEffect(() => {
         const auth = AUTH
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if (set) set(user)
                 if (add) addUIDToList(user.uid)
                 if (add) addEmailToList(user.email)
                 setUser(user)
                 console.log(user.uid)
-                fetchDocument('User', user.uid).then((userDATA) => {
-                    console.log('first')
-                    if (!userDATA.ACCOUNTSTATUS)
-                        updateDatabaseItem('User', user.uid, 'ACCOUNTSTATUS', 'USER')
+                await fetchDocument('User', user.uid).then((userDATA) => {
+                    setTimeout(async () => {
+                        if (!userDATA.ACCOUNTSTATUS)
+                            await updateDatabaseItem('User', user.uid, 'ACCOUNTSTATUS', 'USER')
+                    }, 1000);
 
 
 
@@ -64,7 +65,7 @@ export function useAUTHListener(add = false, set, protectedPage) {
                 if (set) set()
                 if (protectedPage) push('/')
                 //initNoUser()
-                fetchDocument('User', GID).then((userDATA) => {
+                await fetchDocument('User', GID).then((userDATA) => {
                     if (userDATA?.ShippingInfo?.email) {
                         setUser({ gid: GID, email: userDATA?.ShippingInfo?.email })
                     } else {
