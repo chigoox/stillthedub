@@ -3,11 +3,11 @@ import { OrderItem } from './OrderItem'
 import { Card, CardBody, CardHeader, Skeleton } from '@nextui-org/react'
 
 const OrderDetails = ({ order, isOrderCreator }) => {
-    const orderType = order.orderInfo?.orderType
-    const orderID = order.id
-    const orderStatus = order.status
-    const orderTotal = Number(order.total)
-    const orderItems = order.orderedItems || []
+    const orderType = order?.orderInfo?.orderType
+    const orderID = order?.id
+    const orderStatus = order?.status
+    const orderTotal = Number(order?.total)
+    const orderItems = order?.orderedItems || []
     return (
         <div className='center-col text-center'>
             <h1 className='text-3xl border-b font-bold'>Order {orderID}</h1>

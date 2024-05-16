@@ -28,9 +28,8 @@ export default function ProtectedRoute({ params }) {
 
     useEffect(() => {
         const run = async () => {
-            !userData ? setUserData(await fetchDocument('User', getUID(user))) : null
-
-            !orderData ? setOrderData(await FetchTheseDocs('Orders', 'user', '==', getUID(user), 'dateServer')) : null
+            (user && !userData) ? setUserData(await fetchDocument('User', getUID(user))) : null
+                (user && !userData) ? setOrderData(await FetchTheseDocs('Orders', 'user', '==', getUID(user), 'dateServer')) : null
 
         }
 
