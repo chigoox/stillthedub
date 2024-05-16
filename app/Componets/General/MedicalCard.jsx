@@ -27,7 +27,7 @@ function MedicalCard({ isopen5, setOpen }) {
             closeButton={<></>}
             className="border-gray-700 border-2"
             isOpen={isopen5}
-            placement={'auto'}
+            placement={'center'}
             onOpenChange={onOpenChange}
             size={'2xl'}
             classNames={'h-fit'}
