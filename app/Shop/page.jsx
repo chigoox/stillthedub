@@ -96,7 +96,7 @@ function Shop() {
 
 
             <div className='fixed w-full bg-black z-40 top-0'>
-                <div className='relative mt-16 evenly hidescroll gap-4 p-2 lg:hover:scale-105 trans overflow-x-scroll'>
+                <div className='relative mt-16 flex  hidescroll gap-4 p-2 lg:hover:scale-105 trans overflow-x-scroll'>
                     {CATEGORY.map(_category => {
                         return (
                             <Button onPress={() => { setCategory(category == _category ? 'All' : _category) }} key={_category} className='center-col rounded-full h-auto hover:scale-105 scale-100 w-auto bg-transparent text-white'>
