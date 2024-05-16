@@ -44,7 +44,7 @@ export default function ProtectedRoute({ params }) {
         const { id, total, qty, images } = orderInfo
         return (
             <Skeleton isLoaded={id}>
-                <Link href={isDev ? `http://localhost:3000/Orders/${id}` : `https:stillthedubb.vercel.app/Orders/${id}`}>
+                <Link href={!isDev ? `http://localhost:3000/Orders/${id}` : `https:stillthedubb.vercel.app/Orders/${id}`}>
                     <Card shadow="md" variant={'bordered'} className="h-36 w-full m-auto bg-black center-col">
                         <CardBody className="bg-white center-col relative">
                             <h1 className="abolute top-0 z-10 text-white bg-black">{id}</h1>
