@@ -141,24 +141,24 @@ function NavBar() {
 
 
                     </div>
-                    <div className='center gap-4 relative z-10'>
-                        <div className=" text-white">
+                    <div className='center gap-4 relative text-white z-10'>
+                        <div className=" ">
 
-                            <button className='relative ' onClick={() => { setShowCart(true) }}>
-                                <div className='absolute border-2 top-1 -right-2 bg-lime-400 font-bold z-10 h-4 w-4 p-2 bg-opacity-75  center rounded-full '>
+                            <button className='relative hover:text-lime-400 trans h-12' onClick={() => { setShowCart(true) }}>
+                                <div className='absolute border-2  -right-2 bg-lime-400 font-bold z-10 h-4 w-4 p-2 bg-opacity-75  center rounded-full '>
                                     {(cartCount) ? cartCount : 0}
                                 </div>
-                                <IoBagHandle size={30} color='gray' />
+                                <IoBagHandle size={30} />
                             </button>
                         </div>
 
-                        <button className='' onClick={() => { toggleLogin() }}>
-                            <User2Icon size={30} color='gray' />
+                        <button className='hover:text-lime-400 trans' onClick={() => { toggleLogin() }}>
+                            <User2Icon size={30} />
                         </button>
                     </div>
                 </div>
 
-                <video controls autoPlay muted playsInline loop className='z-[5] w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
+                <video autoPlay muted playsInline className='w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >
