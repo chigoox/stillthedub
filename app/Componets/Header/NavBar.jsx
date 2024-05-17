@@ -98,65 +98,67 @@ function NavBar() {
 
             </div >
 
-            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-10 bg-black lg:h-16 w-full fixed z-50 top-0 flex items-center justify-evenly p-2 `}>
+            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-auto bg-black lg:h-16 w-full fixed z-50 top-4  `}>
 
-                <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[0px]  opacity-25'}  z-10  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
-                    {menu.map((item) => {
-                        return (
-                            <MenuItem key={item} name={item} showMobileMenu={showMobileMenu} />
-                        )
-                    })}
-                </div>
-
-
-
-
-                <div className='font1 relative z-10 font-light text-4xl text-center hidden lg:block'>
-                    <Link href={'/'} className={`${alexFont.className} relative top-2 text-white  hover:text-lime-400 trans`}>{websiteName}</Link>
-                    <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2 z-20' >760 Springfield Ave, Irvington, NJ 07111</h1>
-                </div>
+                <div className='absolute flex items-center justify-evenly w-full  p-2 h-full'>
+                    <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[0px]  opacity-25'}  z-10  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
+                        {menu.map((item) => {
+                            return (
+                                <MenuItem key={item} name={item} showMobileMenu={showMobileMenu} />
+                            )
+                        })}
+                    </div>
 
 
-                <div className='relative z-10'>
-                    <div className='flex justify-between  lg:w-[15rem]'>
-                        <button onClick={toggleMobileMenu}>
 
-                            <ImMenu size={30} color='white' className='lg:hidden' />
-                        </button>
-                        <div className='lg:flex justify-between w-full hidden  text-black lg:text-white'>
-                            {menu.map((item) => {
-                                return (
-                                    <MenuItem key={item} name={item} />
-                                )
-                            })}
+
+                    <div className='font1 relative z-10 font-light text-4xl text-center hidden lg:block'>
+                        <Link href={'/'} className={`${alexFont.className} relative top-2 text-white  hover:text-lime-400 trans`}>{websiteName}</Link>
+                        <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2 z-20' >760 Springfield Ave, Irvington, NJ 07111</h1>
+                    </div>
+
+
+                    <div className='relative z-10'>
+                        <div className='flex justify-between  lg:w-[15rem]'>
+                            <button onClick={toggleMobileMenu}>
+
+                                <ImMenu size={30} color='white' className='lg:hidden' />
+                            </button>
+                            <div className='lg:flex justify-between w-full hidden  text-black lg:text-white'>
+                                {menu.map((item) => {
+                                    return (
+                                        <MenuItem key={item} name={item} />
+                                    )
+                                })}
+                            </div>
+
                         </div>
 
                     </div>
-
-                </div>
-                <div className='font1 relative z-10  font-light text-3xl text-white text-center lg:hidden block'>
-                    <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 z-30 trans top-3`}>{websiteName}</Link>
-                    <h1 className='text-white text-xs font-bold bg-black p-1 rounded z-20 relative'>760 Springfield Ave, Irvington, NJ 07111</h1>
+                    <div className='font1 relative z-10  font-light text-3xl text-white text-center lg:hidden block'>
+                        <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 z-30 trans top-3`}>{websiteName}</Link>
+                        <h1 className='text-white text-xs font-bold bg-black p-1 rounded z-20 relative'>760 Springfield Ave, Irvington, NJ 07111</h1>
 
 
-                </div>
-                <div className='center gap-4 relative z-10'>
-                    <div className=" text-white">
+                    </div>
+                    <div className='center gap-4 relative z-10'>
+                        <div className=" text-white">
 
-                        <button className='relative ' onClick={() => { setShowCart(true) }}>
-                            <div className='absolute border-2 top-1 -right-2 bg-lime-400 font-bold z-10 h-4 w-4 p-2 bg-opacity-75  center rounded-full '>
-                                {(cartCount) ? cartCount : 0}
-                            </div>
-                            <IoBagHandle size={30} color='gray' />
+                            <button className='relative ' onClick={() => { setShowCart(true) }}>
+                                <div className='absolute border-2 top-1 -right-2 bg-lime-400 font-bold z-10 h-4 w-4 p-2 bg-opacity-75  center rounded-full '>
+                                    {(cartCount) ? cartCount : 0}
+                                </div>
+                                <IoBagHandle size={30} color='gray' />
+                            </button>
+                        </div>
+
+                        <button className='' onClick={() => { toggleLogin() }}>
+                            <User2Icon size={30} color='gray' />
                         </button>
                     </div>
-
-                    <button className='' onClick={() => { toggleLogin() }}>
-                        <User2Icon size={30} color='gray' />
-                    </button>
                 </div>
 
-                <video controls autoPlay muted playsInline loop className='absolute z-[5] w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
+                <video controls autoPlay muted playsInline loop className='z-[5] w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >
