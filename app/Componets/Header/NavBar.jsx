@@ -98,7 +98,7 @@ function NavBar() {
 
             </div >
 
-            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-auto bg-black lg:h-16 w-full fixed z-50  `}>
+            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-auto bg-black lg:h-16 w-full fixed z-50 top-0  `}>
 
                 <div className='absolute flex items-center justify-evenly w-full  p-2 h-full'>
                     <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[0px]  opacity-25'}  z-10  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
@@ -158,7 +158,7 @@ function NavBar() {
                     </div>
                 </div>
 
-                <video autoPlay muted playsInline className='w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
+                <video autoPlay muted playsInline loop className='w-full object-cover aspect-video h-12' src="/Videos/NavVideo.mp4"></video>
             </nav>
 
         </div >
