@@ -30,7 +30,7 @@ function Home() {
           <Link href="/Shop" className="col-span-12">
             <Card className=" hover:scale-[1.03] w-full trans-slow group bg-transparent  h-64 overflow-hidden rounded-3xl relative">
               <h1 className="font-bold text-white z-30 absolute lg:group-hover:text-4xl trans-slow left-4 bottom-4 text-3xl">Shop The Dub</h1>
-              <img className="w-full z-10 h-full object-cover" src="https://images.unsplash.com/photo-1487452066049-a710f7296400?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+              <img className="w-full z-10 h-full object-cover aspect-video" src="https://images.unsplash.com/photo-1487452066049-a710f7296400?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
             </Card>
           </Link>
 
