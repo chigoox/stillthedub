@@ -57,7 +57,7 @@ function Home() {
           <div className="flex overflow-hidden  lg:h-96 h-[60rem] lg:flex-row flex-col gap-4 p-4  ">
             <div className="lg:w-3/4 m-auto">
               <h1 className="center font-extrabold text-2xl  text-white">Showcase</h1>
-              <video autoPlay muted playsInline className="h-80 w-full object-cover aspect-video shadow  rounded-lg" src="/videos/NavVideo.mp4"></video>
+              <video controls playsInline className="h-80 w-full object-cover aspect-video shadow  rounded-lg" src="/videos/NavVideo.mp4"></video>
 
             </div>
             <div className="m-auto lg:w-1/3  w-full lg:h-full h-96 relative trans top-14 lg:top-0 border-2 rounded-lg">
