@@ -158,7 +158,7 @@ function NavBar() {
                     </div>
                 </div>
 
-                <video autoPlay muted playsInline className='w-full relative object-cover aspect-video h-12' type="video/mp4" src="/Videos/pexels_videos_2328902 (2160p).mp4"></video>
+                <video autoPlay muted playsInline loop className='w-full relative object-cover aspect-video h-12' type="video/mp4" src="https://firebasestorage.googleapis.com/v0/b/stillthedubb.appspot.com/o/pexels_videos_2328902%20(2160p).mp4?alt=media&token=53d6860a-097f-4742-ab3b-e82418bc4165"></video>
             </nav>
 
         </div >
