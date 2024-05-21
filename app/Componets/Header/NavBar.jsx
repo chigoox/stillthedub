@@ -14,6 +14,7 @@ import LoginCard from '../General/Auth/LoginCard'
 import { NavigationEvents } from "../NavigationEvents"
 import Cart from './Cart'
 import { useCartContext } from '@/StateManager/CartContext'
+import YelloLineHustleLink from './Componets/YelloLineHustleLink'
 
 const alexFont = Bebas_Neue({
     weight: '400',
@@ -86,7 +87,7 @@ function NavBar() {
 
             <Cart showCart={showCart} setShowCart={setShowCart} />
             {(showLogin && (!user?.uid)) && <LoginCard toggleLogin={toggleLogin} />}
-
+            <YelloLineHustleLink />
             <Suspense>
                 <NavigationEvents setRoute={setNavRoute} />
             </Suspense>
