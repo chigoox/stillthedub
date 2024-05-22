@@ -99,7 +99,7 @@ function NavBar() {
 
             </div >
 
-            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-auto bg-black lg:h-16 w-full fixed z-50 top-0  `}>
+            <nav className={` ${showMobileMenu ? ' text-white bg-opacity-100' : ' bg-opacity-0'} trans  h-auto bg-black lg:h-16 w-full fixed z-50 top-0   `}>
 
                 <div className='absolute flex items-center justify-evenly w-full  p-2 h-full'>
                     <div className={`${showMobileMenu ? 'h-12 opacity-100 ' : 'h-[0px]  opacity-25'}  z-10  flex items-center justify-center gap-4 lg:hidden text-white bg-black absolute w-full  top-10  trans`}>
@@ -114,9 +114,9 @@ function NavBar() {
 
 
                     <div className='font1 relative z-10 font-light text-4xl text-center hidden lg:block'>
-                        <Link href={'/'} className={`${alexFont.className} relative top-10 text-white   trans`}>
+                        <Link href={'/'} className={`${alexFont.className} relative right-20 top-4 text-white   trans`}>
 
-                            <img className={'h-32 w-48 object-cover rounded-lg border-4 border-black trans hover:border-lime-400 hover:border-2 bg-lime-400'} src="/Images/STD.jpeg" alt="" />
+                            <img className={'h-20 w-48 object-cover rounded-lg border-4 border-black trans hover:border-lime-400 hover:border-2 bg-lime-400'} src="/Images/STD.jpeg" alt="" />
 
                         </Link>
                         {/* <h1 className='text-white text-xs font-bold bg-black rounded-lg p-2 z-20' >760 Springfield Ave, Irvington, NJ 07111</h1> */}
@@ -141,8 +141,8 @@ function NavBar() {
 
                     </div>
                     <div className='font1 relative z-10  font-light text-3xl text-white text-center lg:hidden block'>
-                        <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 z-30 trans top-5`}>
-                            <img className={'h-[5rem] w-52 object-cover rounded-full border-2'} src="/Images/STD.jpeg" alt="" />
+                        <Link href={'/'} className={`${alexFont.className} relative hover:text-lime-600 z-30 trans top-0`}>
+                            <img className={'h-[3rem] w-72 object-cover rounded-full border-lime-300 border-2'} src="/Images/STD.jpeg" alt="" />
 
                         </Link>
                         {/*  <h1 className='text-white text-xs font-bold bg-black p-1 rounded z-20 relative'>760 Springfield Ave, Irvington, NJ 07111</h1> */}
@@ -166,7 +166,7 @@ function NavBar() {
                     </div>
                 </div>
 
-                <video autoPlay muted playsInline loop className='w-full relative object-cover aspect-video h-12' type="video/mp4" src="https://firebasestorage.googleapis.com/v0/b/stillthedubb.appspot.com/o/pexels_videos_2328902%20(2160p).mp4?alt=media&token=53d6860a-097f-4742-ab3b-e82418bc4165"></video>
+                <video autoPlay muted playsInline loop className='w-full border-b-2 shadow shadow-lime-600  border-lime-400 relative object-cover aspect-video h-12' type="video/mp4" src="https://firebasestorage.googleapis.com/v0/b/stillthedubb.appspot.com/o/pexels_videos_2328902%20(2160p).mp4?alt=media&token=53d6860a-097f-4742-ab3b-e82418bc4165"></video>
             </nav>
 
         </div >

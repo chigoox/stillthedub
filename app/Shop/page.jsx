@@ -95,12 +95,12 @@ function Shop() {
 
 
 
-            <div className='fixed w-full bg-black z-40 top-0'>
-                <div className='relative mt-20   flex md:justify-center  md:items-center  hidescroll gap-4 p-2 lg:hover:scale-105 trans overflow-x-scroll'>
+            <div className='fixed w-full  bg-black-900  z-40 top-0'>
+                <div className='relative mt-14   flex md:justify-center  md:items-center  hidescroll gap-4 p-2 lg:hover:scale-105 trans overflow-x-scroll'>
                     {CATEGORY.map(_category => {
                         return (
                             <Button onPress={() => { setCategory(category == _category ? 'All' : _category) }} key={_category} className='center-col rounded-full h-auto hover:scale-105 scale-100 w-auto bg-transparent text-white'>
-                                <div className={`h-20 w-20  overflow-hidden  rounded-full ${category == _category ? 'border-4 border-lime-400' : 'border-2'}`}>
+                                <div className={`h-16 w-16  overflow-hidden  rounded-full ${category == _category ? 'border-4 border-lime-400' : 'border-2'}`}>
                                     <img className='h-full w-full object-cover' src={
                                         _category == 'Drinks' ? 'https://images.unsplash.com/photo-1624552184280-9e9631bbeee9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' :
                                             _category == 'Candy' ? 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' :
@@ -118,7 +118,7 @@ function Shop() {
                     <div className="SORT center flex-wrap gap-2 p-2">
                         {sortList.map(i => {
                             return (
-                                <Button onPress={() => { setSortBy(sortBy == i ? 'none' : i) }} className={`w-24 bg-black-800 text-white border-black p-2 ${sortBy == i ? 'bg-lime-400' : ''}`}>{i}</Button>
+                                <Button onPress={() => { setSortBy(sortBy == i ? 'none' : i) }} className={`w-24 bg-black-800 h-8 text-white border-black p-2 ${sortBy == i ? 'bg-lime-400' : ''}`}>{i}</Button>
                             )
                         }
 
@@ -126,12 +126,12 @@ function Shop() {
                     </div>
                 </div>
                 <div className='p-2 center text-black'>
-                    <Input onValueChange={(v) => { setSearch(v) }} startContent={<AiOutlineSearch />} type='text' className='h-24 lg:w-1/2 px-2' label='Search' labelPlacement='inside' />
+                    <Input onValueChange={(v) => { setSearch(v) }} startContent={<AiOutlineSearch />} type='text' className='h-12 lg:w-1/2 px-2' label='Search' labelPlacement='inside' />
 
                 </div>
             </div>
 
-            <div className='ITEMS center relative mt-[26rem] md:mt-96 mb-20  h-auto w-full lg:w-3/4 p-2 mx-auto'>
+            <div className='ITEMS center relative mt-[20rem] md:mt-72 mb-20  h-auto w-full lg:w-3/4 p-2 mx-auto'>
                 <div className='grid lg:grid-cols-4 gap-4 md:grid-cols-3 grid-cols-2'>
                     {filterProducts().map(product => {
                         return (<ShopItem shopItems={product} location={product.metadata?.category} />)
