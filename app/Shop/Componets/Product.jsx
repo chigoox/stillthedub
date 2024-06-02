@@ -67,7 +67,6 @@ const Product = ({ product, forThis, category }) => {
 
 
 
-
     const [prices, setPrices] = useState({})
     const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: thisProduct?.default_price, Qty: 0, images: [] })
     const addToCart = () => {
@@ -87,7 +86,7 @@ const Product = ({ product, forThis, category }) => {
     }, [])
 
     useEffect(() => {
-        setItemToCheckOut(prev => ({ ...prev, name: name, images: slides, priceID: thisProduct?.default_price, price: filteredPrice }))
+        setItemToCheckOut(prev => ({ ...prev, name: name, images: slides, priceID: thisProduct?.default_price, price: filteredPrice, category: category }))
     }, [thisProduct])
 
 

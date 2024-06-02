@@ -8,7 +8,7 @@ import Footer from "./Componets/Footer";
 //import ProductView from '../Support/ProductView';
 const LongBanner = () => {
   return (
-    <div className="absolut top-20 lg:hover:h-72 trans-slow  z-[0] left-4 bg-black-900 flex overflow-hidden overflow-x-scroll hidescroll trans w-full h-40 ">
+    <div className="absolut top-20  trans  z-[0] left-4 bg-black-900 flex overflow-hidden overflow-x-scroll hidescroll trans w-full h-40 ">
       {createArray(20).map((item, index) => {
         return (
           <img alt="index" className="z-10 relative  object-cover" src={`/Images/eximg (${getRand(48)}).JPG`} />

@@ -10,7 +10,7 @@ function ItemQTYButton({ state, setState, product, forCart }) {
         if (action == 'sub') setQTY(prevState => prevState > 0 ? prevState - count : prevState)
         if (action == 'set') setQTY(event.target.value)
         if (product) {
-            const currentItemInfo = { images: product.images, name: product.name, price: product.price, variant: product.variant, priceID: product.priceID }
+            const currentItemInfo = { images: product.images, name: product.name, price: product.price, priceID: product.priceID }
             if (action == 'add') dispatch({ type: "ADD_TO_CART", value: { ...currentItemInfo, Qty: 1 } })
             if (action == 'sub') dispatch({ type: "SUB_FROM_CART", value: { ...currentItemInfo, Qty: 1 } })
             if (action == 'set') dispatch({ type: "SET_CART", value: { ...currentItemInfo, Qty: event.target.value } })

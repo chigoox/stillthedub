@@ -9,7 +9,7 @@ function useLocalStorage(state, dispatch, initialCartState) {
   const getInitCart = async () => {
     const userData = user?.uid ? await fetchDocument('User', user?.uid) : { cart: { state: { lineItems: [] } } }
     console.log(userData)
-    return userData.cart.state.lineItems || []
+    return { lineItems: userData.cart.state.lineItems, total: userData.cart.state.total } || []
   }
 
 
@@ -22,7 +22,7 @@ function useLocalStorage(state, dispatch, initialCartState) {
         //if yes, update the current state with the stored one
         dispatch({
           type: "SAVE_CART",
-          value: { lineItems: databaseCart } || JSON.parse(localStorage.getItem("Cart")),
+          value: { lineItems: databaseCart.lineItems, total: databaseCart.total } || JSON.parse(localStorage.getItem("Cart")),
         });
       }
     }

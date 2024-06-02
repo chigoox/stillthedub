@@ -14,13 +14,15 @@ function ProductView({ showShopView, setShowShopView }) {
     const slides = images?.map(item => (item))
     const desc = product?.description
     const variants = filterNullFromArray(product?.variants || [])
+    const category = metadata?.category
+
 
     const { dispatch } = useCartContext()
 
     const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: 0, Qty: 0, images: [] })
 
     useEffect(() => {
-        setItemToCheckOut(old => ({ ...old, priceID: product.default_price, images: product.images, name: product.name, price: product?.metadata?.price }))
+        setItemToCheckOut(old => ({ ...old, priceID: product.default_price, images: product.images, name: product.name, price: product?.metadata?.price, category: category }))
 
 
     }, [product])

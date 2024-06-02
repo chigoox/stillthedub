@@ -16,7 +16,7 @@ export const collectAndSendEmail = (email, name, setOpen) => {
 
 
 
-const IMG = 'https://images.unsplash.com/photo-1590682751946-a65099676151?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+const IMG = '/Images/medicalPic.webp'
 
 function MedicalCard({ isopen5, setOpen }) {
     const [formData, setFormData] = useState({})

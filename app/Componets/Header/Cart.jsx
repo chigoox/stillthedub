@@ -4,15 +4,16 @@ import { useCartContext } from "@/StateManager/CartContext";
 import ItemQTYButton from "../../Shop/Componets/ItemQTYButton";
 import { Trash2Icon } from "lucide-react";
 import { useAUTHListener } from "@/StateManager/AUTHListener";
-import { fetchDocument } from "@/app/myCodes/Database";
+import { fetchDocument, updateDatabaseItem } from "@/app/myCodes/Database";
 import { useEffect, useState } from "react";
 import ShippinInfo from "../../User/Comonts/ShippinInfo";
 import { Button, Card } from "@nextui-org/react";
-import { getRand } from "@/app/myCodes/Util";
+import { filterNullFromArray, getRand } from "@/app/myCodes/Util";
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { AiOutlineClose } from "react-icons/ai";
 import Loading from "../General/Loading";
 import { message } from "antd";
+import { category } from "@/app/META";
 
 
 function Cart({ showCart, setShowCart }) {
@@ -24,19 +25,51 @@ function Cart({ showCart, setShowCart }) {
     const [shippingData, setShippingData] = useState({})
     const g_u_ID = user?.uid ? user?.uid : user?.gid
     const [isLoading, setIsLoading] = useState(false)
-    console.log(isLoading)
-    const checkOutItems = Object.values(lineItems).map(item => ({ price: item.priceID, quantity: Number(item.Qty) }))
+    let checkOutItems = Object.values(lineItems).map(item => ({ price: item.priceID, category: item.category, quantity: Number(item.Qty) }))
+    checkOutItems = checkOutItems.filter(item => item.category != 'Tobacco')
+    checkOutItems = checkOutItems.map(i => {
+        delete i.category
+        return i
+    })
     const RemoveFromCart = (itemRemove) => {
         dispatch({ type: "REMOVE_FROM_CART", value: itemRemove })
     }
+
 
     const [getShippingWindow, setGetShippingWindow] = useState(false)
     const toggleGetShippingInfo = () => {
 
     }
 
+    useEffect(() => {
+        if (g_u_ID && state) updateDatabaseItem('User', g_u_ID, 'cart', state)
+    }, [lineItems])
+
     const getShippingInfo = (shippinginfo) => {
         setGetShippingWindow(false)
+        let TobaccoProducts = Object.values(lineItems).map(i => {
+            if (i.category == 'Tobacco') return i
+        })
+        TobaccoProducts = (filterNullFromArray(TobaccoProducts))
+        let total = 0
+        for (let index = 0; index < TobaccoProducts.length; index++) {
+            const element = TobaccoProducts[index];
+            const totalPrice = element.price * element.Qty
+            total += totalPrice
+        }
+        const TobaccoItem = {
+            price_data: {
+                currency: 'usd',
+                unit_amount: total * 100,
+                product_data: {
+                    name: 'T Products',
+                    description: 'All other prd',
+                    images: ['https://images.unsplash.com/photo-1716277486487-1c9d08eaf021?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+                },
+            },
+            quantity: 1,
+        }
+        if (TobaccoProducts && total > 0) checkOutItems.push(TobaccoItem)
         if (checkOutItems) checkout(event, [checkOutItems, total], g_u_ID, lineItems)
     }
 
@@ -44,7 +77,6 @@ function Cart({ showCart, setShowCart }) {
         //Always Show ShippingInfo
         setIsLoading(true)
         if (!g_u_ID) message.error('You should signup! Using Guest!')
-        console.log(g_u_ID)
         if (g_u_ID) await fetchDocument('User', g_u_ID, setShippingData)
         setEvent(_event)
         setGetShippingWindow(true)
@@ -121,7 +153,6 @@ function Cart({ showCart, setShowCart }) {
                 })}
 
             </div >
-
             <div className="center-col relative bottom-4 text-white">
                 <div className={`${showCart ? 'scale-1' : 'scale-0'} trans-slow evenly w-full `}>
                     <h1 className="">Total</h1>
