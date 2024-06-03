@@ -26,13 +26,14 @@ export const useCreateProductUtil = async (product, runFunAfter) => {
     }
     //setup Prices
     let PRICES = Object.values(product.PRICES)
-    let allPRICES = [];
-    for (let index = 0; index < PRICES.length; index++) {
-        allPRICES = [...allPRICES, ...PRICES[index]]
-
-    }
-
-    PRICES = allPRICES
+    console.log(PRICES)
+    /*   let allPRICES = [];
+      for (let index = 0; index < PRICES.length; index++) {
+          allPRICES = [...allPRICES, ...PRICES[index]]
+  
+      }
+  
+      PRICES = allPRICES */
 
 
     const sendData = async () => {

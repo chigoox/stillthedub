@@ -19,32 +19,31 @@ export async function POST(request) {
 
     const product = await stripe.products.create(productData);
 
-    console.log(product)
     if (priceData.length >= 1) {
         priceData.forEach(async (data, index) => {
 
-            if (true) {
-                console.log(data)
 
-                const price = await stripe.prices.create({
-                    product: product.id,
-                    metadata: {
-                        price: Price,
-                        for: product.name.replace(/\s/g, ''),
-                        qty: QYT
+            console.log(data)
 
-                    },
-                    nickname: data,
-                    currency: 'USD',
-                    unit_amount: Price * 100,
+            const price = await stripe.prices.create({
+                product: product.id,
+                metadata: {
+                    price: Price,
+                    for: product.name.replace(/\s/g, ''),
+                    qty: QYT
+
+                },
+                nickname: Array.isArray(data) ? data[0] : data,
+                currency: 'USD',
+                unit_amount: Price * 100,
+            })
+
+            if (index == 0) {
+                stripe.products.update(product.id, {
+                    default_price: price.id
                 })
-
-                if (index == 0) {
-                    stripe.products.update(product.id, {
-                        default_price: price.id
-                    })
-                }
             }
+
         })
 
     } else {

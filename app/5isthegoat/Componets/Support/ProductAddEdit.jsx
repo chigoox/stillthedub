@@ -56,10 +56,8 @@ export const ProductAddEdit = ({ openType, setWindow, defualt }) => {
         PRICES: []
     })
 
+
     console.log(product)
-
-
-
     useEffect(() => {
         if (openType == "openNew") onOpen()
         if (openType == "openEdit") onOpen()
@@ -272,16 +270,20 @@ export const ProductAddEdit = ({ openType, setWindow, defualt }) => {
 export const VariavntPanel = ({ indexi, setter }) => {
     const [variantCount, setVariantCount] = useState({ [`variant0`]: { name: '', value: {}, valueCount: 1 } })
     const ActualPrice = Object.values(variantCount).map(item => {
-        return Object.values(item.value).map(_item => {
+        const SubVariants = Object.values(item.value)
+        console.log(item)
+        return SubVariants.length > 0 ? SubVariants.map(_item => {
+            (`${item.name} ${_item}`)
             return (
-                `${item.name} ${_item}`
+                `${item.name}${_item ? ' ' + _item : ''}`
             )
-        })
+        }) :
+
+            item?.name
     })
 
-    console.log(variantCount)
 
-
+    console.log(ActualPrice)
 
 
     return (
@@ -301,10 +303,8 @@ export const VariavntPanel = ({ indexi, setter }) => {
 
                 useEffect(() => {
                     if (valueInLastPosition && countEqValue)
-                        console.log('first')
-                    setVariantCount(old => { return { ...old, [`variant${index}`]: { ...old[`variant${index}`], valueCount: old[`variant${index}`].valueCount + 0.5 } } })
-                }, [valueInLastPosition])
-
+                        setVariantCount(old => { return { ...old, [`variant${index}`]: { ...old[`variant${index}`], valueCount: old[`variant${index}`].valueCount + 1 } } })
+                }, [valueInLastPosition, countEqValue])
                 return (
                     <div key={item} className='h-full p-2 overflow-y-scroll hidescroll  rounded-lg w-40 shadow border-dotted border-2'>
                         <h1>Option name</h1>
