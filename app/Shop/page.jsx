@@ -81,7 +81,7 @@ function Shop() {
         if (Search != '') result = (result.filter(product => {
             for (let index = 0; index < Search.split(' ').length; index++) {
 
-                if (product.metadata.tags?.toUpperCase().split(' ').includes(Search.toUpperCase().split(' ')[index])) return true
+                if (product.metadata.tags?.toUpperCase().split(',').includes(Search.toUpperCase().split(' ')[index])) return true
             }
 
             return false

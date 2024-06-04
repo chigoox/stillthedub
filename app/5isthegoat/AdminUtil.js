@@ -72,9 +72,10 @@ export const useUpdateProductUtil = async (product, runFunAfter) => {
     PRODUCT.metadata.tags = PRODUCT.metadata?.tags?.toString()
     //get image url
 
-
+    console.log(product.images)
     for (let index = 0; index < product.images.length; index++) {
         const file = product.images[index];
+        console.log(product.images[index])
         const url = typeof file === 'string' ? file : await useUploader(file, product.name)
         console.log(url)
         PRODUCT.images.push(url)

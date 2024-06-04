@@ -20,7 +20,7 @@ export const Uploader = ({ setFiles, defualt }) => {
             return {
 
 
-                name: 'index',
+                name: index,
                 url: item,
 
 
