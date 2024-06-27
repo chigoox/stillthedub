@@ -42,7 +42,7 @@ function OrderItemPage({ orderID }) {
 
     const getArrayToAddPrice = () => {
         setArrayPrice(data?.cart?.map((order) => {
-            const total = Number(order.price)
+            const total = Number(order.price) * Number(order.Qty)
             return total
 
         }))

@@ -12,7 +12,7 @@ const cors = Cors({
   allowMethods: ["POST", "HEAD"],
 });
 
-const secret = process.env.STRIPE_WEBHOOK_KEY || "";
+const secret = process.env.STRIPE_WEBHOOK_KEY
 
 export async function POST(request) {
   console.log('webhook working')
