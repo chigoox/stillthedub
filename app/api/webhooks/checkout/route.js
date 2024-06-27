@@ -15,6 +15,7 @@ const cors = Cors({
 const secret = process.env.STRIPE_WEBHOOK_KEY || "";
 
 export async function POST(request) {
+  console.log('webhook working')
   try {
     const body = await request.text();
     const signature = headers().get("stripe-signature");
@@ -22,7 +23,7 @@ export async function POST(request) {
 
     if (event.type === "checkout.session.completed") {
       const { type } = event.data.object.metadata
-
+      console.log(type)
       if (type == 'checkout') {
         const { uid, cart, total, cartID, } = event.data.object.metadata
         const { orderID } = await fetchDocument('Admin', 'Orders')

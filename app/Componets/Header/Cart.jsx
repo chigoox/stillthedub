@@ -25,10 +25,8 @@ function Cart({ showCart, setShowCart }) {
     const [shippingData, setShippingData] = useState({})
     const g_u_ID = user?.uid ? user?.uid : user?.gid
     const [isLoading, setIsLoading] = useState(false)
-    console.log(lineItems)
     let checkOutItems = Object.values(lineItems).map(item => ({ name: item.name, price: item.category != 'Tobacco' ? item.priceID : item.price, category: item.category, quantity: Number(item.Qty) }))
     checkOutItems = checkOutItems.map(i => {
-        console.log(i)
         if (i.category != 'Tobacco') {
             delete i.category
             delete i.name
