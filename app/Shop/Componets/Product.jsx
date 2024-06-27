@@ -57,6 +57,7 @@ const Product = ({ product, forThis, category }) => {
 
     }
 
+    console.log(thisProduct)
 
     const filteredPrice = thisProduct?.metadata?.price?.replace('$', '')
     const price = Number(filteredPrice ? filteredPrice : false)
@@ -71,7 +72,7 @@ const Product = ({ product, forThis, category }) => {
     const [itemToCheckOut, setItemToCheckOut] = useState({ priceID: thisProduct?.default_price, Qty: 0, images: [] })
     const addToCart = () => {
         console.log(itemToCheckOut.Qty)
-        if (itemToCheckOut.priceID && itemToCheckOut.Qty > 0 && canAddToCart()) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
+        if (itemToCheckOut.Qty > 0 && canAddToCart()) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
     }
     const variants = Object.values(prices).map(i => {
         return i

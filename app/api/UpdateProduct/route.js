@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
 import { filterObject } from "@/app/myCodes/Util";
+import { addToDoc } from "@/app/myCodes/Database";
 
 
 
@@ -9,17 +10,30 @@ export async function POST(request) {
     const data = await request.json();
     const { productData } = data
     const filterFalsey = filterObject(productData, (p) => p)
-    delete filterFalsey.created
-    delete filterFalsey.object
-    delete filterFalsey.type
-    delete filterFalsey.id
-    delete filterFalsey.updated
+    delete filterFalsey?.created
+    delete filterFalsey?.object
+    delete filterFalsey?.type
+    delete filterFalsey?.id
+    delete filterFalsey?.updated
 
 
 
+    if (productData.metadata.category != 'Tobacco'
+        && productData.metadata.category != 'Weed'
+    ) {
+
+        const product = await stripe.products.update(productData.id, filterFalsey);
 
 
-    const product = await stripe.products.update(productData.id, filterFalsey);
+        return NextResponse.json(product)
+
+    } else {
+        console.log(productData)
+        await addToDoc('Products', productData.id, filterFalsey)
+        return NextResponse.json({ status: 'OK, UPLOADED TO FIREBASE' })
+
+    }
+
 
     /*  console.log(product)
      if (priceData.length >= 1) {
@@ -72,7 +86,6 @@ export async function POST(request) {
 
 
 
-    return NextResponse.json(product)
 }
 
 

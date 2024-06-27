@@ -25,11 +25,29 @@ function Cart({ showCart, setShowCart }) {
     const [shippingData, setShippingData] = useState({})
     const g_u_ID = user?.uid ? user?.uid : user?.gid
     const [isLoading, setIsLoading] = useState(false)
-    let checkOutItems = Object.values(lineItems).map(item => ({ price: item.priceID, category: item.category, quantity: Number(item.Qty) }))
-    checkOutItems = checkOutItems.filter(item => item.category != 'Tobacco')
+    console.log(lineItems)
+    let checkOutItems = Object.values(lineItems).map(item => ({ name: item.name, price: item.category != 'Tobacco' ? item.priceID : item.price, category: item.category, quantity: Number(item.Qty) }))
     checkOutItems = checkOutItems.map(i => {
-        delete i.category
-        return i
+        console.log(i)
+        if (i.category != 'Tobacco') {
+            delete i.category
+            delete i.name
+            return i
+        } else {
+
+            return {
+                price_data: {
+                    currency: 'usd',
+                    unit_amount: i.price * 100,
+                    product_data: {
+                        name: i.name.split("").reverse().join(""),
+                        description: 'Good Stuff',
+                        images: ['https://images.unsplash.com/photo-1514931181523-5fc9ac41ea38?q=80&w=1094&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+                    },
+                },
+                quantity: i.quantity
+            }
+        }
     })
     const RemoveFromCart = (itemRemove) => {
         dispatch({ type: "REMOVE_FROM_CART", value: itemRemove })
@@ -37,39 +55,14 @@ function Cart({ showCart, setShowCart }) {
 
 
     const [getShippingWindow, setGetShippingWindow] = useState(false)
-    const toggleGetShippingInfo = () => {
 
-    }
 
     useEffect(() => {
         if (g_u_ID && state) updateDatabaseItem('User', g_u_ID, 'cart', state)
     }, [lineItems])
 
-    const getShippingInfo = (shippinginfo) => {
+    const getShippingInfo = () => {
         setGetShippingWindow(false)
-        let TobaccoProducts = Object.values(lineItems).map(i => {
-            if (i.category == 'Tobacco') return i
-        })
-        TobaccoProducts = (filterNullFromArray(TobaccoProducts))
-        let total = 0
-        for (let index = 0; index < TobaccoProducts.length; index++) {
-            const element = TobaccoProducts[index];
-            const totalPrice = element.price * element.Qty
-            total += totalPrice
-        }
-        const TobaccoItem = {
-            price_data: {
-                currency: 'usd',
-                unit_amount: total * 100,
-                product_data: {
-                    name: 'T Products',
-                    description: 'All other prd',
-                    images: ['https://images.unsplash.com/photo-1716277486487-1c9d08eaf021?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
-                },
-            },
-            quantity: 1,
-        }
-        if (TobaccoProducts && total > 0) checkOutItems.push(TobaccoItem)
         if (checkOutItems) checkout(event, [checkOutItems, total], g_u_ID, lineItems)
     }
 

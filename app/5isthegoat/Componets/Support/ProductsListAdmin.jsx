@@ -1,3 +1,4 @@
+import { useFetchDocsPresist } from '@/app/myCodes/Database'
 import { fetchAllProducts } from '@/app/myCodes/Stripe'
 import { createArray } from '@/app/myCodes/Util'
 import { Button } from '@nextui-org/react'
@@ -6,9 +7,20 @@ import { useEffect, useState } from 'react'
 function ProductsListAdmin({ sortBy, window, setWidow, setSelectedProductData }) {
     const [products, setProducts] = useState([])
 
+
     useEffect(() => {
         const getData = async () => {
-            setProducts(await fetchAllProducts(null, 108))
+            const STRIPE_PRODUCTS = await fetchAllProducts(null, 108)
+            let FIREBS_PRODUCTS
+
+            await useFetchDocsPresist('Products', 'active', '!=', false, 'created', (data) => {
+                FIREBS_PRODUCTS = data.map(i => {
+                    const miliseconds = i.created.seconds * 1000 + i.created.nanoseconds / 1000000
+                    return ({ ...i, created: miliseconds })
+                })
+                console.log(FIREBS_PRODUCTS)
+                setProducts([...STRIPE_PRODUCTS, ...FIREBS_PRODUCTS])
+            })
         }
 
         getData()
@@ -18,7 +30,7 @@ function ProductsListAdmin({ sortBy, window, setWidow, setSelectedProductData })
 
     return (
         <div className='overflow-hidden h-96 sm:left-0 lg:left-0 md:left-2 relative hidescroll  overflow-y-scroll'>
-            {products.filter(i => { console.log(i); return i.active })?.map(item => {
+            {products.filter(i => { return i.active }).sort((a, b) => { return (b.created - a.created) })?.map(item => {
                 const active = item.active
                 const name = item.name
                 const inventory = item.metadata.inventory

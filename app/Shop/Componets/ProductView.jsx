@@ -30,7 +30,7 @@ function ProductView({ showShopView, setShowShopView }) {
 
 
     const addToCart = () => {
-        if (itemToCheckOut.priceID && itemToCheckOut.Qty > 0) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
+        if (itemToCheckOut.Qty > 0) dispatch({ type: "ADD_TO_CART", value: itemToCheckOut })
     }
 
 

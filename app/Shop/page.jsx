@@ -7,6 +7,7 @@ import ShopItem from './Componets/ShopItem'
 import { fetchAllProducts, fetchProducts } from '../myCodes/Stripe'
 import { useEffect, useState } from 'react'
 import ProductsList from './Componets/ProductsList'
+import { useFetchDocsPresist } from '../myCodes/Database'
 
 
 
@@ -18,15 +19,22 @@ function Shop() {
 
     useEffect(() => {
         const getData = async () => {
-            //fetch products from stripe
-            const data = await fetchAllProducts(null, 100)
-            //filter Products by if they have metadata, is active and has images
-            //then sets PRODUCT state to the result
-            setPRODUCTS(Object.values(
-                filterObject(data, (v) => {
-                    return (Object.keys(v.metadata).length > 0) && (v.active) && (v.images.length > 0)
+            const STRIPE_PRODUCTS = await fetchAllProducts(null, 108)
+            let FIREBS_PRODUCTS
+
+            await useFetchDocsPresist('Products', 'active', '!=', false, 'created', (data) => {
+                FIREBS_PRODUCTS = data.map(i => {
+                    const miliseconds = i.created.seconds * 1000 + i.created.nanoseconds / 1000000
+                    return ({ ...i, created: miliseconds })
                 })
-            ))
+                const products = [...STRIPE_PRODUCTS, ...FIREBS_PRODUCTS]
+                setPRODUCTS(Object.values(
+                    filterObject(products, (v) => {
+                        return (Object.keys(v.metadata).length > 0) && (v.active) && (v.images.length > 0)
+                    })
+                ))
+            })
+
         }
 
         getData()

@@ -26,7 +26,6 @@ export const useCreateProductUtil = async (product, runFunAfter) => {
     }
     //setup Prices
     let PRICES = Object.values(product.PRICES)
-    console.log(PRICES)
     /*   let allPRICES = [];
       for (let index = 0; index < PRICES.length; index++) {
           allPRICES = [...allPRICES, ...PRICES[index]]
@@ -72,7 +71,6 @@ export const useUpdateProductUtil = async (product, runFunAfter) => {
     PRODUCT.metadata.tags = PRODUCT.metadata?.tags?.toString()
     //get image url
 
-    console.log(product.images)
     for (let index = 0; index < product.images.length; index++) {
         const file = product.images[index];
         console.log(product.images[index])
